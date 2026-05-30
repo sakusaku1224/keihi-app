@@ -1,0 +1,2 @@
+class OcrController < ApplicationController
+end
