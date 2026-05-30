@@ -13,7 +13,6 @@ Rails.application.routes.draw do
     # 提出アクション（PATCHメソッド、/expense_claims/:id/submit）
     member do
       patch :submit
-      get :self_check
       post :duplicate
     end
     # 申請アイテム
