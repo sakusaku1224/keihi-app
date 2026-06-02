@@ -1,18 +1,38 @@
-// Sassy
+// ======================================
+// Bootstrap
+// ======================================
 @import "bootstrap";
 
+// ======================================
+// CSS変数（カラーパレット）
+// ======================================
 :root {
+  // プライマリカラー
   --primary-color: #064e3b;
   --primary-light: #b0f0d6;
-  --surface-bg: #f8faf6;
-  --outline-variant: #bfc9c3;
-  --text-on-surface: #191c1b;
-  --text-secondary: #5c5f60;
   --on-primary: #ffffff;
+
+  // 背景・サーフェス
+  --surface-bg: #f8faf6;
+  --background: #f8faf6;
+  --surface: #ffffff;
   --surface-container-low: #f2f4f1;
   --surface-container-highest: #e1e3e0;
+
+  // テキスト
+  --text-on-surface: #191c1b;
+  --on-surface: #191c1b;
+  --on-surface-variant: #404944;
+  --text-secondary: #5c5f60;
+  --secondary: #5c5f60;
+
+  // ボーダー
+  --outline-variant: #bfc9c3;
 }
 
+// ======================================
+// ベーススタイル
+// ======================================
 body {
   font-family: "Inter", sans-serif;
   background-color: var(--surface-bg);
@@ -21,6 +41,7 @@ body {
   overflow-x: hidden;
 }
 
+// 見出しフォント（Manrope）
 h1,
 h2,
 h3,
@@ -30,6 +51,14 @@ h4,
   font-weight: 700;
 }
 
+// クラスでManrropeを当てたいとき用
+.headline-font {
+  font-family: "Manrope", sans-serif;
+}
+
+// ======================================
+// レイアウト - サイドバー
+// ======================================
 .sidebar {
   width: 220px;
   height: 100vh;
@@ -42,8 +71,25 @@ h4,
   padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
+  // Stimulusによる開閉トランジション
+  transition: width 0.3s ease;
+
+  // 折りたたみ状態（sidebar_controller.jsで付与）
+  &.collapsed {
+    width: 70px;
+
+    .nav-text {
+      display: none;
+    }
+    .logo-text {
+      display: none;
+    }
+  }
 }
 
+// ======================================
+// レイアウト - トップバー
+// ======================================
 .top-bar {
   height: 64px;
   position: fixed;
@@ -59,13 +105,26 @@ h4,
   padding: 0 2rem;
 }
 
+// ======================================
+// レイアウト - メインコンテンツ
+// ======================================
 .main-content {
   margin-left: 220px;
   padding-top: 100px;
   padding-bottom: 3rem;
   min-height: 100vh;
+  // サイドバー開閉に連動するトランジション
+  transition: margin-left 0.3s ease;
+
+  // サイドバー折りたたみ時（sidebar_controller.jsで付与）
+  &.sidebar-collapsed {
+    margin-left: 70px;
+  }
 }
 
+// ======================================
+// ナビゲーションリンク（サイドバー内）
+// ======================================
 .nav-link {
   display: flex;
   align-items: center;
@@ -84,6 +143,7 @@ h4,
   color: var(--primary-color);
 }
 
+// アクティブなページのリンク
 .nav-link.active {
   color: var(--primary-color);
   background-color: #eceeeb;
@@ -93,6 +153,9 @@ h4,
   border-bottom-right-radius: 0;
 }
 
+// ======================================
+// ボタン
+// ======================================
 .btn-primary-custom {
   background-color: var(--primary-color);
   color: var(--on-primary);
@@ -110,6 +173,90 @@ h4,
   transform: translateY(-1px);
 }
 
+// ======================================
+// レスポンシブ（992px以下）
+// ======================================
+@media (max-width: 992px) {
+  .sidebar {
+    width: 80px;
+    padding: 1.5rem 0.5rem;
+  }
+
+  // テキストラベルを非表示にしてアイコンだけ表示
+  .sidebar .font-body-md,
+  .sidebar .logo-text {
+    display: none;
+  }
+
+  .top-bar {
+    width: calc(100% - 80px);
+  }
+
+  .main-content {
+    margin-left: 80px;
+  }
+
+  .nav-link {
+    justify-content: center;
+    padding: 0.75rem 0;
+  }
+}
+
+// ======================================
+// アバター
+// ======================================
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+// ======================================
+// フラッシュメッセージ
+// ======================================
+.toast-flash {
+  color: white;
+  position: fixed;
+  bottom: 25px;
+  z-index: 10;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 250px;
+  animation: slideInUp 0.5s ease-out;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.toast-flash.alert-notice {
+  background-color: #333;
+}
+
+.toast-flash.alert-alert {
+  background-color: #ff4949;
+}
+
+// フラッシュのスライドインアニメーション
+@keyframes slideInUp {
+  from {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+// ======================================
+// ダッシュボード - サマリーカード
+// ======================================
 .summary-card {
   border-radius: 1rem;
   border: 1px solid var(--outline-variant);
@@ -125,19 +272,25 @@ h4,
   transform: translateY(-2px);
 }
 
-.summary-card.accent-yellow {
+.summary-card.accent-yellow,
+.summary-card.draft {
   border-left: 6px solid #ffc107;
 }
-.summary-card.accent-blue {
+
+.summary-card.accent-blue,
+.summary-card.submitted {
   border-left: 6px solid #0d6efd;
 }
-.summary-card.accent-primary {
+
+.summary-card.accent-primary,
+.summary-card.total {
   background-color: var(--primary-color);
   color: white;
   border: none;
 }
 
-.summary-card.accent-primary::before {
+.summary-card.accent-primary::before,
+.summary-card.total::before {
   content: "";
   position: absolute;
   left: 0;
@@ -147,6 +300,9 @@ h4,
   background-color: var(--primary-light);
 }
 
+// ======================================
+// ダッシュボード - アイコンボックス
+// ======================================
 .icon-box {
   width: 40px;
   height: 40px;
@@ -157,6 +313,9 @@ h4,
   margin-bottom: 1rem;
 }
 
+// ======================================
+// 申請リスト - カード形式の行
+// ======================================
 .app-list-item {
   border: 1px solid var(--outline-variant);
   border-radius: 0.75rem;
@@ -173,105 +332,44 @@ h4,
   background-color: var(--surface-container-low);
 }
 
+.list-item-card {
+  background-color: white;
+  border: 1px solid var(--outline-variant);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #f8faf6;
+  }
+}
+
+// ======================================
+// ステータスバッジ
+// ======================================
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+}
+
+// 下書き
 .badge-draft {
   background-color: #fff3cd;
   color: #856404;
 }
+
+// 提出済み
 .badge-submitted {
   background-color: #cfe2ff;
   color: #084298;
 }
+
+// 承認済み
 .badge-approved {
   background-color: #d1e7dd;
   color: #0f5132;
-}
-
-@media (max-width: 992px) {
-  .sidebar {
-    width: 80px;
-    padding: 1.5rem 0.5rem;
-  }
-  .sidebar .font-body-md,
-  .sidebar .logo-text {
-    display: none;
-  }
-  .top-bar {
-    width: calc(100% - 80px);
-  }
-  .main-content {
-    margin-left: 80px;
-  }
-  .nav-link {
-    justify-content: center;
-    padding: 0.75rem 0;
-  }
-}
-//サイドバー
-.sidebar {
-  width: 220px;
-  transition: width 0.3s ease;
-
-  &.collapsed {
-    width: 70px;
-
-    .nav-text {
-      display: none;
-    }
-    .logo-text {
-      display: none;
-    }
-  }
-}
-
-.main-content {
-  margin-left: 220px;
-  transition: margin-left 0.3s ease;
-
-  &.sidebar-collapsed {
-    margin-left: 70px;
-  }
-}
-
-// アバター
-.avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: var(--primary-color);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.875rem;
-}
-
-// フラッシュ
-.toast-flash {
-  color: white;
-  position: fixed;
-  bottom: 25px;
-  z-index: 10;
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 250px;
-  animation: slideInUp 0.5s ease-out;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-.toast-flash.alert-notice {
-  background-color: #333;
-}
-.toast-flash.alert-alert {
-  background-color: #ff4949;
-}
-@keyframes slideInUp {
-  from {
-    transform: translateX(-50%) translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-  }
 }

@@ -7,7 +7,7 @@ class DashboardController < ApplicationController
     @submitted_count = current_user.expense_reports.submitted.count
 
     # 最近の申請(5件)
-    @recent_reports = current_user.expense_reports.order(created_at: :desk).limit(5)
+    @recent_reports = current_user.expense_reports.order(created_at: :desc).limit(5)
 
     # 月の開始日・終了日を取得する
     beginning = Date.current.beginning_of_month

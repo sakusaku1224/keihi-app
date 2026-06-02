@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     # 提出アクション（PATCHメソッド、/expense_claims/:id/submit）
     member do
       patch :submit
-      post :duplicate
+      get   :self_check
     end
     # 申請アイテム
     resources :expense_items, only: %i[new create edit update destroy]

@@ -1,2 +1,103 @@
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<% content_for :page_title, "ダッシュボード" %>
+<div class="container-field px-4 px-lg-5" style="max-width: 1200px; margin: 0">
+  <%# サマリーカード %>
+  <div class="row g-4 mb-5">
+    <%# 下書き件数 %>
+    <div class="col-12 col-md-4">
+      <div class="summary-card accent-yellow">
+        <div class="icon-box bg-warning bg-opacity-10 text-warning">
+          <i class="bi bi-pencil-square"></i>
+        </div>
+        <div class="d-flex flex-column">
+          <span class="text-uppercase small fw-bold text-secondary mb-1">下書き</span>
+          <div class="d-flex align-items-baseline gap-1">
+            <span class="fs-1 fw-bold"><%= @draft_count %></span>
+            <span class="text-secondary">件</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# 提出済み件数 %>
+    <div class="col-12 col-md-4">
+      <div class="summary-card accent-blue">
+        <div class="icon-box bg-primary bg-opacity-10 text-primary">
+          <i class="bi bi-send"></i>
+        </div>
+        <div class="d-flex flex-column">
+          <span class="text-uppercase small fw-bold text-secondary mb-1">提出済み</span>
+          <div class="d-flex align-items-baseline gap-1">
+            <span class="fs-1 fw-bold"><%= @submitted_count %></span>
+            <span class="text-secondary">件</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# 今月の合計 %>
+    <div class="col-12 col-md-4">
+      <div class="summary-card accent-primary shadow-sm" >
+        <div class="icon-box bg-primary bg-opacity-10">
+          <i class="bi bi-send"></i>
+        </div>
+        <div class="d-flex flex-column">
+          <span class="text-uppercase small fw-bold text-secondary mb-1">今月の合計</span>
+          <div class="d-flex align-items-baseline gap-1">
+            <span class="fs-4 fw-bold"></span>
+            <span class="fs-1 fw-bold"><%= @monthly_count %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# 最近の申請一覧 %>
+  <div class="row">
+    <div class="col-12">
+      <div class="card p-4 p-lg-5 shadow-sm border-0" style="border-radius: 1.5rem">
+        <div class="d-flex align-items-center mb-4">
+          <h3 class="h4 fw-bold mb-0">最近の申請一覧</h3>
+        </div>
+        <%# th %>
+        <div class="row px-3 mb-4 small fw-bold text-secondary text-uppercase d-none d-md-flex">
+          <div class="col-md-5">タイトル</div>
+          <div class="col-md-2 text-center">申請日</div>
+          <div class="col-md-2 text-end">金額</div>
+          <div class="col-md-2 text-center">ステータス</div>
+          <div class="col-md-1"></div>
+        </div>
+        <%# td %>
+        <div class="applications-list">
+          <% @recent_reports.each do |report| %>
+            <div class="list-item-card shadow-sm">
+              <div class="row align-items-center g-3">
+                <div class="col-12 col-md-5 fw-bold text-on-surface"><%= report.title %></div>
+                <div class="col-4 col-md-2 text-center text-secondary small">
+                  <%= report.created_at.to_fs(:date_jp)%>
+                </div>
+                <div class="col-4 col-md-2 text-md-end fw-bold">
+                  ¥<%= number_with_delimiter(report.total_amount)%>
+                </div>
+                <div class="col-4 col-md-2 text-center">
+                  <span class="status-badge badge-<%= report.status %>">
+                    <%= { "draft" => "下書き", "submitted" => "提出済み", "approved" => "承認済み" }[report.status] %>
+                  </span>
+                </div>
+                <div class="col-12 col-md-1 text-end d-md-block">
+                  <%= link_to expense_report_path(report) do %>
+                    <i class="bi bi-chevron-right text-muted"></i>
+                  <% end %>
+                </div>
+              </div>       
+            </div>
+          <% end %>
+        </div>
+        <div class="text-center mt-4 fw-bold text-primary-container">
+          <%= link_to expense_reports_path do %>
+            すべての申請履歴を表示<i class="bi bi-chevron-right"></i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
