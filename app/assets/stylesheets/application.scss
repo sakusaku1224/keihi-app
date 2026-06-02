@@ -206,6 +206,32 @@ h4,
     padding: 0.75rem 0;
   }
 }
+//サイドバー
+.sidebar {
+  width: 220px;
+  transition: width 0.3s ease;
+
+  &.collapsed {
+    width: 70px;
+
+    .nav-text {
+      display: none;
+    }
+    .logo-text {
+      display: none;
+    }
+  }
+}
+
+.main-content {
+  margin-left: 220px;
+  transition: margin-left 0.3s ease;
+
+  &.sidebar-collapsed {
+    margin-left: 70px;
+  }
+}
+
 // フラッシュ
 .toast-flash {
   color: white;

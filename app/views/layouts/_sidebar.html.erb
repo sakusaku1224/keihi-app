@@ -1,0 +1,39 @@
+<%# サイドバー %>
+<aside class="sidebar" id="sidebar">
+  <%# トグルボタン %>
+  <div data-controller="sidebar">
+    <button data-action="click->sidebar#toggle">
+      <i class="bi bi-list"></i>
+    </button>
+  </div>
+
+  <%# ロゴ %>
+  <div class="mb-4">
+    <%# 後から画像に差し替えるかも %>
+    <span class="logo-text fw-bold"></span>
+  </div>
+
+  <%# ナビゲーション %>
+  <nav class="flex-grow-1">
+    <%= link_to root_path, class: "nav-link" do %>
+      <i class="bi bi-columns-gap"></i>
+      <span class="font-body-md nav-text">ダッシュボード</span>
+    <% end %>
+    <%= link_to expense_reports_path, class: "nav-link" do %>
+      <i class="bi bi-card-list"></i>
+      <span class="font-body-md nav-text">申請一覧</span>
+    <% end %>
+    <%= link_to new_expense_report_path, class: "nav-link" do %>
+      <i class="bi bi-plus-circle"></i>
+      <span class="font-body-md nav-text">新規作成</span>
+    <% end %>
+  </nav>
+
+  <%# 下部ログアウト %>
+  <div class="pt-3 border-top">
+    <%= link_to destroy_user_session_path, data: {turbo_method: :delete}, class: "nav-link" do %>
+      <i class="bi bi-box-arrow-right"></i>
+      <span class="font-body-md nav-text">ログアウト</span>
+    <% end %>
+  </div>
+</aside>
