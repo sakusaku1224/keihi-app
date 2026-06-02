@@ -1,26 +1,68 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :password %></p>
-    <p><%= f.password_field :password, autocomplete: "current-password" %></p>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <p><%= f.check_box :remember_me %></p>
-      <p><%= f.label :remember_me %></p>
+<%# ログイン画面 %>
+<main class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 text-center mb-4">
+      <%# ロゴ %>
+      <%# 後ほど画像挿入 %>
     </div>
-  <% end %>
+  
+    <div class="col-12">
+      <%# ログインカード %>
+      <div class="card login-card mx-auto">
+        <div class="card-body p-4 p-md-5">
+          <%# タイトル %>
+          <div class="text-center mb-4">
+            <h1 class="h4 mb-4">ログイン</h1>
+            <p class="text-secondary small mb-0">
+              アカウント情報を入力してください
+            </p>
+          </div>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
+          <%# フォーム %>
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+            <%# メール %>
+            <div class="mb-3">
+              <%= f.label :email, "メールアドレス", class: "form-label small text-secondary fw-semibold required" %>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-envelope"></i>
+                </span>
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-with-icon", placeholder: "メールアドレスを入力" %>             
+              </div>
+            </div>
+
+            <%# パスワード %>
+            <div class="mb-4">
+              <%= f.label :password, "パスワード", class: "form-label small text-secondary fw-semibold mb-0 required"%>
+              <div class="input-group" data-controller="password">
+                <span class="input-group-text">
+                  <i class="bi bi-lock"></i>
+                </span>
+                <%= f.password_field :password, autocomplete: "current-password",class: "form-control", data: { password_target: "input" }, placeholder: "••••••••" %>
+                <%# アイコンを押したときだけパスワードが見える %>
+                <button type="button" class="btn border-start-0 border" data-action="click->password#toggle">
+                  <i class="bi bi-eye" data-password-target="icon"></i>
+                </button>
+              </div>
+            </div>
+
+            <%# ログインボタン %>
+            <%= f.submit "ログイン", class: "btn btn-primary-custom w-100 rounded-2 mb-2 shadow-sm" %>   
+          <% end %>
+
+          <div class="divider">または</div>
+          <%# ゲストログイン %>
+          <div class="text-center">
+            <%= button_to "ゲストログイン", guest_sign_in_path, method: :post, class: "btn btn-outline-custom w-100 rounded-2 mb-2" %>
+            <p class="small text-secondary mb-0">テスト用</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 text-center mt-4">
+      <%# フッターリンク %>
+      <%= link_to "新規登録はこちら", new_user_registration_path, class: "text-primary-link" %>
+    </div>
   </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</main>
