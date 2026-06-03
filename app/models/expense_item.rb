@@ -13,7 +13,8 @@ class ExpenseItem < ApplicationRecord
   validates :amount, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: 10_000_000 }
   validates :tax_rate, presence: true, inclusion: { in: TAX_RATES }
   validates :invoice_registration_number, format: { with: /\AT\d{13}\z/ }, allow_blank: true
-  validates :receipt_image, blob: { content_type: %w[image/png image/jpeg application/pdf], size: { less_than: 10.megabytes } }
+  validates :receipt_image, content_type: %w[image/png image/jpeg application/pdf],
+                            size: { less_than: 10.megabytes }
 
   # 明細が保存・削除されたら合計を更新
   after_save    :update_report_total

@@ -30,7 +30,7 @@ gem "dartsass-rails"
 # 画像アップロード・処理（Active Storage用）
 gem "image_processing", "~> 1.2"
 # 拡張子・サイズ制限用
-gem "activestorage-validations"
+gem "active_storage_validations"
 
 # Google Cloud Vision OCR API用
 gem "faraday"

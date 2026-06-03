@@ -23,6 +23,9 @@ module KeihiApp
     #
     config.time_zone = "Tokyo"
     config.i18n.default_locale = :ja
+
+    # dartsass-rails に Bootstrap の SCSS パスを追加
+    config.assets.paths << "#{Gem.loaded_specs['bootstrap'].gem_dir}/assets/stylesheets"
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end

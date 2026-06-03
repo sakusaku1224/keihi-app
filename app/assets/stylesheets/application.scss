@@ -160,17 +160,14 @@ h4,
   background-color: var(--primary-color);
   color: var(--on-primary);
   border: none;
-  border-radius: 9999px;
-  padding: 0.5rem 1.5rem;
+  padding: 0.6rem 1.5rem;
   font-weight: 600;
   font-size: 0.875rem;
   transition: all 0.2s;
-}
 
-.btn-primary-custom:hover {
-  opacity: 0.9;
-  color: white;
-  transform: translateY(-1px);
+  &:hover {
+    background-color: #2e7857ad;
+  }
 }
 
 // ======================================
@@ -372,4 +369,63 @@ h4,
 .badge-approved {
   background-color: #d1e7dd;
   color: #0f5132;
+}
+
+// ======================================
+// ログイン・新規登録画面
+// ======================================
+
+// ログインカード（中央寄せ・幅固定）
+.login-card {
+  max-width: 480px;
+  border-radius: 1rem;
+  border: 1px solid var(--outline-variant);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+// アウトラインボタン（ゲストログイン用）
+.btn-outline-custom {
+  border: 1px solid var(--outline-variant);
+  background: transparent;
+  color: var(--on-surface-variant);
+  border-radius: 9999px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: var(--surface-container-low);
+    color: var(--on-surface);
+  }
+}
+
+// 「または」区切り線
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin: 1rem 0;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid var(--outline-variant);
+    margin: 0 0.75rem;
+  }
+}
+
+// リンクテキスト（フッター）
+.text-primary-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.875rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
