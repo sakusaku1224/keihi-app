@@ -11,11 +11,9 @@ class ExpenseReportsController < ApplicationController
     @expense_reports = @expense_reports.where(status: params[:status]) if params[:status].present?
 
     # 月フィルタ
-    if params[:month].present?
-      # Dateに変換
-      month = Date.parse(params[:month])
+    if params[:start_date].present? && params[:end_date].present?
       # 月範囲選択
-      @expense_reports = @expense_reports.where(created_at: month.beginning_of_month..month.end_of_month)
+      @expense_reports = @expense_reports.where(created_at: params[:start_date]..params[:end_date])
     end
 
     # 並び順・ページネーション

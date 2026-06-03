@@ -1,4 +1,15 @@
 ja:
+  views:
+    pagination:
+      previous: "前へ"
+      next: "次へ"
+      truncate: "・"
+  devise:
+    failure:
+      invalid: "メールアドレスまたはパスワードが違います"
+      not_found_in_database: "メールアドレスまたはパスワードが違います"
+      # unauthenticated: "ログインしてください"
+      # already_authenticated: "すでにログインしています"
   activerecord:
     errors:
       messages:

@@ -116,7 +116,7 @@ h4,
   // サイドバー開閉に連動するトランジション
   transition: margin-left 0.3s ease;
 
-  // サイドバー折りたたみ時（sidebar_controller.jsで付与）
+  // サイドバー折りたたみ時
   &.sidebar-collapsed {
     margin-left: 70px;
   }
@@ -371,6 +371,41 @@ h4,
   color: #0f5132;
 }
 
+// ======================================
+// ページネーション
+// ======================================
+.custom-pagination {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--outline-variant);
+  border-radius: 9999px;
+  padding: 0.25rem 0.5rem;
+  background: white;
+  margin: 0;
+  gap: 0.1rem;
+
+  .page-item {
+    .page-link {
+      border: none;
+      background: none;
+      color: var(--primary-color);
+      border-radius: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      font-weight: 500;
+      font-size: 0.875rem;
+
+      &:hover {
+        background-color: var(--surface-container-low);
+      }
+    }
+
+    &.active .page-link {
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 0.4rem;
+    }
+  }
+}
 // ======================================
 // ログイン・新規登録画面
 // ======================================

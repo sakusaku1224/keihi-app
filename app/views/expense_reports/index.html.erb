@@ -1,2 +1,57 @@
-<h1>ExpenseReports#index</h1>
-<p>Find me in app/views/expense_reports/index.html.erb</p>
+<% content_for :page_title, "申請一覧" %>
+<div class="container-field px-4 px-lg-5" style="max-width: 1200px; margin: 0">
+  <%# フィルター %>
+  <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 mb-4">
+    <%# ステータス %>
+    <div class="d-flex flex-wrap gap-2">
+      <%= link_to "すべて", expense_reports_path,
+          class: "btn #{params[:status].blank? ? 'btn-dark' : 'btn-outline-secondary'} fw-bold rounded-pill filter" %>
+      <%= link_to "下書き", expense_reports_path(status: "draft"),
+            class: "btn #{params[:status] == 'draft' ? 'btn-warning' : 'btn-outline-secondary'} fw-bold rounded-pill filter" %>
+      <%= link_to "提出済み", expense_reports_path(status: "submitted"),
+            class: "btn #{params[:status] == 'submitted' ? 'btn-primary' : 'btn-outline-secondary'} fw-bold rounded-pill filter" %>
+    </div>
+    <%# カレンダー %>
+    <%= form_with url: expense_reports_path, method: :get, class: "date-select-wrapper" do |f| %>
+      <%= hidden_field_tag :status, params[:status] %>
+      <%# 表示用 %>
+      <input type="text" id="date-range"  class="form-control shadow-none rounded-pill"
+             placeholder="期間を選択" style="min-width: 220px">
+      <%# コントローラーに送る %>
+      <input type="hidden" name="start_date" id="start_date" value="<%= params[:start_date] %>">
+      <input type="hidden" name="end_date" id="end_date" value="<%= params[:end_date] %>">
+      <%= f.submit "絞り込み", class: "btn btn-outline-secondary rounded-pill" %>      
+    <% end %>
+  </div>
+
+  <% if @expense_reports.empty? %>
+    <div class="text-center text-muted py-5">
+      <p>申請がありません</p>
+    </div>
+  <% else%>
+    <%# 申請一覧 %>
+    <div class="row">
+      <div class="col-12">
+        <%= render "expense_reports/list", reports: @expense_reports %>
+        <%# ページネーション %>
+        <div class="d-flex justify-content-center mt-4">
+          <%= paginate @expense_reports %>        
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  flatpickr("#date-range", {
+  mode: "range",
+  locale: "ja",
+  dateFormat: "Y-m-d",
+  onClose: function(selectedDates) {
+    document.getElementById("start_date").value = selectedDates[0]
+      ? selectedDates[0].toISOString().slice(0, 10) : "";
+    document.getElementById("end_date").value = selectedDates[1]
+      ? selectedDates[1].toISOString().slice(0, 10) : "";
+    }
+  });
+</script>
