@@ -1,4 +1,5 @@
 <% content_for :page_title, "申請の新規作成" %>
+<div class="d-flex flex-column align-items-center px-4 px-lg-5">
   <%# ステッパー %>
   <%= render "stepper", current_step: 1 %>
 
@@ -18,3 +19,4 @@
     <%# 入力フォーム %>
     <%= render "form_card", expense_report: @expense_report %>
   </section>
+</div>

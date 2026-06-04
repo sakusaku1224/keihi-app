@@ -514,13 +514,16 @@ h4,
 .stepper-line-bg {
   position: absolute;
   top: 24px;
-  left: 24px;
-  right: 24px;
+  // 各アイテムがflex:1（3等分）なので、
+  // 最初のサークル中心 = 100%/6、最後のサークル中心 = 100% - 100%/6
+  left: calc(100% / 6);
+  right: calc(100% / 6);
   height: 3px;
   display: flex;
 }
 
 .stepper-item {
+  flex: 1;  // 3アイテムを均等幅にする
   display: flex;
   flex-direction: column;
   align-items: center;

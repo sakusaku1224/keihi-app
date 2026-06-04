@@ -1,38 +1,4 @@
 <%# ステッパー %>
-<div class="w-full max-w-[560px] mb-12">
-  <div class="flex items-center justify-between relative">
-    <div
-      class="absolute top-6 left-[24px] right-[24px] h-[3px] bg-surface-container flex"
-    >
-      <div class="h-1/2 bg-primary w-1/2"></div>
-      <div class="h-1/2 bg-surface-container w-1/2"></div>
-    </div>
-    <div class="relative flex flex-col items-center gap-2 z-10">
-      <div
-        class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-xl shadow-sm"
-      >
-        1
-      </div>
-      <span class="font-bold text-sm text-primary">基本情報の入力</span>
-    </div>
-    <div class="relative flex flex-col items-center gap-2 z-10">
-      <div
-        class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant font-bold text-xl"
-      >
-        2
-      </div>
-      <span class="text-sm text-secondary opacity-60">明細の追加</span>
-    </div>
-    <div class="relative flex flex-col items-center gap-2 z-10">
-      <div
-        class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant font-bold text-xl"
-      >
-        3
-      </div>
-      <span class="text-sm text-secondary opacity-60">提出</span>
-    </div>
-  </div>
-</div>
 <div class="stepper-wrapper">
   <div class="stepper-track">
     <%# ライン %>
@@ -46,16 +12,16 @@
     </div>
     <%# 番号 %>
     <div class="stepper-item">
-      <div class="stepper-circle"><%= current_step >= 1 ? 'active' : '' %>1</div>
-      <div class="stepper-label"><%= current_step >= 1 ? 'active' : '' %>基本情報の入力</div>
+      <div class="stepper-circle <%= current_step >= 1 ? 'active' : '' %>">1</div>
+      <div class="stepper-label <%= current_step >= 1 ? 'active' : '' %>">基本情報の入力</div>
     </div>
     <div class="stepper-item">
-      <div class="stepper-circle"><%= current_step >= 2 ? 'active' : '' %>2</div>
-      <div class="stepper-label"><%= current_step >= 2 ? 'active' : '' %>明細の追加</div>
+      <div class="stepper-circle <%= current_step >= 2 ? 'active' : '' %>">2</div>
+      <div class="stepper-label <%= current_step >= 2 ? 'active' : '' %>">明細の追加</div>
     </div>
     <div class="stepper-item">
-      <div class="stepper-circle"><%= current_step >= 3 ? 'active' : '' %>3</div>
-      <div class="stepper-label"><%= current_step >= 3 ? 'active' : '' %>提出の確認</div>
+      <div class="stepper-circle <%= current_step >= 3 ? 'active' : '' %>">3</div>
+      <div class="stepper-label <%= current_step >= 3 ? 'active' : '' %>">提出の確認</div>
     </div>
   </div>
 </div>
