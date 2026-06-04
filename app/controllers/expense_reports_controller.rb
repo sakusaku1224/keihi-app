@@ -13,7 +13,7 @@ class ExpenseReportsController < ApplicationController
     # 月フィルタ
     if params[:start_date].present? && params[:end_date].present?
       # 月範囲選択
-      @expense_reports = @expense_reports.where(created_at: params[:start_date]..params[:end_date])
+      @expense_reports = @expense_reports.where(created_at: params[:start_date].to_date.beginning_of_day..params[:end_date].to_date.end_of_day)
     end
 
     # 並び順・ページネーション
@@ -26,7 +26,7 @@ class ExpenseReportsController < ApplicationController
 
   # 新規作成
   def create
-    @expense_report =current_user.expense_reports.build(expense_report_params)
+    @expense_report = current_user.expense_reports.build(expense_report_params)
     @expense_report.status = :draft
     if @expense_report.save
       redirect_to @expense_report, notice: "申請を作成しました"

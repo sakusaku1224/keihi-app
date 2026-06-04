@@ -12,7 +12,7 @@
             class: "btn #{params[:status] == 'submitted' ? 'btn-primary' : 'btn-outline-secondary'} fw-bold rounded-pill filter" %>
     </div>
     <%# カレンダー %>
-    <%= form_with url: expense_reports_path, method: :get, class: "date-select-wrapper" do |f| %>
+    <%= form_with url: expense_reports_path, method: :get, class: "date-select-wrapper d-flex gap-2" do |f| %>
       <%= hidden_field_tag :status, params[:status] %>
       <%# 表示用 %>
       <input type="text" id="date-range"  class="form-control shadow-none rounded-pill"
@@ -43,15 +43,18 @@
 </div>
 
 <script>
-  flatpickr("#date-range", {
+flatpickr("#date-range", {
   mode: "range",
-  locale: "ja",
-  dateFormat: "Y-m-d",
+  locale: {
+    ...flatpickr.l10ns.ja,
+    rangeSeparator: " 〜 "
+  },
+  dateFormat: "Y/m/d",
   onClose: function(selectedDates) {
     document.getElementById("start_date").value = selectedDates[0]
       ? selectedDates[0].toISOString().slice(0, 10) : "";
     document.getElementById("end_date").value = selectedDates[1]
       ? selectedDates[1].toISOString().slice(0, 10) : "";
-    }
-  });
+  }
+});
 </script>

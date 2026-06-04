@@ -1,2 +1,20 @@
-<h1>ExpenseReports#new</h1>
-<p>Find me in app/views/expense_reports/new.html.erb</p>
+<% content_for :page_title, "申請の新規作成" %>
+  <%# ステッパー %>
+  <%= render "stepper", current_step: 1 %>
+
+  <%# フォームカード %>
+  <section class="central-card">
+    <div class="mb-4">
+      <h3
+        class="h5 fw-bold text-primary mb-1"
+        style="color: var(--primary-color) !important"
+      >
+        基本情報の入力
+      </h3>
+      <p class="text-muted small">
+        申請のタイトルと補足事項を入力してください。
+      </p>
+    </div>
+    <%# 入力フォーム %>
+    <%= render "form_card", expense_report: @expense_report %>
+  </section>

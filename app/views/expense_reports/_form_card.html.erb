@@ -1,0 +1,20 @@
+<%= form_with model: expense_report do |f| %>
+  <div class="mb-4">
+    <%= f.label :title, class: "form-label" do %>
+      申請タイトル
+      <span class="badge-required">必須</span>
+    <% end %>
+    <%= f.text_field :title, class: "form-control form-control-lg", placeholder: "例：2023年10月度 営業交通費" %>
+  </div>
+  <div class="mb-5">
+    <%= f.label :notes, "備考", class: "form-label" %>
+    <%= f.text_area :notes, class: "form-control", placeholder: "特記事項があれば入力してください（訪問先、プロジェクト名など）", rows: "4" %>
+  </div>
+  <hr class="my-4" style="border-color: var(--outline-variant)" />
+  <div class="d-grid gap-2">
+    <%= f.submit expense_report.new_record? ? "次へ：明細を入力する" : "更新する", 
+        class: "btn btn-primary btn-primary-keihi" %>
+    <%= link_to "戻る", expense_report.new_record? ?expense_reports_path : expense_report_path(expense_report),
+        class: "btn btn-secondary-keihi" %>
+  </div>
+<% end %>
