@@ -2,19 +2,22 @@
 <div class="mb-5">
   <div class="d-flex align-items-center justify-content-between mb-4">
     <h4 class="h5 mb-0 fw-bold">明細一覧</h4>
-    <button class="btn btn-primary-custom d-flex align-items-center gap-2 rounded-pill">
-      <i class="bi bi-plus-square"></i>
+    <button class="btn btn-primary-custom d-flex align-items-center gap-2 rounded-pill"
+            data-bs-toggle="modal" data-bs-target="#addItemModal">
+      <i class="bi bi-plus-circle"></i>
       <span class="fw-semibold">明細を追加</span>
     </button>
   </div>
   <% if expense_items.empty? %>
     <%# 空の状態 %>
-    <div class="empty-state-container">
-      <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-4 empty-bg">
+    <div class="empty-state-container d-flex justify-content-center gap-4">
+      <div class="d-inline-flex align-items-center justify-content-center rounded-circle empty-bg">
         <i class="bi bi-file-earmark-arrow-up fs-3 text-secondary"></i>
       </div>
-      <div class="fw-bold mb-2">明細が登録されていません</div>
-      <div class="text-muted mb-4 mx-auto">「明細を追加」から追加してください</div>
+      <div class="d-flex flex-column">
+        <div class="fw-bold mb-2">明細が登録されていません</div>
+        <div class="text-muted">「明細を追加」から追加してください</div>
+      </div>
     </div>
   <% else %>
     <%# テーブル %>
@@ -124,4 +127,8 @@
       </table>
     </div>
   <% end %>
+
+  <%# 明細追加モーダル %>
+  <div class="modal-body">
+  </div>
 </div>

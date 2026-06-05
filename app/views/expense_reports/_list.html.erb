@@ -17,8 +17,8 @@
       <div class="list-item-card shadow-sm">
         <div class="row align-items-center g-3">
           <div class="col-12 col-md-5 fw-bold text-on-surface"><%= report.title %></div>
-          <div class="col-4 col-md-2 text-center text-secondary small">
-            <%= report.created_at.to_fs(:date_jp) %>
+          <div class="col-4 col-md-2 text-center text-secondary">
+            <%= report.created_at.to_date.to_fs(:date_jp) %>
           </div>
           <div class="col-4 col-md-2 text-md-end fw-bold">
             ¥<%= number_with_delimiter(report.total_amount) %>

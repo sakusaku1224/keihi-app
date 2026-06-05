@@ -467,11 +467,12 @@ h4,
 
 .btn-primary-keihi {
   background-color: var(--primary-color);
+  color: var(--on-primary);
   border: none;
   padding: 0.85rem;
   font-weight: 600;
   border-radius: 0.5rem;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
@@ -480,6 +481,13 @@ h4,
   &:hover {
     background-color: #002a1f;
     transform: translateY(-1px);
+  }
+
+  &.disabled {
+    color: white;
+    background-color: var(--primary-color);
+    opacity: 0.45;
+    cursor: not-allowed;
   }
 }
 
@@ -567,15 +575,15 @@ h4,
 // 明細登録一覧
 // ======================================
 .empty-bg {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   background-color: var(--surface-container-low);
 }
 
 .empty-state-container {
   border: 2px dashed var(--outline-variant);
   border-radius: 1rem;
-  padding: 4rem 2rem;
+  padding: 2rem 2.5rem;
   text-align: center;
   background-color: #fff;
 }
