@@ -1,2 +1,11 @@
-<h1>ExpenseReports#show</h1>
-<p>Find me in app/views/expense_reports/show.html.erb</p>
+<% content_for :page_title, "明細追加" %>
+<div class="row flex-column justify-content-center px-4 px-lg-5">
+  <div class="col-md-10">
+    <%# ステッパー %>
+    <%= render "stepper", current_step: 2 %>
+    <%# ヘッダーカード %>
+    <%= render "report_header", expense_report: @expense_report %>
+    <%# 明細一覧 %>
+    <%= render "item_card", expense_report: @expense_report, expense_items: @expense_report.expense_items %>
+  </div>
+</div>

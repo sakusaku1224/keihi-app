@@ -1,0 +1,127 @@
+<%# 明細テーブル %>
+<div class="mb-5">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <h4 class="h5 mb-0 fw-bold">明細一覧</h4>
+    <button class="btn btn-primary-custom d-flex align-items-center gap-2 rounded-pill">
+      <i class="bi bi-plus-square"></i>
+      <span class="fw-semibold">明細を追加</span>
+    </button>
+  </div>
+  <% if expense_items.empty? %>
+    <%# 空の状態 %>
+    <div class="empty-state-container">
+      <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-4 empty-bg">
+        <i class="bi bi-file-earmark-arrow-up fs-3 text-secondary"></i>
+      </div>
+      <div class="fw-bold mb-2">明細が登録されていません</div>
+      <div class="text-muted mb-4 mx-auto">「明細を追加」から追加してください</div>
+    </div>
+  <% else %>
+    <%# テーブル %>
+    <div class="table-responsive bg-white rounded-3 shadow-sm">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
+          <tr>
+            <th>内容</th>
+            <th>カテゴリー</th>
+            <th>発生日</th>
+            <th>金額</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% expense_items.each do |item| %>
+            <tr onclick="toggleRow(<%= item.id %>)">
+              <td class="ps-4 py-3"><%= item.item_name %></td>
+              <td>
+                <span class="badge bg-light text-secondary rounded-pill px-3">
+                  <%= item.category %>
+                </span>
+              </td>
+              <td class="text-secondary"><%= item.occurred_on.to_fs(:date_jp) %></td>
+              <td class="text-end fw-bold">¥<%= number_with_delimiter(item.amount) %></td>
+
+              <%# アクション列 %>
+              <td class="text-center">
+                <% if expense_report.draft? %>
+                  <%# 編集・削除表示 %>
+                  <%= link_to edit_expense_report_expense_item_path(expense_report, item),
+                      class: "btn btn-link text-secondary p-1" do %>
+                    <i class="bi bi-pencil-fill"></i>
+                  <% end %>
+                  <%= link_to expense_report_expense_item_path(expense_report, item),
+                      data: { turbo_method: :delete, turbo_confirm: "この明細を削除しますか?" },
+                      class: "btn btn-link text-danger p-1" do %>
+                    <i class="bi bi-trash3"></i>
+                  <% end %>
+                <% else %>
+                  <%# 詳細トグル %>
+                  <i class="bi bi-chevron-down" id="icon-<%= item.id %>"></i>
+                <% end %>
+              </td>
+            </tr>
+
+            <%# 詳細展開 %>
+            <% if expense_report.submitted? %>
+              <tr class="d-none" id="detail-<%= item.id %>">
+                <td colspan="5" class="detail-cell">
+                  <div class="row g-4">
+                    <%# 左ゾーン（詳細情報） %>
+                    <div class="col-9">
+                      <div class="row g-4">
+                        <%# 内容 %>
+                        <div class="col-12">
+                          <p class="detail-label">内容</p>
+                          <p class="detail-value"><%= item.item_name %></p>
+                        </div>
+                        <%# カテゴリー・発生日・支払先 %>
+                        <div class="col-4">
+                          <p class="detail-label">カテゴリー</p>
+                          <p class="detail-value"><%= item.category %></p>
+                        </div>
+                        <div class="col-4">
+                          <p class="detail-label">発生日</p>
+                          <p class="detail-value"><%= item.occurred_on.to_fs(:date_jp) %></p>
+                        </div>
+                        <div class="col-4">
+                          <p class="detail-label">支払先</p>
+                          <p class="detail-value"><%= item.payee.presence || "—" %></p>
+                        </div>
+                        <%# 登録番号・税率・金額 %>
+                        <div class="col-4">
+                          <p class="detail-label">登録番号</p>
+                          <p class="detail-value"><%= item.invoice_registration_number.presence || "—" %></p>
+                        </div>
+                        <div class="col-4">
+                          <p class="detail-label">税率</p>
+                          <p class="detail-value"><%= item.tax_rate %>%</p>
+                        </div>
+                        <div class="col-4">
+                          <p class="detail-label">金額</p>
+                          <p class="detail-amount">¥<%= number_with_delimiter(item.amount) %></p>
+                        </div>
+                      </div>
+                    </div>
+                    <%# 右ゾーン（領収書） %>
+                    <div class="col-3">
+                      <p class="detail-label">領収書</p>
+                      <% if item.receipt_image.attached? %>
+                        <div class="receipt-preview-wrapper">
+                          <%= image_tag item.receipt_image, class: "receipt-preview-img", alt: "領収書" %>
+                        </div>
+                      <% else %>
+                        <div class="receipt-empty">
+                          <i class="bi bi-image text-secondary fs-3"></i>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>

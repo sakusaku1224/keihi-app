@@ -1,0 +1,45 @@
+<%# ヘッダーカード %>
+<div class="card border-0 shadow-sm mb-4">
+  <div class="card-body p-4">
+    <div
+      class="d-flex justify-content-between align-items-start mb-4"
+    >
+      <h3 class="h4 fw-bold mb-0"><%= expense_report.title %></h3>
+      <span class="status-badge badge-<%= expense_report.status %>">
+        <%= { "draft" => "下書き", "submitted" => "提出済み"}[expense_report.status] %>
+      </span>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <p
+          class="text-muted fw-bold mb-1"
+          style="font-size: 10px; text-transform: uppercase"
+        >
+          作成日
+        </p>
+        <p class="h5 fw-bold mb-0"><%= expense_report.created_at.to_fs(:date_jp) %></p>
+      </div>
+      <div class="col-md-4">
+        <p
+          class="text-muted fw-bold mb-1"
+          style="font-size: 10px; text-transform: uppercase"
+        >
+          明細件数
+        </p>
+        <p class="h5 fw-bold mb-0"><%= expense_report.expense_items.count %>件</p>
+      </div>
+      <div class="col-md-4">
+        <p
+          class="text-muted fw-bold mb-1"
+          style="font-size: 10px; text-transform: uppercase"
+        >
+          合計金額
+        </p>
+        <p class="h5 fw-bold mb-0">
+          ¥<%= number_with_delimiter(expense_report.total_amount)%>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

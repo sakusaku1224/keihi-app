@@ -523,7 +523,7 @@ h4,
 }
 
 .stepper-item {
-  flex: 1;  // 3アイテムを均等幅にする
+  flex: 1; // 3アイテムを均等幅にする
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -561,6 +561,85 @@ h4,
     color: var(--primary-color);
     opacity: 1;
   }
+}
+
+// ======================================
+// 明細登録一覧
+// ======================================
+.empty-bg {
+  width: 80px;
+  height: 80px;
+  background-color: var(--surface-container-low);
+}
+
+.empty-state-container {
+  border: 2px dashed var(--outline-variant);
+  border-radius: 1rem;
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: #fff;
+}
+
+// ======================================
+// 明細詳細
+// ======================================
+.detail-cell {
+  background-color: var(--surface-bg);
+  border-left: 4px solid var(--primary-color) !important;
+  padding: 2rem 1.5rem !important;
+}
+
+.detail-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.detail-value {
+  font-weight: 600;
+  color: var(--on-surface);
+  margin-bottom: 0;
+}
+
+.detail-amount {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0;
+}
+
+.receipt-preview-wrapper {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 0.75rem;
+  border: 1px solid var(--outline-variant);
+  overflow: hidden;
+  background: white;
+}
+
+.receipt-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.receipt-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  border-radius: 0.75rem;
+  border: 1px solid var(--outline-variant);
+  background-color: var(--surface-container-low);
+}
+
+// 回転させる
+.bi-chevron-down.rotated {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
 }
 
 // ======================================

@@ -32,8 +32,7 @@ class ExpenseItem < ApplicationRecord
   # 合計値算出
   def update_report_total
     expense_report.update_column(
-      :total_amount,
-      expense_report.expense_items.sum(:amount)
+      :total_amount, expense_report.expense_items.sum(:amount)
     )
   end
 end
