@@ -52,7 +52,7 @@
       <%# 右カラム %>
       <div class="col-md-6 d-flex flex-column">
         <%= f.label :receipt_image, "領収書 (画像またはPDF)", class: "form-label"%>
-        <%= f.file_field :receipt_image, class: "d-none",id: "receipt-file-input", accept: "image/png,image/jpeg,application/pdf"%>
+        <%= f.file_field :receipt_image, class: "d-none", id: "receipt-file-input", accept: "image/png,image/jpeg,application/pdf"%>
         <div class="flex-grow-1 position-relative">
           <div id="upload-zone" class="upload-zone h-100 d-flex flex-column align-items-center justify-content-center">
             <i class="bi bi-file-earmark-arrow-up fs-3 text-secondary"></i>
@@ -65,16 +65,16 @@
           <%# 画像プレビューカード %>
           <div id="preview-card" class="d-none position-absolute bg-white border rounded-3 p-2 overflow-hidden" style="top: 0; left: 0; right: 0; bottom: 0;">
             <%# プレビュー画像 %>
-            <img id="preview-img" class="img-fluid rounded w-100 h-100" style="object-fit: cover;" src="" alt="領収書">
+            <img id="preview-img" class="img-fluid rounded w-100 h-100" style="object-fit: contain;" src="" alt="領収書">
             <%# 取り消しボタン %>
             <button id="clear-preview-btn" type="button" class="btn btn-sm btn-dark position-absolute top-0 end-0 m-2" style="width: 28px; height: 28px; padding: 0;">
               <i class="bi bi-x-lg"></i>
             </button>           
           </div>
-          <button id="ocr-btn" type="button" class="btn btn-secondary w-100 mt-2 d-none">
-            <i class="bi bi-magic"></i> OCR 読み取り
-          </button>           
         </div>
+        <button id="ocr-btn" type="button" class="btn btn-secondary w-100 mt-2 d-none">
+          <i class="bi bi-magic"></i> OCR 読み取り
+        </button>
       </div>
     </div>
   </div>
