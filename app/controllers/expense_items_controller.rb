@@ -13,8 +13,7 @@ class ExpenseItemsController < ApplicationController
     if @expense_item.save
       redirect_to @expense_report, notice: "明細を追加しました"
     else
-      flash.now[:alert] = "明細の追加に失敗しました"
-      render :new, status: :unprocessable_entity
+      redirect_to @expense_report, alert: @expense_item.errors.full_messages.join("、")
     end
   end
 

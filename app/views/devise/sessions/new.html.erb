@@ -22,22 +22,18 @@
           <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
             <%# メール %>
             <div class="mb-3">
-              <%= f.label :email, "メールアドレス", class: "form-label small text-secondary fw-semibold required" %>
+              <%= f.label :email, "メールアドレス", class: "form-label" %>
               <div class="input-group">
-                <span class="input-group-text">
-                  <i class="bi bi-envelope"></i>
-                </span>
+                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                 <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-with-icon", placeholder: "メールアドレスを入力" %>             
               </div>
             </div>
 
             <%# パスワード %>
             <div class="mb-4">
-              <%= f.label :password, "パスワード", class: "form-label small text-secondary fw-semibold mb-0 required"%>
+              <%= f.label :password, "パスワード", class: "form-label mb-0" %>
               <div class="input-group" data-controller="password">
-                <span class="input-group-text">
-                  <i class="bi bi-lock"></i>
-                </span>
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
                 <%= f.password_field :password, autocomplete: "current-password",class: "form-control", data: { password_target: "input" }, placeholder: "••••••••" %>
                 <%# アイコンを押したときだけパスワードが見える %>
                 <button type="button" class="btn border-start-0 border" data-action="click->password#toggle">

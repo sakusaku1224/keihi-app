@@ -460,7 +460,8 @@ h4,
   border-radius: 4px;
 }
 
-.form-control:focus {
+.form-control:focus,
+.form-select:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 0.25rem rgba(0, 53, 39, 0.1);
 }
@@ -588,6 +589,43 @@ h4,
   background-color: #fff;
 }
 
+// ======================================
+// 明細追加モーダル
+// ======================================
+
+.modal-content {
+  border-radius: 1rem;
+  border: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.upload-zone {
+  border: 2px dashed var(--outline-variant);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 200px;
+
+  &:hover {
+    border-color: var(--primary-color);
+    background-color: #f0f7f4;
+  }
+}
+
+.tax-rate-option {
+  border: 1px solid var(--outline-variant);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:has(input:checked) {
+    border-color: var(--primary-color);
+    background-color: #f0f7f4;
+  }
+}
 // ======================================
 // 明細詳細
 // ======================================

@@ -35,4 +35,17 @@
       </div>
     </div>
   </div>
+
+  <%# 明細追加モーダル %>
+  <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold" id="addItemModalLabel">明細を追加</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <%= render "expense_items/form", expense_report: @expense_report, expense_item: ExpenseItem.new %>
+      </div>
+    </div>
+  </div>
 </div>

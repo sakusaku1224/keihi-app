@@ -21,7 +21,7 @@
             <%= report.created_at.to_date.to_fs(:date_jp) %>
           </div>
           <div class="col-4 col-md-2 text-md-end fw-bold">
-            ¥<%= number_with_delimiter(report.total_amount) %>
+            ¥<%= number_with_delimiter(report.total_amount|| 0) %>
           </div>
           <div class="col-4 col-md-2 text-center">
             <span class="status-badge badge-<%= report.status %>">

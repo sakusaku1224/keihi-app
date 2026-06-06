@@ -22,7 +22,7 @@
           <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
             <%# 名前 %>
             <div class="mb-3">
-              <%= f.label :name, "名前", class: "form-label small text-secondary fw-semibold required" %>
+              <%= f.label :name, "名前", class: "form-label" %>
               <div class="input-group">
                 <span class="input-group-text">
                   <i class="bi bi-person"></i>
@@ -33,7 +33,7 @@
 
             <%# 部署 %>
             <div class="mb-3">
-              <%= f.label :department, "部署", class: "form-label small text-secondary fw-semibold required" %>
+              <%= f.label :department, "部署", class: "form-label" %>
               <div class="input-group">
                 <span class="input-group-text">
                   <i class="bi bi-building"></i>
@@ -44,7 +44,7 @@
 
             <%# メール %>
             <div class="mb-3">
-              <%= f.label :email, "メールアドレス", class: "form-label small text-secondary fw-semibold required" %>
+              <%= f.label :email, "メールアドレス", class: "form-label" %>
               <div class="input-group">
                 <span class="input-group-text">
                   <i class="bi bi-envelope"></i>
@@ -55,7 +55,7 @@
 
             <%# パスワード %>
             <div class="mb-4">
-              <%= f.label :password, "パスワード", class: "form-label small text-secondary fw-semibold mb-0 required"%>
+              <%= f.label :password, "パスワード", class: "form-label mb-0" %>
               <% if @minimum_password_length %>
                 <small class="text-muted">（<%= @minimum_password_length %>文字以上）</small>
               <% end %>
@@ -73,7 +73,7 @@
 
             <%# 確認用 %>
             <div class="mb-4">
-              <%= f.label :password_confirmation, "パスワード(確認)", class: "form-label small text-secondary fw-semibold mb-0 required"%>
+              <%= f.label :password_confirmation, "パスワード(確認)", class: "form-label mb-0" %>
               <div class="input-group" data-controller="password">
                 <span class="input-group-text">
                   <i class="bi bi-lock"></i>
