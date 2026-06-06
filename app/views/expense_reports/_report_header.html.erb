@@ -46,7 +46,7 @@
           合計金額
         </p>
         <p class="h5 fw-bold mb-0"><span class="h6 fw-bold gap-2">¥</span>
-          <%= number_with_delimiter(expense_report.total_amount || 0) %>
+          <%= number_with_delimiter((expense_report.total_amount || 0).to_i) %>
         </p>
       </div>
     </div>

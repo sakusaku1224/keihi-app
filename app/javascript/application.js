@@ -38,21 +38,30 @@ function initReceiptUpload() {
 
   // 画像アップロード時
   function showPreview(file) {
-    const reader = new FileReader();
+    const isPdf = file.type === "application/pdf";
 
-    // コールバック関数
-    reader.onload = function () {
-      // 画像srcに変換後の文字列セット
-      previewImg.src = reader.result;
-      // アップロードゾーンを非表示
+    if (isPdf) {
+      // PDF の場合：ブラウザのネイティブ表示を使う
+      const pdfPreview = document.getElementById("pdf-preview");
+      pdfPreview.src = URL.createObjectURL(file);
+      pdfPreview.classList.remove("d-none");
+      previewImg.classList.add("d-none");
       uploadZone.classList.add("d-none");
-      // プレビューカード表示
       previewCard.classList.remove("d-none");
-      // OCRボタンを表示
       document.getElementById("ocr-btn").classList.remove("d-none");
-    };
-    // 変換開始
-    reader.readAsDataURL(file);
+    } else {
+      // 画像の場合：FileReader で DataURL に変換してプレビュー表示
+      const reader = new FileReader();
+      reader.onload = function () {
+        previewImg.src = reader.result;
+        previewImg.classList.remove("d-none");
+        document.getElementById("pdf-preview").classList.add("d-none");
+        uploadZone.classList.add("d-none");
+        previewCard.classList.remove("d-none");
+        document.getElementById("ocr-btn").classList.remove("d-none");
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   // 画像削除・初期状態に戻す
@@ -63,6 +72,12 @@ function initReceiptUpload() {
     receiptFileInput.value = "";
     currentFile = null;
     document.getElementById("ocr-btn").classList.add("d-none");
+    // PDF / 画像の表示状態をリセット
+    previewImg.classList.remove("d-none");
+    const pdfPreview = document.getElementById("pdf-preview");
+    URL.revokeObjectURL(pdfPreview.src); // メモリ解放
+    pdfPreview.src = "";
+    pdfPreview.classList.add("d-none");
   }
 
   // イベントリスナー
@@ -94,6 +109,72 @@ function initReceiptUpload() {
   clearPreviewBtn.addEventListener("click", () => {
     clearPreview();
   });
+
+  // OCR ボタンを押したとき
+  document.getElementById("ocr-btn").addEventListener("click", () => {
+    runOcr();
+  });
+
+  // OCR 読み取り実行
+  function runOcr() {
+    // ファイルがなければ何もしない
+    if (!currentFile) return;
+
+    // スピナー
+    const ocrBtn = document.getElementById("ocr-btn");
+    ocrBtn.disabled = true;
+    ocrBtn.innerHTML =
+      '<span class="spinner-border spinner-border-sm"></span> 読み取り中...';
+
+    // FormData を作ってファイルを追加
+    const formData = new FormData();
+    formData.append("receipt_image", currentFile);
+
+    // サーバーに送る
+    fetch("/ocr", {
+      method: "POST",
+      body: formData,
+      headers: {
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+          .content,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        ocrBtn.disabled = false;
+        ocrBtn.innerHTML = '<i class="bi bi-magic"></i> OCR 読み取り';
+        if (data.error) {
+          alert("OCR の読み取りに失敗しました: " + data.error);
+          return;
+        }
+        fillFormFromOcr(data);
+      })
+      .catch(() => {
+        ocrBtn.disabled = false;
+        ocrBtn.innerHTML = '<i class="bi bi-magic"></i> OCR 読み取り';
+        alert("OCR の読み取りに失敗しました");
+      });
+  }
+
+  // フォームに自動入力
+  function fillFormFromOcr(data) {
+    document.getElementById("expense_item_item_name").value = data.item_name;
+    document.getElementById("expense_item_category").value = data.category;
+    document.getElementById("expense_item_occurred_on").value =
+      data.occurred_on;
+    document.getElementById("expense_item_amount").value = Math.round(
+      data.amount,
+    );
+    document.getElementById("expense_item_payee").value = data.payee;
+    document.getElementById("expense_item_invoice_registration_number").value =
+      data.invoice_registration_number;
+
+    // 税率
+    const taxRadio = document.querySelector(
+      `input[name="expense_item[tax_rate]"][value="${data.tax_rate}"]`,
+    );
+    if (taxRadio) taxRadio.checked = true;
+  }
 }
 
 // ページが読み込まれるたびに初期化

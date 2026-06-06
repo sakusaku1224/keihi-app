@@ -42,7 +42,7 @@
                 </span>
               </td>
               <td class="text-secondary"><%= item.occurred_on.to_fs(:date_jp) %></td>
-              <td class="text-end fw-bold">¥<%= number_with_delimiter(item.amount) %></td>
+              <td class="fw-bold">¥<%= number_with_delimiter(item.amount.to_i) %></td>
 
               <%# アクション列 %>
               <td class="text-center">
@@ -101,7 +101,7 @@
                         </div>
                         <div class="col-4">
                           <p class="detail-label">金額</p>
-                          <p class="detail-amount">¥<%= number_with_delimiter(item.amount) %></p>
+                          <p class="detail-amount">¥<%= number_with_delimiter(item.amount.to_i) %></p>
                         </div>
                       </div>
                     </div>
