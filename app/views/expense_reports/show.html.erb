@@ -48,4 +48,20 @@
       </div>
     </div>
   </div>
+
+  <%# 明細編集モーダル %>
+  <% @expense_report.expense_items.each do |item| %>
+    <div class="modal fade" id="editItemModal-<%= item.id %>" tabindex="-1" 
+         aria-labelledby="addItemModalLabel-<%= item.id %>" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header border-0 pb-0">
+            <h5 class="modal-title fw-bold" id="addItemModalLabel-<%= item.id %>">明細を編集</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <%= render "expense_items/edit_form", expense_report: @expense_report, expense_item: item %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>

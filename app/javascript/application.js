@@ -177,7 +177,30 @@ function initReceiptUpload() {
   }
 }
 
+// 画像プレビュー（PDFは別タブで開くのでここでは画像のみ対象）
+function initImagePreview() {
+  document.querySelectorAll(".receipt-preview-img").forEach((img) => {
+    img.addEventListener("click", () => {
+      document.getElementById("modal-preview-img").src = img.src;
+      const modal = new bootstrap.Modal(
+        document.getElementById("imagePreviewModal"),
+      );
+      modal.show();
+    });
+  });
+}
+
 // ページが読み込まれるたびに初期化
 document.addEventListener("turbo:load", () => {
   initReceiptUpload();
+  initImagePreview();
+
+  // カレンダー
+  flatpickr("input[type='date']", {
+    locale: "ja",
+    dateFormat: "Y-m-d",
+    altInput: true,
+    altFormat: "Y/m/d", //　表示用
+    allowInput: true,
+  });
 });

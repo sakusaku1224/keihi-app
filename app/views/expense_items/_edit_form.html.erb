@@ -1,4 +1,4 @@
-<%# モーダル フォーム部分 %>
+<%# 編集モーダル　 %>
 <%= form_with model: [@expense_report, expense_item] do |f| %>
   <%# body %>
   <div class="modal-body px-4 py-4">
@@ -29,12 +29,12 @@
             <%= f.label :amount, "金額 (税込)", class: "form-label" %>
             <div class="input-group">
               <span class="input-group-text bg-white">¥</span>
-              <%= f.text_field :amount, class: "form-control text-end", placeholder: "0" %>
+              <%= f.text_field :amount, class: "form-control text-end", placeholder: "0", value: expense_item.amount.to_i %>
             </div>
           </div>
           <div class="col-12">
             <%= f.label :invoice_registration_number, "適格請求書発行事業者登録番号", class: "form-label" %>
-            <%= f.text_field :invoice_registration_number, class: "form-control", placeholder: "T+13桁" %>
+            <%= f.text_field :invoice_registration_number, class: "form-control", placeholder: "T1234567890123" %>
           </div>
           <div class="col-12">
             <%= f.label :tax_rate, "税率", class: "form-label" %>
@@ -42,7 +42,7 @@
             <% [["標準税率 (10%)", 10], ["軽減税率 (8%)", 8], ["非課税/免税", 0]].each do |label_text, value| %>
               <label class="tax-rate-option">
                 <div class="form-check m-0">
-                  <%= f.radio_button :tax_rate, value, checked: expense_item.new_record? && value == 10, class: "form-check-input" %>
+                  <%= f.radio_button :tax_rate, value, checked: expense_item.tax_rate == value, class: "form-check-input" %>
                   <p class="form-check-label small"><%= label_text %></p>
                 </div>
               </label>
@@ -54,32 +54,25 @@
 
       <%# 右カラム %>
       <div class="col-md-6 d-flex flex-column">
-        <%= f.label :receipt_image, "領収書 (画像またはPDF)", class: "form-label"%>
-        <%= f.file_field :receipt_image, class: "d-none", id: "receipt-file-input", accept: "image/png,image/jpeg,application/pdf"%>
-        <div class="flex-grow-1 position-relative">
-          <div id="upload-zone" class="upload-zone h-100 d-flex flex-column align-items-center justify-content-center">
-            <i class="bi bi-file-earmark-arrow-up fs-3 text-secondary"></i>
-            <div class="fw-semibold small">領収書をアップロードして自動入力</div>
-            <div class="small text-secondary" style="font-size: 0.75rem">
-              またはドラッグ＆ドロップ
-            </div>
-          </div>
-
-          <%# 画像プレビューカード %>
-          <div id="preview-card" class="d-none position-absolute bg-white border rounded-3 p-2 overflow-hidden" style="top: 0; left: 0; right: 0; bottom: 0;">
-            <%# プレビュー画像（画像ファイルのとき） %>
-            <img id="preview-img" class="img-fluid rounded w-100 h-100" style="object-fit: contain;" src="" alt="領収書">
-            <%# PDF プレビュー（PDFのとき） %>
-            <embed id="pdf-preview" class="d-none rounded w-100 h-100" type="application/pdf" src="">
-            <%# 取り消しボタン %>
-            <button id="clear-preview-btn" type="button" class="btn btn-sm btn-dark position-absolute top-0 end-0 m-2" style="width: 28px; height: 28px; padding: 0;">
-              <i class="bi bi-x-lg"></i>
-            </button>
-          </div>
+        <%= f.label :receipt_image, "領収書", class: "form-label"%>
+        <div class="flex-grow-1 border rounded-3 p-2 d-flex align-items-center justify-content-center" 
+             style="min-height: 200px;">
+          <% if expense_item.receipt_image.attached? %>
+            <% if expense_item.receipt_image.content_type == "application/pdf" %>
+              <embed src="<%= rails_blob_path(expense_item.receipt_image) %>"
+                     type="application/pdf"
+                     class="rounded w-100 h-100"
+                     style="min-height: 300px;">
+            <% else %>
+              <%= image_tag expense_item.receipt_image, class: "img-fluid rounded w-100 h-100", style: "object-fit: contain;" %>
+            <% end %>
+          <% else %>
+            <div class="text-secondary text-center">
+              <i class="bi bi-image fs-3"></i>
+              <div class="small mt-2">領収書なし</div>
+            </div>            
+          <% end %>
         </div>
-        <button id="ocr-btn" type="button" class="btn btn-secondary w-100 mt-2 d-none">
-          <i class="bi bi-magic"></i> OCR 読み取り
-        </button>
       </div>
     </div>
   </div>

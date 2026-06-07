@@ -262,6 +262,14 @@ h4,
 }
 
 // ======================================
+// カレンダー
+// ======================================
+.flatpickr-calendar {
+  padding: 16px;
+  width: 340px;
+}
+
+// ======================================
 // ダッシュボード - サマリーカード
 // ======================================
 .summary-card {
@@ -627,12 +635,20 @@ h4,
   }
 }
 // ======================================
+// 明細テーブル
+// ======================================
+.table thead tr {
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+// ======================================
 // 明細詳細
 // ======================================
 .detail-cell {
-  background-color: var(--surface-bg);
+  background-color: #f5fbf8 !important;
   border-left: 4px solid var(--primary-color) !important;
-  padding: 2rem 1.5rem !important;
+  padding: 1.5rem 1.2rem !important;
 }
 
 .detail-label {
@@ -648,6 +664,7 @@ h4,
   font-weight: 600;
   color: var(--on-surface);
   margin-bottom: 0;
+  font-size: 15px;
 }
 
 .detail-amount {
@@ -669,7 +686,7 @@ h4,
 .receipt-preview-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .receipt-empty {
@@ -682,12 +699,31 @@ h4,
   background-color: var(--surface-container-low);
 }
 
+.receipt-pdf-link {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 0.75rem;
+  border: 1px solid var(--outline-variant);
+  background-color: var(--surface-container-low);
+  padding: 1rem;
+  color: inherit;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--surface-container);
+  }
+}
+
 // 回転させる
 .bi-chevron-down.rotated {
   transform: rotate(180deg);
   transition: transform 0.3s ease;
 }
 
+#modal-preview-img {
+  max-height: 70vh;
+  object-fit: contain;
+}
 // ======================================
 // ログイン・新規登録画面
 // ======================================
