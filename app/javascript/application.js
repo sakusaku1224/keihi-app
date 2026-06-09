@@ -190,17 +190,54 @@ function initImagePreview() {
   });
 }
 
-// ページが読み込まれるたびに初期化
-document.addEventListener("turbo:load", () => {
-  initReceiptUpload();
-  initImagePreview();
-
-  // カレンダー
+// カレンダー初期化
+function initFlatpickr() {
   flatpickr("input[type='date']", {
     locale: "ja",
     dateFormat: "Y-m-d",
     altInput: true,
     altFormat: "Y/m/d", //　表示用
     allowInput: true,
+    // 日付が選択・変更されたら、隠れている元のinputから is-invalid を外す
+    onChange: (selectedDates, dateStr, instance) => {
+      instance.input.classList.remove("is-invalid");
+      if (instance.altInput) {
+        instance.altInput.classList.remove("is-invalid");
+      }
+    },
   });
+}
+
+// エラー表示の解除
+function initValidationClear() {
+  document.querySelectorAll(".is-invalid").forEach((field) => {
+    field.addEventListener("change", () => {
+      field.classList.remove("is-invalid");
+
+      // エラーメッセージ消す
+      const column = field.closest(".col-12, .col-6");
+      const feedback = column.querySelector(".invalid-feedback");
+      if (feedback) feedback.remove();
+    });
+  });
+}
+
+// ページが読み込まれるたびに初期化
+document.addEventListener("turbo:load", () => {
+  initReceiptUpload();
+  initImagePreview();
+  initFlatpickr();
+  initValidationClear();
+});
+
+// Turbo Streamで部分更新されたときも、初期化
+document.addEventListener("turbo:before-stream-render", (event) => {
+  const original = event.detail.render;
+  event.detail.render = (streamElement) => {
+    original(streamElement);
+    initReceiptUpload();
+    initImagePreview();
+    initFlatpickr();
+    initValidationClear();
+  };
 });

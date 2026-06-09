@@ -31,7 +31,7 @@
 
   // エラー
   --error-container: #ffdad6;
-  --on-error-container: #93000a;
+  --on-error-container: #ed0111eb;
 }
 
 // ======================================
@@ -456,8 +456,13 @@ h4,
   color: var(--text-secondary);
   margin-bottom: 0.5rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+}
+
+.form-required::after {
+  content: "*";
+  color: var(--on-error-container);
+  margin-left: 0.25rem;
 }
 
 .badge-required {

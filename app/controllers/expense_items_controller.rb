@@ -13,7 +13,11 @@ class ExpenseItemsController < ApplicationController
     if @expense_item.save
       redirect_to @expense_report, notice: "明細を追加しました"
     else
-      redirect_to @expense_report, alert: @expense_item.errors.full_messages.join("、")
+      render turbo_stream: turbo_stream.replace(
+        "new_item_form",
+        partial: "expense_items/form",
+        locals: { expense_item: @expense_item }
+      ), status: :unprocessable_entity
     end
   end
 
@@ -26,8 +30,11 @@ class ExpenseItemsController < ApplicationController
     if @expense_item.update(expense_item_params)
       redirect_to @expense_report, notice: "明細を更新しました"
     else
-      flash.now[:alert] = "明細の更新に失敗しました"
-      render :edit, status: :unprocessable_entity
+      render turbo_stream: turbo_stream.replace(
+        "edit_item_form_#{@expense_item.id}",
+        partial: "expense_items/edit_form",
+        locals: { expense_item: @expense_item }
+      ), status: :unprocessable_entity
     end
   end
 

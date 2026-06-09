@@ -1,0 +1,76 @@
+<%# 明細フォームの入力項目（新規追加・編集 共通） %>
+<div class="col-md-6">
+  <div class="row g-3">
+    <div class="col-12">
+      <%= f.label :item_name, "内容", class: "form-label form-required" %>
+      <%# エラーがあれば、'is-invalid'をつける %>
+      <%= f.text_field :item_name,
+          class: "form-control #{'is-invalid' if expense_item.errors[:item_name].any?}",
+          placeholder: "例：タクシー代、文房具購入" %>
+      <%# エラー表示 %>
+      <% if expense_item.errors[:item_name].any? %>
+        <div class="invalid-feedback d-block"><%= expense_item.errors[:item_name].first %></div>
+      <% end %>
+    </div>
+    <div class="col-6">
+      <%= f.label :category, "種別", class: "form-label form-required" %>
+      <%= f.select :category, ExpenseItem::CATEGORIES, { prompt: "選択してください" },
+          { class: "form-select #{'is-invalid' if expense_item.errors[:category].any?}" } %>
+      <% if expense_item.errors[:category].any? %>
+        <div class="invalid-feedback d-block"><%= expense_item.errors[:category].first %></div>
+      <% end %>
+    </div>
+    <div class="col-6">
+      <%= f.label :occurred_on, "発生日", class: "form-label form-required" %>
+      <div class="input-group flex-nowrap">
+        <i class="bi bi-calendar-event input-group-text bg-white"></i>
+        <%= f.date_field :occurred_on, class: "form-control #{'is-invalid' if expense_item.errors[:occurred_on].any?}" %>
+      </div>
+      <% if expense_item.errors[:occurred_on].any? %>
+        <div class="invalid-feedback d-block"><%= expense_item.errors[:occurred_on].first %></div>
+      <% end %>
+    </div>
+    <div class="col-6">
+      <%= f.label :payee, "支払先", class: "form-label form-required" %>
+      <%= f.text_field :payee, class: "form-control #{'is-invalid' if expense_item.errors[:payee].any?}", placeholder: "会社名" %>
+      <% if expense_item.errors[:payee].any? %>
+        <div class="invalid-feedback d-block"><%= expense_item.errors[:payee].first %></div>
+      <% end %>
+    </div>
+    <div class="col-6">
+      <%= f.label :amount, "金額 (税込)", class: "form-label form-required" %>
+      <div class="input-group flex-nowrap">
+        <span class="input-group-text bg-white">¥</span>
+        <%= f.text_field :amount,
+            class: "form-control text-end #{'is-invalid' if expense_item.errors[:amount].any?}",
+            placeholder: "0", value: expense_item.amount&.to_i %>
+      </div>
+      <% if expense_item.errors[:amount].any? %>
+        <div class="invalid-feedback d-block"><%= expense_item.errors[:amount].first %></div>
+      <% end %>
+    </div>
+    <div class="col-12">
+      <%= f.label :invoice_registration_number, "適格請求書発行事業者登録番号", class: "form-label" %>
+      <%= f.text_field :invoice_registration_number,
+          class: "form-control #{'is-invalid' if expense_item.errors[:invoice_registration_number].any?}", placeholder: "T+13桁" %>
+      <% if expense_item.errors[:invoice_registration_number].any? %>
+        <div class="invalid-feedback d-block"><%= expense_item.errors[:invoice_registration_number].first %></div>
+      <% end %>
+    </div>
+    <div class="col-12">
+      <%= f.label :tax_rate, "税率", class: "form-label form-required" %>
+      <div class="d-flex flex-column gap-2">
+      <% [["標準税率 (10%)", 10], ["軽減税率 (8%)", 8], ["非課税/免税", 0]].each do |label_text, value| %>
+        <label class="tax-rate-option">
+          <div class="form-check m-0">
+            <%# 新規(tax_rateがnil)のときは10%をデフォルトに、編集(値が入っている)のときはその値で判定 %>
+            <%= f.radio_button :tax_rate, value, checked: expense_item.tax_rate ? expense_item.tax_rate == value : value == 10,
+                class: "form-check-input" %>
+            <p class="form-check-label small"><%= label_text %></p>
+          </div>
+        </label>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>

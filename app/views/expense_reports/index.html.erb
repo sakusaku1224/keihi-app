@@ -43,6 +43,12 @@
 </div>
 
 <script>
+  function formatLocalDate(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
 flatpickr("#date-range", {
   mode: "range",
   locale: {
@@ -52,9 +58,9 @@ flatpickr("#date-range", {
   dateFormat: "Y/m/d",
   onClose: function(selectedDates) {
     document.getElementById("start_date").value = selectedDates[0]
-      ? selectedDates[0].toISOString().slice(0, 10) : "";
+      ? formatLocalDate(selectedDates[0]) : "";
     document.getElementById("end_date").value = selectedDates[1]
-      ? selectedDates[1].toISOString().slice(0, 10) : "";
+      ? formatLocalDate(selectedDates[1]) : "";
   }
 });
 </script>

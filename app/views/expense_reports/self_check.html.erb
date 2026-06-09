@@ -15,9 +15,33 @@
           expense_items: @expense_report.expense_items,
           readonly: true %>
 
+    <%# チェックアラート %>    
+    <%# 領収書未添付 %>
+    <% if @missing_items.any? %>
+      <div class="alert alert-warning d-flex align-items-center gap-2">
+        <i class="bi bi-exclamation-triangle"></i>
+        <span>領収書が添付されていない明細があります</span>
+      </div>
+    <% end %>
+    <%# 申請内の重複明細 %>
+    <% if @within_report_duplicates.any? %>
+      <div class="alert alert-warning d-flex align-items-center gap-2">
+        <i class="bi bi-exclamation-triangle"></i>
+        <span>重複している可能性がある明細があります</span>
+      </div>      
+    <% end %>
+    <%# 過去の申請との重複 %>
+    <% if @cross_report_duplicates.any? %>
+      <div class="alert alert-warning d-flex align-items-center gap-2">
+        <i class="bi bi-exclamation-triangle"></i>
+        <span>過去の申請に重複している可能性がある明細があります</span>
+      </div>      
+    <% end %>
+
     <%# ボタン %>
     <div class="pt-4 border-top d-flex flex-column align-items-center gap-3">
-      <%= link_to self_check_expense_report_path(@expense_report),
+      <%= link_to submit_expense_report_path(@expense_report),
+          data: { turbo_method: :patch, turbo_confirm: "この申請を提出しますか？" },
           class: "btn btn-primary-keihi rounded-pill px-5 fw-bold #{'disabled' if @expense_report.expense_items.empty?}",
           style: "min-width: 320px;" do %>
         提出する <i class="bi bi-arrow-right"></i>

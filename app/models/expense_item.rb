@@ -6,13 +6,14 @@ class ExpenseItem < ApplicationRecord
   TAX_RATES = [ 0, 8, 10 ].freeze
 
   # バリデーション
-  validates :item_name, presence: true, length: { maximum: 100 }
+  validates :item_name, presence: true, length: { maximum: 50 }
   validates :category, presence: true, inclusion: { in: CATEGORIES }
   validates :occurred_on, presence: true
   validate :occurred_on_cannot_be_future
   validates :amount, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: 10_000_000 }
   validates :tax_rate, presence: true, inclusion: { in: TAX_RATES }
   validates :invoice_registration_number, format: { with: /\AT\d{13}\z/ }, allow_blank: true
+  validates :payee, presence: true, length: { maximum: 50 }
   validates :receipt_image, content_type: %w[image/png image/jpeg application/pdf],
                             size: { less_than: 10.megabytes }
 

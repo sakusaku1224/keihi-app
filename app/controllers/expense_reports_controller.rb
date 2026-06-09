@@ -79,12 +79,19 @@ class ExpenseReportsController < ApplicationController
     @missing_items = @expense_report.expense_items.reject do |item|
       item.receipt_image.attached?
     end
-    # 同日かつ金額重複
-    @duplicate_items = @expense_report.expense_items.select do |item|
+    # 過去の申請と重複
+    @cross_report_duplicates = @expense_report.expense_items.select do |item|
       ExpenseItem.joins(:expense_report)
                  .where(expense_reports: { user_id: current_user.id })
                  # 自分自身との比較を防ぐ
                  .where.not(expense_report_id: @expense_report.id)
+                 .where(occurred_on: item.occurred_on, amount: item.amount)
+                 .exists?
+    end
+    # 今回の申請内の重複
+    @within_report_duplicates = @expense_report.expense_items.select do |item|
+      ExpenseItem.where(expense_report_id: @expense_report.id)
+                 .where.not(id: item.id)
                  .where(occurred_on: item.occurred_on, amount: item.amount)
                  .exists?
     end
