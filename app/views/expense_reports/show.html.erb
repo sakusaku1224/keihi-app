@@ -1,9 +1,13 @@
-<% content_for :page_title, "明細追加" %>
-<div class="row justify-content-center px-4 px-lg-5">
+<% content_for :page_title, @expense_report.draft? ? "明細追加" : "申請詳細" %>
+<div class="container-field row justify-content-center px-4 px-lg-5">
   <div class="col-12 col-md-10">
-    <%# ステッパー %>
+    <%# ステッパー・承認タイムライン %>
     <div class="d-flex justify-content-center">
-      <%= render "stepper", current_step: 2 %>
+      <% if @expense_report.draft? %>
+        <%= render "stepper", current_step: 2 %>
+      <% elsif @expense_report.submitted? || @expense_report.approved? %>
+        <%= render "approval_timeline", expense_report: @expense_report %>
+      <% end %>
     </div>
 
     <%# ヘッダーカード %>
@@ -14,25 +18,32 @@
 
     <%# ボタン %>
     <div class="pt-4 border-top d-flex flex-column align-items-center gap-3">
-      <%= link_to self_check_expense_report_path(@expense_report),
-          class: "btn btn-primary-keihi rounded-pill px-5 fw-bold #{'disabled' if @expense_report.expense_items.empty?}",
-          style: "min-width: 320px;" do %>
-        確認・提出へ進む <i class="bi bi-arrow-right"></i>
+      <% if @expense_report.draft? %>
+        <%# 下書き状態のみ編集可能 %>
+        <%= link_to self_check_expense_report_path(@expense_report),
+            class: "btn btn-primary-keihi rounded-pill px-5 fw-bold #{'disabled' if @expense_report.expense_items.empty?}",
+            style: "min-width: 320px;" do %>
+          確認・提出へ進む <i class="bi bi-arrow-right"></i>
+        <% end %>
+        <%= link_to "← 基本情報を編集する", edit_expense_report_path(@expense_report),
+            class: "btn btn-link fw-bold small text-decoration-none",
+            style: "color: var(--primary-color);" %>
+        <div class="w-100 d-flex justify-content-end gap-2 mt-2">
+          <%= link_to expense_reports_path,
+              class: "btn btn-outline-secondary border-0 d-flex align-items-center gap-1 fw-bold" do %>
+            <i class="bi bi-floppy"></i> 下書き保存
+          <% end %>
+          <%= link_to expense_report_path(@expense_report),
+              data: { turbo_method: :delete, turbo_confirm: "この申請を削除しますか？" },
+              class: "btn btn-outline-danger border-0 d-flex align-items-center gap-1 fw-bold" do %>
+            <i class="bi bi-trash3"></i> 申請を削除
+          <% end %>
+        </div>
+      <% else %>
+        <%= link_to expense_reports_path, class: "btn btn-primary-keihi rounded-pill px-5 fw-bold", style: "min-width: 320px;" do%>
+          <i class="bi bi-arrow-left"></i>申請一覧に戻る
+        <% end %>
       <% end %>
-      <%= link_to "← 基本情報を編集する", edit_expense_report_path(@expense_report),
-          class: "btn btn-link fw-bold small text-decoration-none",
-          style: "color: var(--primary-color);" %>
-      <div class="w-100 d-flex justify-content-end gap-2 mt-2">
-        <%= link_to expense_reports_path,
-            class: "btn btn-outline-secondary border-0 d-flex align-items-center gap-1 fw-bold" do %>
-          <i class="bi bi-floppy"></i> 下書き保存
-        <% end %>
-        <%= link_to expense_report_path(@expense_report),
-            data: { turbo_method: :delete, turbo_confirm: "この申請を削除しますか？" },
-            class: "btn btn-outline-danger border-0 d-flex align-items-center gap-1 fw-bold" do %>
-          <i class="bi bi-trash3"></i> 申請を削除
-        <% end %>
-      </div>
     </div>
   </div>
 

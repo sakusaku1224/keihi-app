@@ -16,7 +16,7 @@ class ExpenseReportsController < ApplicationController
     end
 
     # 並び順・ページネーション
-    @expense_reports = @expense_reports.order(created_at: :desc).page(params[:page]).per(1)
+    @expense_reports = @expense_reports.order(created_at: :desc).page(params[:page]).per(8)
   end
 
   def new

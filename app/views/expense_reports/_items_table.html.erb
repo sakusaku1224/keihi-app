@@ -2,8 +2,8 @@
 <div class="mb-5">
   <div class="d-flex align-items-center justify-content-between mb-4">
     <h4 class="h5 mb-0 fw-bold">明細一覧</h4>
-    <%# 確認画面でボタン非表示 %>
-    <% unless local_assigns[:readonly] %>
+    <%# 確認・詳細画面でボタン非表示 %>
+    <% unless local_assigns[:readonly] || expense_report.submitted? %>
       <button class="btn btn-primary-custom d-flex align-items-center gap-2 rounded-pill"
               data-bs-toggle="modal" data-bs-target="#addItemModal">
         <i class="bi bi-plus-circle"></i>
@@ -25,7 +25,7 @@
   <% else %>
     <%# テーブル %>
     <div class="table-responsive bg-white rounded-3 shadow-sm">
-      <table class="table table-hover align-middle mb-0">
+      <table class="table table-hover align-middle">
         <thead>
           <tr>
             <th>内容</th>

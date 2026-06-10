@@ -6,7 +6,7 @@
     >
       <h3 class="h5 fw-bold mb-0"><%= expense_report.title %></h3>
       <span class="status-badge badge-<%= expense_report.status %>">
-        <%= { "draft" => "下書き", "submitted" => "提出済み"}[expense_report.status] %>
+        <%= { "draft" => "下書き", "submitted" => "提出済み", "approved" => "承認済み" }[expense_report.status] %>
       </span>
     </div>
     <%# 備考 %>

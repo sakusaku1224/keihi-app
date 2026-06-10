@@ -1,10 +1,10 @@
 <%# locals: reports (required), title (optional), show_all_link (optional) %>
-<div class="card p-4 p-lg-5 shadow-sm border-0" style="border-radius: 1.5rem">
-  <div class="d-flex align-items-center mb-4">
-    <h3 class="h4 fw-bold mb-0"><%= local_assigns.fetch(:title, "申請一覧") %></h3>
+<div class="card p-4 p-lg-5" style="border-radius: 1.5rem">
+  <div class="d-flex align-items-center mb-3">
+    <h3 class="h5 fw-bold mb-0"><%= local_assigns.fetch(:title, "申請一覧") %></h3>
   </div>
   <%# th %>
-  <div class="row px-3 mb-4 small fw-bold text-secondary text-uppercase d-none d-md-flex">
+  <div class="row px-3 mb-3 small fw-bold text-secondary text-uppercase d-none d-md-flex">
     <div class="col-md-5">タイトル</div>
     <div class="col-md-2 text-center">申請日</div>
     <div class="col-md-2 text-end">金額</div>
