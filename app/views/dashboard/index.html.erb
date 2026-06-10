@@ -44,7 +44,7 @@
           <span class="text-uppercase small fw-bold text-secondary mb-1">今月の合計</span>
           <div class="d-flex align-items-baseline gap-1">
             <span class="fs-4 fw-bold"></span>
-            <span class="fs-1 fw-bold"><%= @monthly_count %></span>
+            <span class="fs-1 fw-bold">¥<%= number_with_delimiter((@monthly_count || 0).to_i) %></span>
           </div>
         </div>
       </div>

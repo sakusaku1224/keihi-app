@@ -12,12 +12,11 @@ class ExpenseReportsController < ApplicationController
 
     # 月フィルタ
     if params[:start_date].present? && params[:end_date].present?
-      # 月範囲選択
       @expense_reports = @expense_reports.where(created_at: params[:start_date].to_date.beginning_of_day..params[:end_date].to_date.end_of_day)
     end
 
     # 並び順・ページネーション
-    @expense_reports = @expense_reports.order(created_at: :desc).page(params[:page]).per(10)
+    @expense_reports = @expense_reports.order(created_at: :desc).page(params[:page]).per(1)
   end
 
   def new
@@ -67,7 +66,7 @@ class ExpenseReportsController < ApplicationController
     if @expense_report.draft?
       # 提出時刻を現在時刻に設定
       @expense_report.update!(status: :submitted, submitted_at: Time.current)
-      redirect_to @expense_report, notice: "申請を提出しました"
+      redirect_to expense_reports_path, notice: "申請を提出しました"
     else
       redirect_to @expense_report, alert: "下書き以外は提出できません"
     end
@@ -85,14 +84,16 @@ class ExpenseReportsController < ApplicationController
                  .where(expense_reports: { user_id: current_user.id })
                  # 自分自身との比較を防ぐ
                  .where.not(expense_report_id: @expense_report.id)
-                 .where(occurred_on: item.occurred_on, amount: item.amount)
+                 .where(occurred_on: item.occurred_on, amount: item.amount,
+                        payee: item.payee, category: item.category)
                  .exists?
     end
     # 今回の申請内の重複
     @within_report_duplicates = @expense_report.expense_items.select do |item|
       ExpenseItem.where(expense_report_id: @expense_report.id)
                  .where.not(id: item.id)
-                 .where(occurred_on: item.occurred_on, amount: item.amount)
+                 .where(occurred_on: item.occurred_on, amount: item.amount,
+                        payee: item.payee, category: item.category)
                  .exists?
     end
     render :self_check
