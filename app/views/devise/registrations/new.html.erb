@@ -2,8 +2,8 @@
 <main class="container">
   <div class="row justify-content-center">
     <div class="col-12 text-center mb-4">
-      <%# ロゴ %>
-      <%# 後ほど画像挿入 %>
+      <%= image_tag "KeiHi-logo-1.png", alt: "keihi", height: "45", class: "mb-2" %>
+      <span class="small text-secondary d-block">立替経費申請アプリ</span>
     </div>
   
     <div class="col-12">
@@ -11,15 +11,15 @@
       <div class="card login-card mx-auto">
         <div class="card-body p-4 p-md-5">
           <%# タイトル %>
-          <div class="text-center mb-4">
-            <h1 class="h4 mb-4">新規登録</h1>
+          <div class="text-center mb-3">
+            <h1 class="h5 fw-bold mb-2">新規登録</h1>
             <p class="text-secondary small mb-0">
               必要な情報を入力してください
             </p>
           </div>
 
           <%# フォーム %>
-          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+          <%= form_with(model: resource, as: resource_name, url: registration_path(resource_name),html: { novalidate: true }, local: true) do |f| %>
             <%# 名前 %>
             <div class="mb-3">
               <%= f.label :name, "名前", class: "form-label" %>
@@ -29,7 +29,9 @@
                 </span>
                 <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control form-control-with-icon", placeholder: "ユーザー名を入力" %>             
               </div>
+              <%= error_message(resource, :name) %>
             </div>
+
 
             <%# 部署 %>
             <div class="mb-3">
@@ -40,6 +42,7 @@
                 </span>
                 <%= f.text_field :department, autofocus: true, autocomplete: "name", class: "form-control form-control-with-icon", placeholder: "所属部署を入力" %>             
               </div>
+              <%= error_message(resource, :department) %>
             </div>
 
             <%# メール %>
@@ -51,14 +54,17 @@
                 </span>
                 <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-with-icon", placeholder: "メールアドレスを入力" %>             
               </div>
+              <%= error_message(resource, :email) %>
             </div>
 
             <%# パスワード %>
-            <div class="mb-4">
-              <%= f.label :password, "パスワード", class: "form-label mb-0" %>
-              <% if @minimum_password_length %>
-                <small class="text-muted">（<%= @minimum_password_length %>文字以上）</small>
-              <% end %>
+            <div class="mb-3">
+              <div class="d-flex">
+                <%= f.label :password, "パスワード", class: "form-label" %>
+                <% if @minimum_password_length %>
+                  <small class="text-muted">（<%= @minimum_password_length %>文字以上）</small>
+                <% end %>
+              </div>
               <div class="input-group" data-controller="password">
                 <span class="input-group-text">
                   <i class="bi bi-lock"></i>
@@ -69,11 +75,12 @@
                   <i class="bi bi-eye" data-password-target="icon"></i>
                 </button>
               </div>
+              <%= error_message(resource, :password) %>
             </div>
 
             <%# 確認用 %>
-            <div class="mb-4">
-              <%= f.label :password_confirmation, "パスワード(確認)", class: "form-label mb-0" %>
+            <div class="mb-3">
+              <%= f.label :password_confirmation, "パスワード(確認)", class: "form-label" %>
               <div class="input-group" data-controller="password">
                 <span class="input-group-text">
                   <i class="bi bi-lock"></i>
@@ -84,6 +91,7 @@
                   <i class="bi bi-eye" data-password-target="icon"></i>
                 </button>
               </div>
+              <%= error_message(resource, :password_confirmation) %>
             </div>          
 
             <%# 新規登録 %>
@@ -93,7 +101,7 @@
       </div>
     </div>
 
-    <div class="col-12 text-center mt-4">
+    <div class="col-12 text-center mt-3">
       <%# フッターリンク %>
       <%= link_to "ログインはこちら", new_user_session_path, class: "text-primary-link" %>
     </div>

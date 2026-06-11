@@ -2,8 +2,8 @@
 <main class="container">
   <div class="row justify-content-center">
     <div class="col-12 text-center mb-4">
-      <%# ロゴ %>
-      <%# 後ほど画像挿入 %>
+      <%= image_tag "KeiHi-logo-1.png", alt: "keihi", height: "45", class: "mb-2" %>
+      <span class="small text-secondary d-block">立替経費申請アプリ</span>
     </div>
   
     <div class="col-12">
@@ -12,16 +12,16 @@
         <div class="card-body p-4 p-md-5">
           <%# タイトル %>
           <div class="text-center mb-4">
-            <h1 class="h4 mb-4">ログイン</h1>
+            <h1 class="h4 mb-2">ログイン</h1>
             <p class="text-secondary small mb-0">
               アカウント情報を入力してください
             </p>
           </div>
 
           <%# フォーム %>
-          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <%= form_with(model: resource, as: resource_name, url: session_path(resource_name), local: true) do |f| %>
             <%# メール %>
-            <div class="mb-3">
+            <div class="mb-4">
               <%= f.label :email, "メールアドレス", class: "form-label" %>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-envelope"></i></span>
@@ -31,7 +31,7 @@
 
             <%# パスワード %>
             <div class="mb-4">
-              <%= f.label :password, "パスワード", class: "form-label mb-0" %>
+              <%= f.label :password, "パスワード", class: "form-label" %>
               <div class="input-group" data-controller="password">
                 <span class="input-group-text"><i class="bi bi-lock"></i></span>
                 <%= f.password_field :password, autocomplete: "current-password",class: "form-control", data: { password_target: "input" }, placeholder: "••••••••" %>

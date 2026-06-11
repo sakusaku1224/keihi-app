@@ -24,6 +24,7 @@ ja:
               invalid: "Tと数字13桁で入力してください"
       messages:
         blank: "入力必須"
+        confirmation: "入力内容が一致しません"
         too_short: "%{count}文字以上で入力してください"
         too_long: "%{count}文字以下で入力してください"
         invalid: "正しい形式で入力してください"

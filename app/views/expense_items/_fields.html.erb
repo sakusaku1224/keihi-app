@@ -8,17 +8,13 @@
           class: "form-control #{'is-invalid' if expense_item.errors[:item_name].any?}",
           placeholder: "例：タクシー代、文房具購入" %>
       <%# エラー表示 %>
-      <% if expense_item.errors[:item_name].any? %>
-        <div class="invalid-feedback d-block"><%= expense_item.errors[:item_name].first %></div>
-      <% end %>
+      <%= error_message(expense_item, :item_name) %>
     </div>
     <div class="col-6">
       <%= f.label :category, "種別", class: "form-label form-required" %>
       <%= f.select :category, ExpenseItem::CATEGORIES, { prompt: "選択してください" },
           { class: "form-select #{'is-invalid' if expense_item.errors[:category].any?}" } %>
-      <% if expense_item.errors[:category].any? %>
-        <div class="invalid-feedback d-block"><%= expense_item.errors[:category].first %></div>
-      <% end %>
+      <%= error_message(expense_item, :category) %>
     </div>
     <div class="col-6">
       <%= f.label :occurred_on, "発生日", class: "form-label form-required" %>
@@ -26,16 +22,12 @@
         <i class="bi bi-calendar-event input-group-text bg-white"></i>
         <%= f.date_field :occurred_on, class: "form-control #{'is-invalid' if expense_item.errors[:occurred_on].any?}" %>
       </div>
-      <% if expense_item.errors[:occurred_on].any? %>
-        <div class="invalid-feedback d-block"><%= expense_item.errors[:occurred_on].first %></div>
-      <% end %>
+      <%= error_message(expense_item, :occurred_on) %>
     </div>
     <div class="col-6">
       <%= f.label :payee, "支払先", class: "form-label form-required" %>
       <%= f.text_field :payee, class: "form-control #{'is-invalid' if expense_item.errors[:payee].any?}", placeholder: "会社名" %>
-      <% if expense_item.errors[:payee].any? %>
-        <div class="invalid-feedback d-block"><%= expense_item.errors[:payee].first %></div>
-      <% end %>
+      <%= error_message(expense_item, :payee) %>
     </div>
     <div class="col-6">
       <%= f.label :amount, "金額 (税込)", class: "form-label form-required" %>
@@ -45,17 +37,13 @@
             class: "form-control text-end #{'is-invalid' if expense_item.errors[:amount].any?}",
             placeholder: "0", value: expense_item.amount&.to_i %>
       </div>
-      <% if expense_item.errors[:amount].any? %>
-        <div class="invalid-feedback d-block"><%= expense_item.errors[:amount].first %></div>
-      <% end %>
+      <%= error_message(expense_item, :amount) %>
     </div>
     <div class="col-12">
       <%= f.label :invoice_registration_number, "適格請求書発行事業者登録番号", class: "form-label" %>
       <%= f.text_field :invoice_registration_number,
           class: "form-control #{'is-invalid' if expense_item.errors[:invoice_registration_number].any?}", placeholder: "T+13桁" %>
-      <% if expense_item.errors[:invoice_registration_number].any? %>
-        <div class="invalid-feedback d-block"><%= expense_item.errors[:invoice_registration_number].first %></div>
-      <% end %>
+      <%= error_message(expense_item, :invoice_registration_number) %>
     </div>
     <div class="col-12">
       <%= f.label :tax_rate, "税率", class: "form-label form-required" %>
