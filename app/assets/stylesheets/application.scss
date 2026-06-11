@@ -20,11 +20,11 @@
   --surface-container-highest: #e1e3e0;
 
   // テキスト
-  --text-on-surface: #191c1b;
-  --on-surface: #191c1b;
-  --on-surface-variant: #404944;
-  --text-secondary: #5c5f60;
-  --secondary: #5c5f60;
+  --text-on-surface: #374140;
+  --on-surface: #374140;
+  --on-surface-variant: #4f5654;
+  --text-secondary: #6b7170;
+  --secondary: #6b7170;
 
   // ボーダー
   --outline-variant: #bfc9c3;
@@ -52,7 +52,7 @@ h3,
 h4,
 .headline {
   font-family: "Manrope", sans-serif;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 // クラスでManrropeを当てたいとき用
@@ -84,6 +84,10 @@ h4,
   // Stimulusによる開閉トランジション
   transition: width 0.3s ease;
 
+  .sidebar-header {
+    justify-content: space-between;
+  }
+
   // 折りたたみ状態（sidebar_controller.jsで付与）
   &.collapsed {
     width: 70px;
@@ -94,6 +98,13 @@ h4,
     .logo-text {
       display: none;
     }
+    .sidebar-header {
+      justify-content: center;
+    }
+    .nav-link {
+      justify-content: center;
+      padding: 0.4rem 0;
+    }
   }
 }
 
@@ -101,7 +112,7 @@ h4,
 // レイアウト - トップバー
 // ======================================
 .top-bar {
-  height: 64px;
+  height: 60px;
   position: fixed;
   top: 0;
   right: 0;
@@ -125,7 +136,7 @@ h4,
 // ======================================
 .main-content {
   margin-left: 220px;
-  padding-top: 100px;
+  padding-top: 90px;
   padding-bottom: 3rem;
   min-height: 100vh;
   // サイドバー開閉に連動するトランジション
@@ -138,13 +149,13 @@ h4,
 }
 
 // ======================================
-// ナビゲーションリンク（サイドバー内）
+// サイドバーリンク
 // ======================================
 .nav-link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 0.5rem;
   color: var(--text-secondary);
   text-decoration: none;
@@ -167,24 +178,6 @@ h4,
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-
-// ======================================
-// ボタン
-// ======================================
-.btn-primary-custom {
-  background-color: var(--primary-color);
-  color: var(--on-primary);
-  border: none;
-  padding: 0.6rem 1.5rem;
-  font-weight: 600;
-  font-size: 0.875rem;
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: #2e7857ad;
-  }
-}
-
 // ======================================
 // レスポンシブ（992px以下）
 // ======================================
@@ -194,7 +187,6 @@ h4,
     padding: 1.5rem 0.5rem;
   }
 
-  // テキストラベルを非表示にしてアイコンだけ表示
   .sidebar .font-body-md,
   .sidebar .logo-text {
     display: none;
@@ -221,12 +213,12 @@ h4,
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: var(--primary-color);
+  background-color: #8a0000d4;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.875rem;
 }
 
@@ -499,11 +491,10 @@ h4,
 
 .btn-primary-keihi {
   background-color: var(--primary-color);
-  color: var(--on-primary);
+  color: white;
   border: none;
   padding: 0.85rem;
   font-weight: 600;
-  border-radius: 0.5rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -511,8 +502,18 @@ h4,
   transition: all 0.2s;
 
   &:hover {
-    background-color: #002a1f;
+    background-color: #3a7d5e;
+    color: white;
     transform: translateY(-1px);
+  }
+
+  &:active,
+  &:focus,
+  &:focus-visible {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 0 0 0.25rem rgba(6, 78, 59, 0.3);
+    outline: none;
   }
 
   &.disabled {

@@ -4,10 +4,9 @@
     <h4 class="h5 mb-0 fw-bold">明細一覧</h4>
     <%# 確認・詳細画面でボタン非表示 %>
     <% unless local_assigns[:readonly] || expense_report.submitted? %>
-      <button class="btn btn-primary-custom d-flex align-items-center gap-2 rounded-pill"
+      <button class="btn btn-primary-keihi d-flex align-items-center gap-2 rounded-pill py-2"
               data-bs-toggle="modal" data-bs-target="#addItemModal">
-        <i class="bi bi-plus-circle"></i>
-        <span class="fw-semibold">明細を追加</span>
+        <i class="bi bi-plus-circle"></i>明細を追加
       </button>
     <% end %>
   </div>
@@ -56,11 +55,10 @@
                     <i class="bi bi-pencil-fill"></i>
                   </button>
                   <%# 削除 %>
-                  <%= link_to expense_report_expense_item_path(expense_report, item),
-                      data: { turbo_method: :delete, turbo_confirm: "この明細を削除しますか?" },
-                      class: "btn btn-link text-danger p-1" do %>
+                  <button type="button" class="btn btn-link text-danger p-1"
+                          data-bs-toggle="modal" data-bs-target="#deleteItemModal-<%= item.id %>">
                     <i class="bi bi-trash3"></i>
-                  <% end %>
+                  </button>
                 <% else %>
                   <%# 詳細トグル %>
                   <i class="bi bi-chevron-down" id="icon-<%= item.id %>"></i>
@@ -139,6 +137,29 @@
           <% end %>
         </tbody>
       </table>
+    </div>
+  <% end %>
+
+  <%# 明細削除モーダル %>
+  <% expense_items.each do |item| %>
+    <div class="modal fade" id="deleteItemModal-<%= item.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title fw-medium">明細を削除しますか？</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong><%= item.item_name %></strong> を削除します。この操作は取り消せません。</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">キャンセル</button>
+            <%= link_to "削除する", expense_report_expense_item_path(expense_report, item),
+                data: { turbo_method: :delete },
+                class: "btn btn-danger px-4 fw-bold rounded-2" %>
+          </div>
+        </div>
+      </div>
     </div>
   <% end %>
 

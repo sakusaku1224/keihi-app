@@ -1,10 +1,14 @@
 <%= form_with model: expense_report do |f| %>
   <div class="mb-4">
-    <%= f.label :title, class: "form-label" do %>
+    <%= f.label :title, class: "form-label form-required" do %>
       申請タイトル
-      <span class="badge-required">必須</span>
     <% end %>
-    <%= f.text_field :title, class: "form-control", placeholder: "例：2023年10月 営業交通費" %>
+    <%= f.text_field :title,
+        class: "form-control #{'is-invalid' if expense_report.errors[:title].any?}",
+        placeholder: "例：2023年10月 営業交通費" %>
+    <% if expense_report.errors[:title].any? %>
+      <div class="invalid-feedback d-block"><%= expense_report.errors[:title].first %></div>
+    <% end %>
   </div>
   <div class="mb-5">
     <%= f.label :notes, "備考", class: "form-label" %>
@@ -12,8 +16,8 @@
   </div>
   <hr class="my-4" style="border-color: var(--outline-variant)" />
   <div class="d-grid gap-2">
-    <%= f.submit expense_report.new_record? ? "次へ：明細を入力する" : "更新する", 
-        class: "btn btn-primary btn-primary-keihi" %>
+    <%= f.submit expense_report.new_record? ? "次へ：明細を入力する" : "更新する",
+        class: "btn btn-primary-keihi rounded-2" %>
     <%= link_to "戻る", expense_report.new_record? ?expense_reports_path : expense_report_path(expense_report),
         class: "btn btn-secondary-keihi" %>
   </div>

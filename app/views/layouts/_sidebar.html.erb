@@ -1,30 +1,29 @@
 <%# サイドバー %>
 <aside class="sidebar" id="sidebar">
-  <%# トグルボタン %>
-  <div data-controller="sidebar">
-    <button data-action="click->sidebar#toggle">
-      <i class="bi bi-list"></i>
-    </button>
+  <div class="d-flex align-items-center mb-4 sidebar-header">
+    <%# ロゴ %>
+    <div class="logo-text">
+      <%= image_tag "KeiHi-logo-1.png", alt: "keihi", height: "32" %>
+    </div>
+    <%# トグル %>
+    <div data-controller="sidebar">
+      <button class="btn btn-link p-0 text-secondary" data-action="click->sidebar#toggle">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
   </div>
-
-  <%# ロゴ %>
-  <div class="mb-4">
-    <%# 後から画像に差し替えるかも %>
-    <span class="logo-text fw-bold"></span>
-  </div>
-
   <%# ナビゲーション %>
   <nav class="flex-grow-1">
     <%= link_to root_path, class: "nav-link" do %>
-      <i class="bi bi-columns-gap"></i>
+      <i class="bi bi-columns-gap fs-5"></i>
       <span class="font-body-md nav-text fw-bold">ダッシュボード</span>
     <% end %>
     <%= link_to expense_reports_path, class: "nav-link" do %>
-      <i class="bi bi-card-list"></i>
+      <i class="bi bi-card-list fs-5"></i>
       <span class="font-body-md nav-text fw-bold">申請一覧</span>
     <% end %>
     <%= link_to new_expense_report_path, class: "nav-link" do %>
-      <i class="bi bi-plus-circle"></i>
+      <i class="bi bi-plus-circle fs-5"></i>
       <span class="font-body-md nav-text fw-bold">新規作成</span>
     <% end %>
   </nav>

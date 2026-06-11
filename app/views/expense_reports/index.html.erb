@@ -5,13 +5,13 @@
     <%# ステータス %>
     <div class="d-flex flex-wrap gap-2">
       <%= link_to "すべて", expense_reports_path,
-          class: "btn #{params[:status].blank? ? 'btn-dark' : 'btn-outline-secondary'} fw-bold rounded-pill filter" %>
+          class: "btn #{params[:status].blank? ? 'btn-dark' : 'btn-outline-secondary'} rounded-pill filter" %>
       <%= link_to "下書き", expense_reports_path(status: "draft"),
-            class: "btn #{params[:status] == 'draft' ? 'btn-warning' : 'btn-outline-secondary'} fw-bold rounded-pill filter" %>
+            class: "btn #{params[:status] == 'draft' ? 'btn-warning' : 'btn-outline-secondary'} rounded-pill filter" %>
       <%= link_to "提出済み", expense_reports_path(status: "submitted"),
-            class: "btn #{params[:status] == 'submitted' ? 'btn-primary' : 'btn-outline-secondary'} fw-bold rounded-pill filter" %>
+            class: "btn #{params[:status] == 'submitted' ? 'btn-primary' : 'btn-outline-secondary'} rounded-pill filter" %>
       <%= link_to "承認済み", expense_reports_path(status: "approved"),
-            class: "btn #{params[:status] == 'approved' ? 'btn-success' : 'btn-outline-secondary'} fw-bold rounded-pill filter" %>
+            class: "btn #{params[:status] == 'approved' ? 'btn-success' : 'btn-outline-secondary'} rounded-pill filter" %>
     </div>
     <%# カレンダー %>
     <%= form_with url: expense_reports_path, method: :get, class: "date-select-wrapper d-flex gap-2" do |f| %>

@@ -3,7 +3,9 @@
   <h1 class="fs-5 m-0"><%= yield :page_title %></h1>
   <div class="d-flex align-items-center gap-4">
     <%# 新規作成ボタン %>
-    <%= link_to "新規作成", new_expense_report_path, class: "btn btn-primary-custom" %>
+    <%= link_to new_expense_report_path, class: "btn btn-primary-keihi py-2" do %>
+      <i class="bi bi-plus-circle"></i>新規作成
+    <% end %>
     <%# アイコン %>
     <div class="avatar">
       <%= current_user.name[0] %>

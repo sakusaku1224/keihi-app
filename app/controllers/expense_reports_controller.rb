@@ -30,7 +30,6 @@ class ExpenseReportsController < ApplicationController
     if @expense_report.save
       redirect_to @expense_report, notice: "申請を作成しました"
     else
-      flash.now[:alert] = "申請の作成に失敗しました"
       render :new, status: :unprocessable_entity
     end
   end
@@ -50,7 +49,6 @@ class ExpenseReportsController < ApplicationController
     if @expense_report.update(expense_report_params)
       redirect_to @expense_report, notice: "申請を更新しました"
     else
-      flash.now[:alert] = "申請の更新に失敗しました"
       render :edit, status: :unprocessable_entity
     end
   end
