@@ -3,8 +3,8 @@
   <div class="d-flex align-items-center mb-3">
     <h3 class="h5 fw-bold mb-0"><%= local_assigns.fetch(:title, "申請一覧") %></h3>
   </div>
-  <%# th %>
-  <div class="row px-3 mb-3 small fw-bold text-secondary text-uppercase d-none d-md-flex">
+  <%# th（空の場合は非表示） %>
+  <div class="row px-3 mb-3 small fw-bold text-secondary text-uppercase d-none <%= reports.empty? ? '' : 'd-md-flex' %>">
     <div class="col-md-5">タイトル</div>
     <div class="col-md-2 text-center">申請日</div>
     <div class="col-md-2 text-end">金額</div>
@@ -13,28 +13,35 @@
   </div>
   <%# td %>
   <div class="applications-list">
-    <% reports.each do |report| %>
-      <div class="list-item-card shadow-sm">
-        <div class="row align-items-center g-3">
-          <div class="col-12 col-md-5 fw-bold text-on-surface"><%= report.title %></div>
-          <div class="col-4 col-md-2 text-center text-secondary">
-            <%= report.created_at.to_date.to_fs(:date_jp) %>
-          </div>
-          <div class="col-4 col-md-2 text-md-end fw-bold">
-            ¥<%= number_with_delimiter((report.total_amount || 0).to_i) %>
-          </div>
-          <div class="col-4 col-md-2 text-center">
-            <span class="status-badge badge-<%= report.status %>">
-              <%= { "draft" => "下書き", "submitted" => "提出済み" }[report.status] %>
-            </span>
-          </div>
-          <div class="col-12 col-md-1 text-end d-md-block">
-            <%= link_to expense_report_path(report) do %>
-              <i class="bi bi-chevron-right text-muted"></i>
-            <% end %>
+    <% if reports.empty? %>
+      <div class="text-center py-5 text-secondary">
+        <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+        <p class="mb-0 small">申請がありません</p>
+      </div>
+    <% else %>
+      <% reports.each do |report| %>
+        <div class="list-item-card shadow-sm">
+          <div class="row align-items-center g-3">
+            <div class="col-12 col-md-5 fw-bold text-on-surface"><%= report.title %></div>
+            <div class="col-4 col-md-2 text-center text-secondary">
+              <%= report.created_at.to_date.to_fs(:date_jp) %>
+            </div>
+            <div class="col-4 col-md-2 text-md-end fw-bold">
+              ¥<%= number_with_delimiter((report.total_amount || 0).to_i) %>
+            </div>
+            <div class="col-4 col-md-2 text-center">
+              <span class="status-badge badge-<%= report.status %>">
+                <%= { "draft" => "下書き", "submitted" => "提出済み", "approved" => "承認済み" }[report.status] %>
+              </span>
+            </div>
+            <div class="col-12 col-md-1 text-end d-md-block">
+              <%= link_to expense_report_path(report) do %>
+                <i class="bi bi-chevron-right text-muted"></i>
+              <% end %>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
   <% if local_assigns[:show_all_link] %>

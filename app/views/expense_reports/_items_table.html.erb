@@ -67,7 +67,7 @@
             </tr>
 
             <%# 提出確認・提出済みの場合の展開画面 %>
-            <% if expense_report.submitted? || local_assigns[:readonly]  %>
+            <% if expense_report.submitted? || expense_report.approved? || local_assigns[:readonly] %>
               <%# 提出確認は展開した状態 %>
               <tr class="<%= 'd-none' unless local_assigns[:readonly] %>" id="detail-<%= item.id %>">
                 <td colspan="5" class="detail-cell">

@@ -26,6 +26,18 @@
       <i class="bi bi-plus-circle fs-5"></i>
       <span class="font-body-md nav-text fw-bold">新規作成</span>
     <% end %>
+    <%= link_to expense_reports_path(status: "draft"), class: "nav-link" do %>
+      <i class="bi bi-pencil-square fs-5"></i>
+      <span class="font-body-md nav-text fw-bold">下書き</span>
+    <% end %>
+    <%= link_to expense_reports_path(status: "submitted"), class: "nav-link" do %>
+      <i class="bi bi-send fs-5"></i>
+      <span class="font-body-md nav-text fw-bold">提出済み</span>
+    <% end %>
+    <%= link_to expense_reports_path(status: "approved"), class: "nav-link" do %>
+      <i class="bi bi-patch-check fs-5"></i>
+      <span class="font-body-md nav-text fw-bold">承認済み</span>
+    <% end %>
   </nav>
 
   <%# 下部ログアウト %>
