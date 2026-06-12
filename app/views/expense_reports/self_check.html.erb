@@ -1,0 +1,95 @@
+<% content_for :page_title, "提出の確認" %>
+<div class="row justify-content-center px-4 px-lg-5">
+  <div class="col-12 col-md-10">
+    <%# ステッパー %>
+    <div class="d-flex justify-content-center">
+      <%= render "stepper", current_step: 3 %>
+    </div>
+
+    <%# ヘッダーカード %>
+    <%= render "report_header", expense_report: @expense_report %>
+
+    <%# 明細一覧 %>
+    <%= render "items_table",
+          expense_report: @expense_report,
+          expense_items: @expense_report.expense_items,
+          readonly: true %>
+
+    <%# チェックアラート %>    
+    <%# 領収書未添付 %>
+    <% if @missing_items.any? %>
+      <div class="alert alert-warning d-flex align-items-center gap-2">
+        <i class="bi bi-exclamation-triangle"></i>
+        <span>領収書が添付されていない明細があります。</span>
+      </div>
+    <% end %>
+    <%# 申請内の重複明細 %>
+    <% if @within_report_duplicates.any? %>
+      <div class="alert alert-warning d-flex align-items-center gap-2">
+        <i class="bi bi-exclamation-triangle"></i>
+        <span>重複の可能性がある明細があります。</span>
+      </div>      
+    <% end %>
+    <%# 過去の申請との重複 %>
+    <% if @cross_report_duplicates.any? %>
+      <div class="alert alert-warning d-flex align-items-center gap-2">
+        <i class="bi bi-exclamation-triangle"></i>
+        <span>過去の申請と重複している明細があります。確認してください。</span>
+      </div>      
+    <% end %>
+
+    <%# ボタン %>
+    <div class="pt-4 border-top d-flex flex-column align-items-center gap-3">
+      <button type="button" class="btn btn-primary-keihi rounded-pill px-5 fw-bold"
+              data-bs-toggle="modal" data-bs-target="#submitConfirmModal"
+              style="min-width: 320px;"
+              <%= 'disabled' if @expense_report.expense_items.empty? %>>
+        提出する <i class="bi bi-arrow-right"></i>
+      </button>
+      <%= link_to "← 明細情報を編集する", expense_report_path(@expense_report),
+          class: "btn btn-link fw-bold small text-decoration-none",
+          style: "color: var(--primary-color);" %>
+      <div class="w-100 d-flex justify-content-end gap-2 mt-2">
+        <%= link_to expense_reports_path,
+            class: "btn btn-outline-secondary border-0 d-flex align-items-center gap-1 fw-bold" do %>
+          <i class="bi bi-floppy"></i> 下書き保存
+        <% end %>
+        <%= link_to expense_report_path(@expense_report),
+            data: { turbo_method: :delete, turbo_confirm: "この申請を削除しますか？" },
+            class: "btn btn-outline-danger border-0 d-flex align-items-center gap-1 fw-bold" do %>
+          <i class="bi bi-trash3"></i> 申請を削除
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <%#　最終確認モーダル %>
+  <%# モーダル外をクリックしても閉じない %>
+  <div class="modal fade" id="submitConfirmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold" style="color: var(--primary-color)">申請を提出しますか？</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>提出後は編集することができません。</p>
+          <div class="summary-box card p-3" style="background-color: var(--surface-container-low); border: none;">
+            <div class="text-muted small fw-bold mb-3">申請サマリー</div>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="text-secondary small">合計件数</span>
+                <span class="fw-bold"><%= @expense_report.expense_items.count %> 件</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-secondary small">合計金額</span>
+                <span class="h5 mb-0 fw-bold" style="color: var(--primary-color)">¥ <%= number_with_delimiter((@expense_report.total_amount || 0).to_i) %></span>
+              </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <%= link_to "提出する", submit_expense_report_path(@expense_report), data: { turbo_method: :patch }, class: "btn btn-primary-keihi px-4 py-2 fw-bold" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

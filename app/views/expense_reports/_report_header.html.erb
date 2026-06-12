@@ -1,0 +1,54 @@
+<%# ヘッダーカード %>
+<div class="card border-0 shadow-sm mb-4">
+  <div class="card-body p-4">
+    <div
+      class="d-flex justify-content-between align-items-start mb-3"
+    >
+      <h3 class="h5 fw-bold mb-0"><%= expense_report.title %></h3>
+      <span class="status-badge badge-<%= expense_report.status %>">
+        <%= { "draft" => "下書き", "submitted" => "提出済み", "approved" => "承認済み" }[expense_report.status] %>
+      </span>
+    </div>
+    <%# 備考 %>
+    <% if expense_report.notes.present? %>
+      <div class="d-flex align-items-center gap-2 pb-3 border-bottom mb-4">
+        <i class="bi bi-paperclip text-secondary"></i>
+        <%= simple_format expense_report.notes, class: "text-secondary small mb-0" %>
+      </div>
+    <% end %>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <p
+          class="text-muted fw-bold mb-1"
+          style="font-size: 10px; text-transform: uppercase; margin-bottom: 0.5rem;"
+        >
+          作成日
+        </p>
+        <p class="h5 fw-bold mb-0"><%= expense_report.created_at.to_date.to_fs(:date_jp) %></p>
+      </div>
+      <div class="col-md-4">
+        <p
+          class="text-muted fw-bold mb-1"
+          style="font-size: 10px; text-transform: uppercase; margin-bottom: 0.5rem;"
+        >
+          明細件数
+        </p>
+        <p class="h5 fw-bold mb-0"><%= expense_report.expense_items.count %>
+        <span class="h6 fw-bold gap-2">件</span>
+        </p>
+      </div>
+      <div class="col-md-4">
+        <p
+          class="text-muted fw-bold mb-1"
+          style="font-size: 10px; text-transform: uppercase; margin-bottom: 0.5rem;"
+        >
+          合計金額
+        </p>
+        <p class="h5 fw-bold mb-0"><span class="h6 fw-bold gap-2">¥</span>
+          <%= number_with_delimiter((expense_report.total_amount || 0).to_i) %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<%# 編集モーダル　 %>
+<%= form_with model: [@expense_report, expense_item], html: { id: "edit_item_form_#{expense_item.id}" } do |f| %>
+  <%# body %>
+  <div class="modal-body px-4 py-4">
+    <div class="row g-4">
+      <%# 左カラム（新規・編集 共通の入力項目） %>
+      <%= render "expense_items/fields", f: f, expense_item: expense_item %>
+
+      <%# 右カラム %>
+      <div class="col-md-6 d-flex flex-column">
+        <%= f.label :receipt_image, "領収書", class: "form-label"%>
+        <div class="flex-grow-1 border rounded-3 p-2 d-flex align-items-center justify-content-center" 
+             style="min-height: 200px;">
+          <% if expense_item.receipt_image.attached? %>
+            <% if expense_item.receipt_image.content_type == "application/pdf" %>
+              <embed src="<%= rails_blob_path(expense_item.receipt_image) %>"
+                     type="application/pdf"
+                     class="rounded w-100 h-100"
+                     style="min-height: 300px;">
+            <% else %>
+              <%= image_tag expense_item.receipt_image, class: "img-fluid rounded w-100 h-100", style: "object-fit: contain;" %>
+            <% end %>
+          <% else %>
+            <div class="text-secondary text-center">
+              <i class="bi bi-image fs-3"></i>
+              <div class="small mt-2">領収書なし</div>
+            </div>            
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# フッター %>
+  <div class="modal-footer px-4 py-3 bg-light border-top">
+    <button type="button" class="btn btn-outline-secondary px-4 fw-semibold" data-bs-dismiss="modal">キャンセル</button>
+    <div class="ms-auto">
+      <%= f.submit "保存する", class: "btn btn-primary-keihi rounded-2 px-5 fw-bold" %>
+    </div>
+  </div>
+<% end %>

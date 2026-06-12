@@ -1,0 +1,90 @@
+<% content_for :page_title, "ダッシュボード" %>
+<div class="container-field px-4 px-lg-5">
+  <%# グリーティング %>
+  <div class="mb-4">
+    <p class="text-secondary small mb-1"><%= Date.today.strftime("%Y年%-m月%-d日") %></p>
+    <h3 class="fs-5 fw-medium mb-0"><%= current_user.name %>さん、こんにちは</h3>
+  </div>
+
+  <%# サマリーカード %>
+  <div class="row g-2 mb-3">
+    <%# 下書き件数 %>
+    <div class="col-12 col-md-4">
+      <%= link_to expense_reports_path(status: "draft"), class: "text-decoration-none" do %>
+        <div class="summary-card accent-yellow d-flex align-items-center gap-4">
+          <div class="icon-box bg-warning bg-opacity-10 text-warning">
+            <i class="bi bi-pencil-square"></i>
+          </div>
+          <div class="d-flex flex-column">
+            <span class="text-uppercase small fw-bold text-secondary mb-1">下書き</span>
+            <div class="d-flex align-items-baseline gap-1">
+              <span class="fs-4 text-dark fw-bold"><%= @draft_count || 0 %></span>
+              <span class="text-secondary">件</span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%# 提出済み件数 %>
+    <div class="col-12 col-md-4">
+      <%= link_to expense_reports_path(status: "submitted"), class: "text-decoration-none" do %>
+        <div class="summary-card accent-blue d-flex align-items-center gap-4">
+          <div class="icon-box bg-primary bg-opacity-10 text-primary">
+            <i class="bi bi-send"></i>
+          </div>
+          <div class="d-flex flex-column">
+            <span class="text-uppercase small fw-bold text-secondary mb-1 gap-4">提出済み</span>
+            <div class="d-flex align-items-baseline gap-1">
+              <span class="fs-4 text-dark fw-bold"><%= @submitted_count || 0 %></span>
+              <span class="text-secondary">件</span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%# 承認済み件数 %>
+    <div class="col-12 col-md-4">
+      <%= link_to expense_reports_path(status: "approved"), class: "text-decoration-none" do %>
+        <div class="summary-card accent-green d-flex align-items-center gap-4">
+          <div class="icon-box bg-success bg-opacity-10 text-success">
+            <i class="bi bi-patch-check"></i>
+          </div>
+          <div class="d-flex flex-column">
+            <span class="text-uppercase small fw-bold text-secondary mb-1">承認済み</span>
+            <div class="d-flex align-items-baseline gap-1">
+              <span class="fs-4 text-dark fw-bold"><%= @approved_count || 0 %></span>
+              <span class="text-secondary">件</span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%# 今月の合計 %>
+    <div class="col-12 col-md-12">
+      <div class="summary-card accent-primary shadow-sm d-flex align-items-center gap-4" >
+        <div class="icon-box" style="background: rgba(255,255,255,0.15); color: white;">
+          <i class="bi bi-cash-stack"></i>
+        </div>
+        <div class="d-flex flex-column">
+          <span class="text-uppercase small fw-bold text-secondary mb-1">今月の合計</span>
+          <div class="d-flex align-items-baseline gap-1">
+            <span class="fs-4 fw-bold">¥<%= number_with_delimiter((@monthly_count || 0).to_i) %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# 最近の申請一覧 %>
+  <div class="row">
+    <div class="col-12">
+      <%= render "expense_reports/list",
+                 reports: @recent_reports,
+                 title: "最近の申請一覧",
+                 show_all_link: true %>
+    </div>
+  </div>
+</div>

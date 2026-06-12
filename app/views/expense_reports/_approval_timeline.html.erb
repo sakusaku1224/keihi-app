@@ -1,0 +1,36 @@
+<%# 提出後タイムライン %>
+<div class="stepper-wrapper">
+  <div class="stepper-track">
+    <%# ライン %>
+    <div class="stepper-line-bg">
+      <%# ①ー② %>
+      <div style="width: 50%; height: 100%;
+                  background-color: <%= expense_report.approved? ? 'var(--primary-color)' : '#F59E0B' %>;"></div>
+      <%# ②ー③ %>
+      <div style="width: 50%; height: 100%;
+                  background-color: <%= expense_report.approved? ? 'var(--primary-color)' : 'var(--surface-container-highest)' %>;"></div>
+    </div>
+
+    <%# 提出済み（常に完了） %>
+    <div class="stepper-item">
+      <div class="approval-circle submitted"><i class="bi bi-check-lg"></i></div>
+      <div class="approval-label submitted">提出済み</div>
+    </div>
+
+    <%# 承認待ち %>
+    <div class="stepper-item">
+      <div class="approval-circle <%= expense_report.approved? ? 'submitted' : 'pending' %>">
+        <i class="bi <%= expense_report.approved? ? 'bi-check-lg' : 'bi-hourglass-split' %>"></i>
+      </div>
+      <div class="approval-label <%= expense_report.approved? ? 'submitted' : 'pending' %>">承認待ち</div>
+    </div>
+
+    <%# 承認済み %>
+    <div class="stepper-item">
+      <div class="approval-circle <%= expense_report.approved? ? 'submitted' : 'inactive' %>">
+        <i class="bi <%= expense_report.approved? ? 'bi-check-lg' : 'bi-person-check' %>"></i>
+      </div>
+      <div class="approval-label <%= expense_report.approved? ? 'submitted' : 'inactive' %>">承認済み</div>
+    </div>
+  </div>
+</div>

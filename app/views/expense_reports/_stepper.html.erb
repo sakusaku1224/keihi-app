@@ -1,0 +1,27 @@
+<%# 提出前ステッパー %>
+<div class="stepper-wrapper">
+  <div class="stepper-track">
+    <%# ライン %>
+    <div class="stepper-line-bg">
+      <%# ①ー② %>
+      <div style="width: 50%; height: 100%;
+                  background-color: <%= current_step >= 2 ? 'var(--primary-color)' : 'var(--surface-container-highest)' %>"></div>
+      <%# ②ー③ %>
+      <div style="width: 50%; height: 100%;
+                  background-color: <%= current_step >= 3 ? 'var(--primary-color)' : 'var(--surface-container-highest)' %>"></div>
+    </div>
+    <%# 番号 %>
+    <div class="stepper-item">
+      <div class="stepper-circle <%= current_step >= 1 ? 'active' : '' %>">1</div>
+      <div class="stepper-label <%= current_step >= 1 ? 'active' : '' %>">基本情報の入力</div>
+    </div>
+    <div class="stepper-item">
+      <div class="stepper-circle <%= current_step >= 2 ? 'active' : '' %>">2</div>
+      <div class="stepper-label <%= current_step >= 2 ? 'active' : '' %>">明細の追加</div>
+    </div>
+    <div class="stepper-item">
+      <div class="stepper-circle <%= current_step >= 3 ? 'active' : '' %>">3</div>
+      <div class="stepper-label <%= current_step >= 3 ? 'active' : '' %>">提出の確認</div>
+    </div>
+  </div>
+</div>

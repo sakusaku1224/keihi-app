@@ -1,0 +1,176 @@
+<%# 明細テーブル %>
+<div class="mb-5">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <h4 class="h5 mb-0 fw-bold">明細一覧</h4>
+    <%# 確認・詳細画面でボタン非表示 %>
+    <% unless local_assigns[:readonly] || expense_report.submitted? %>
+      <button class="btn btn-primary-keihi d-flex align-items-center gap-2 rounded-pill py-2"
+              data-bs-toggle="modal" data-bs-target="#addItemModal">
+        <i class="bi bi-plus-circle"></i>明細を追加
+      </button>
+    <% end %>
+  </div>
+  <% if expense_items.empty? %>
+    <%# 空の状態 %>
+    <div class="empty-state-container d-flex justify-content-center gap-4">
+      <div class="d-inline-flex align-items-center justify-content-center rounded-circle empty-bg">
+        <i class="bi bi-file-earmark-arrow-up fs-3 text-secondary"></i>
+      </div>
+      <div class="d-flex flex-column">
+        <div class="fw-bold mb-2">明細が登録されていません</div>
+        <div class="text-muted">「明細を追加」から追加してください</div>
+      </div>
+    </div>
+  <% else %>
+    <%# テーブル %>
+    <div class="table-responsive bg-white rounded-3 shadow-sm">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th>内容</th>
+            <th>カテゴリー</th>
+            <th>発生日</th>
+            <th>金額</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% expense_items.each do |item| %>
+            <tr onclick="toggleRow(<%= item.id %>)">
+              <td class="ps-4 py-3 fw-bold"><%= item.item_name %></td>
+              <td>
+                <span class="badge bg-light text-secondary rounded-pill px-3">
+                  <%= item.category %>
+                </span>
+              </td>
+              <td class="text-secondary"><%= item.occurred_on.to_fs(:date_jp) %></td>
+              <td class="fw-bold">¥<%= number_with_delimiter(item.amount.to_i) %></td>
+
+              <%#　下書きの場合は編集・削除アイコン　%>
+              <td class="text-center">
+                <% if expense_report.draft? && !local_assigns[:readonly] %>
+                  <%# 編集 %>
+                  <button type="button" class="btn btn-link text-secondary p-1"
+                          data-bs-toggle="modal" data-bs-target="#editItemModal-<%= item.id %>">
+                    <i class="bi bi-pencil-fill"></i>
+                  </button>
+                  <%# 削除 %>
+                  <button type="button" class="btn btn-link text-danger p-1"
+                          data-bs-toggle="modal" data-bs-target="#deleteItemModal-<%= item.id %>">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                <% else %>
+                  <%# 詳細トグル %>
+                  <i class="bi bi-chevron-down" id="icon-<%= item.id %>"></i>
+                <% end %>
+              </td>
+            </tr>
+
+            <%# 提出確認・提出済みの場合の展開画面 %>
+            <% if expense_report.submitted? || expense_report.approved? || local_assigns[:readonly] %>
+              <%# 提出確認は展開した状態 %>
+              <tr class="<%= 'd-none' unless local_assigns[:readonly] %>" id="detail-<%= item.id %>">
+                <td colspan="5" class="detail-cell">
+                  <div class="row g-4">
+                    <%# 左ゾーン（詳細情報） %>
+                    <div class="col-9">
+                      <div class="row g-4">
+                        <%# 内容 %>
+                        <div class="col-12">
+                          <p class="detail-label">内容</p>
+                          <p class="detail-value"><%= item.item_name %></p>
+                        </div>
+                        <%# カテゴリー・発生日・支払先 %>
+                        <div class="col-4">
+                          <p class="detail-label">カテゴリー</p>
+                          <p class="detail-value"><%= item.category %></p>
+                        </div>
+                        <div class="col-4">
+                          <p class="detail-label">発生日</p>
+                          <p class="detail-value"><%= item.occurred_on.to_fs(:date_jp) %></p>
+                        </div>
+                        <div class="col-4">
+                          <p class="detail-label">支払先</p>
+                          <p class="detail-value"><%= item.payee.presence || "—" %></p>
+                        </div>
+                        <%# 登録番号・税率・金額 %>
+                        <div class="col-4">
+                          <p class="detail-label">登録番号</p>
+                          <p class="detail-value"><%= item.invoice_registration_number.presence || "—" %></p>
+                        </div>
+                        <div class="col-4">
+                          <p class="detail-label">税率</p>
+                          <p class="detail-value"><%= item.tax_rate %>%</p>
+                        </div>
+                        <div class="col-4">
+                          <p class="detail-label">金額</p>
+                          <p class="detail-amount">¥<%= number_with_delimiter(item.amount.to_i) %></p>
+                        </div>
+                      </div>
+                    </div>
+                    <%# 右ゾーン（領収書） %>
+                    <div class="col-3">
+                      <p class="detail-label">領収書</p>
+                      <% if item.receipt_image.attached? %>
+                        <% if item.receipt_image.content_type == "application/pdf" %>
+                          <%# PDFはアイコン＋ファイル名で表示し、クリックで別タブのビューアを開く %>
+                          <%= link_to rails_blob_path(item.receipt_image), target: "_blank", rel: "noopener",
+                              class: "receipt-pdf-link d-flex flex-column align-items-center justify-content-center text-decoration-none gap-2" do %>
+                            <i class="bi bi-file-earmark-pdf-fill fs-1 text-danger"></i>
+                            <span class="text-truncate small text-secondary px-2"><%= item.receipt_image.filename %></span>
+                          <% end %>
+                        <% else %>
+                          <div class="receipt-preview-wrapper">
+                            <%= image_tag item.receipt_image, class: "receipt-preview-img", alt: "領収書" %>
+                          </div>
+                        <% end %>
+                      <% else %>
+                        <div class="receipt-empty">
+                          <i class="bi bi-image text-secondary fs-3"></i>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <%# 明細削除モーダル %>
+  <% expense_items.each do |item| %>
+    <div class="modal fade" id="deleteItemModal-<%= item.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title fw-medium">明細を削除しますか？</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong><%= item.item_name %></strong> を削除します。この操作は取り消せません。</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">キャンセル</button>
+            <%= link_to "削除する", expense_report_expense_item_path(expense_report, item),
+                data: { turbo_method: :delete },
+                class: "btn btn-danger px-4 fw-bold rounded-2" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%# 明細画像プレビューモーダル %>
+  <div class="modal fade" id="imagePreviewModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content bg-transparent border-0">
+        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                data-bs-dismiss="modal"></button>
+          <img id="modal-preview-img" class="img-fluid rounded" src="" alt="領収書">
+      </div>
+    </div>
+  </div>
+</div>

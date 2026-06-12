@@ -1,0 +1,43 @@
+ja:
+  views:
+    pagination:
+      first: "最初"
+      previous: "<"
+      next: ">"
+      last: "最後"
+      truncate: "・"
+  activerecord:
+    attributes:
+      expense_item:
+        item_name: "内容"
+        category: "種別"
+        occurred_on: "発生日"
+        payee: "支払先"
+        amount: "金額"
+        invoice_registration_number: "インボイス番号"
+        tax_rate: "税率"
+    errors:
+      models:
+        expense_item:
+          attributes:
+            invoice_registration_number:
+              invalid: "Tと数字13桁で入力してください"
+      messages:
+        blank: "入力必須"
+        confirmation: "入力内容が一致しません"
+        too_short: "%{count}文字以上で入力してください"
+        too_long: "%{count}文字以下で入力してください"
+        invalid: "正しい形式で入力してください"
+        taken: "すでに使用されています"
+        greater_than: "1以上の数値を入力してください"
+        less_than_or_equal_to: "上限を超えています"
+        not_a_number: "数値を入力してください"
+  devise:
+    sessions:
+      signed_in: "ログインしました"
+      signed_out: "ログアウトしました"
+    failure:
+      invalid: "メールアドレスまたはパスワードが違います"
+      not_found_in_database: "メールアドレスまたはパスワードが違います"
+      unauthenticated: "ログインしてください"
+      already_authenticated: "すでにログインしています"

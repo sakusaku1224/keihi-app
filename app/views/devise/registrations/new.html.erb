@@ -1,0 +1,109 @@
+<%# 新規登録画面 %>
+<main class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 text-center mb-4">
+      <%= image_tag "KeiHi-logo-1.png", alt: "keihi", height: "45", class: "mb-2" %>
+      <span class="small text-secondary d-block">立替経費申請アプリ</span>
+    </div>
+  
+    <div class="col-12">
+      <%# 新規登録カード %>
+      <div class="card login-card mx-auto">
+        <div class="card-body p-4 p-md-5">
+          <%# タイトル %>
+          <div class="text-center mb-3">
+            <h1 class="h5 fw-bold mb-2">新規登録</h1>
+            <p class="text-secondary small mb-0">
+              必要な情報を入力してください
+            </p>
+          </div>
+
+          <%# フォーム %>
+          <%= form_with(model: resource, as: resource_name, url: registration_path(resource_name),html: { novalidate: true }, local: true) do |f| %>
+            <%# 名前 %>
+            <div class="mb-3">
+              <%= f.label :name, "名前", class: "form-label" %>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-person"></i>
+                </span>
+                <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control form-control-with-icon", placeholder: "ユーザー名を入力" %>             
+              </div>
+              <%= error_message(resource, :name) %>
+            </div>
+
+
+            <%# 部署 %>
+            <div class="mb-3">
+              <%= f.label :department, "部署", class: "form-label" %>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-building"></i>
+                </span>
+                <%= f.text_field :department, autofocus: true, autocomplete: "name", class: "form-control form-control-with-icon", placeholder: "所属部署を入力" %>             
+              </div>
+              <%= error_message(resource, :department) %>
+            </div>
+
+            <%# メール %>
+            <div class="mb-3">
+              <%= f.label :email, "メールアドレス", class: "form-label" %>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-envelope"></i>
+                </span>
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-with-icon", placeholder: "メールアドレスを入力" %>             
+              </div>
+              <%= error_message(resource, :email) %>
+            </div>
+
+            <%# パスワード %>
+            <div class="mb-3">
+              <div class="d-flex">
+                <%= f.label :password, "パスワード", class: "form-label" %>
+                <% if @minimum_password_length %>
+                  <small class="text-muted">（<%= @minimum_password_length %>文字以上）</small>
+                <% end %>
+              </div>
+              <div class="input-group" data-controller="password">
+                <span class="input-group-text">
+                  <i class="bi bi-lock"></i>
+                </span>
+                <%= f.password_field :password, autocomplete: "new-password",class: "form-control", data: { password_target: "input" }, placeholder: "パスワードを入力" %>
+                <%# アイコンを押したときだけパスワードが見える %>
+                <button type="button" class="btn border-start-0 border" data-action="click->password#toggle">
+                  <i class="bi bi-eye" data-password-target="icon"></i>
+                </button>
+              </div>
+              <%= error_message(resource, :password) %>
+            </div>
+
+            <%# 確認用 %>
+            <div class="mb-3">
+              <%= f.label :password_confirmation, "パスワード(確認)", class: "form-label" %>
+              <div class="input-group" data-controller="password">
+                <span class="input-group-text">
+                  <i class="bi bi-lock"></i>
+                </span>
+                <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", data: { password_target: "input" }, placeholder: "パスワードを入力(確認用)" %>
+                <%# アイコンを押したときだけパスワードが見える %>
+                <button type="button" class="btn border-start-0 border" data-action="click->password#toggle">
+                  <i class="bi bi-eye" data-password-target="icon"></i>
+                </button>
+              </div>
+              <%= error_message(resource, :password_confirmation) %>
+            </div>          
+
+            <%# 新規登録 %>
+            <%= f.submit "新規登録", class: "btn btn-primary-keihi w-100 rounded-2 mb-2 shadow-sm" %>   
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 text-center mt-3">
+      <%# フッターリンク %>
+      <%= link_to "ログインはこちら", new_user_session_path, class: "text-primary-link" %>
+    </div>
+  </div>
+</main>

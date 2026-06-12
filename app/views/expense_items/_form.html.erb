@@ -1,0 +1,48 @@
+<%# モーダル フォーム部分 %>
+<%= form_with model: [@expense_report, expense_item], html: { id: "new_item_form" } do |f| %>
+  <%# body %>
+  <div class="modal-body px-4 py-4">
+    <div class="row g-4">
+      <%# 左カラム（新規・編集 共通の入力項目） %>
+      <%= render "expense_items/fields", f: f, expense_item: expense_item %>
+
+      <%# 右カラム %>
+      <div class="col-md-6 d-flex flex-column">
+        <%= f.label :receipt_image, "領収書 (画像またはPDF)", class: "form-label"%>
+        <%= f.file_field :receipt_image, class: "d-none", id: "receipt-file-input", accept: "image/png,image/jpeg,application/pdf"%>
+        <div class="flex-grow-1 position-relative">
+          <div id="upload-zone" class="upload-zone h-100 d-flex flex-column align-items-center justify-content-center">
+            <i class="bi bi-file-earmark-arrow-up fs-3 text-secondary"></i>
+            <div class="fw-semibold small">領収書をアップロードして自動入力</div>
+            <div class="small text-secondary" style="font-size: 0.75rem">
+              またはドラッグ＆ドロップ
+            </div>
+          </div>
+
+          <%# 画像プレビューカード %>
+          <div id="preview-card" class="d-none position-absolute bg-white border rounded-3 p-2 overflow-hidden" style="top: 0; left: 0; right: 0; bottom: 0;">
+            <%# プレビュー画像（画像ファイルのとき） %>
+            <img id="preview-img" class="img-fluid rounded w-100 h-100" style="object-fit: contain;" src="" alt="領収書">
+            <%# PDF プレビュー（PDFのとき） %>
+            <embed id="pdf-preview" class="d-none rounded w-100 h-100" type="application/pdf" src="">
+            <%# 取り消しボタン %>
+            <button id="clear-preview-btn" type="button" class="btn btn-sm btn-dark position-absolute top-0 end-0 m-2" style="width: 28px; height: 28px; padding: 0;">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+        </div>
+        <button id="ocr-btn" type="button" class="btn btn-secondary w-100 mt-2 d-none">
+          <i class="bi bi-magic"></i> OCR 読み取り
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <%# フッター %>
+  <div class="modal-footer px-4 py-3 bg-light border-top">
+    <button type="button" class="btn btn-outline-secondary px-4 fw-semibold" data-bs-dismiss="modal">キャンセル</button>
+    <div class="ms-auto">
+      <%= f.submit "保存する", class: "btn btn-primary-keihi rounded-2 px-5 fw-bold" %>
+    </div>
+  </div>
+<% end %>
