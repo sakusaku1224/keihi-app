@@ -162,11 +162,14 @@ function initReceiptUpload() {
     document.getElementById("expense_item_category").value = data.category;
     // Flatpickr が altInput を生成しているため、直接 value を書き換えても表示が変わらない
     // Flatpickr の API (setDate) 経由で更新する
-    const fpInstance = document.getElementById("expense_item_occurred_on")?._flatpickr;
+    const fpInstance = document.getElementById(
+      "expense_item_occurred_on",
+    )?._flatpickr;
     if (fpInstance) {
       fpInstance.setDate(data.occurred_on, true);
     } else {
-      document.getElementById("expense_item_occurred_on").value = data.occurred_on;
+      document.getElementById("expense_item_occurred_on").value =
+        data.occurred_on;
     }
     document.getElementById("expense_item_amount").value = Math.round(
       data.amount,
@@ -217,12 +220,12 @@ function initFlatpickr() {
 // エラー表示の解除
 function initValidationClear() {
   document.querySelectorAll(".is-invalid").forEach((field) => {
-    field.addEventListener("change", () => {
+    field.addEventListener("input", () => {
       field.classList.remove("is-invalid");
 
-      // エラーメッセージ消す
-      const column = field.closest(".col-12, .col-6");
-      const feedback = column.querySelector(".invalid-feedback");
+      // エラーメッセージ消す（親要素を探す）
+      const parent = field.closest(".col-12, .col-6, .mb-4, .mb-3");
+      const feedback = parent?.querySelector(".invalid-feedback");
       if (feedback) feedback.remove();
     });
   });
@@ -233,6 +236,11 @@ document.addEventListener("turbo:load", () => {
   initReceiptUpload();
   initImagePreview();
   initFlatpickr();
+  initValidationClear();
+});
+
+// バリデーションエラー時（422）はturbo:loadが発火しないためturbo:renderで補完
+document.addEventListener("turbo:render", () => {
   initValidationClear();
 });
 
