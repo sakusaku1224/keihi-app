@@ -19,9 +19,9 @@ ITEM_DATA = {
     tax_rates: [10]
   },
   "食事代"   => {
-    names:     ["昼食代", "会議弁当", "懇親会費", "接待夕食"],
-    payees:    ["近隣レストラン", "〇〇弁当", "新橋居酒屋", "ホテル宴会場"],
-    amount:    (800..6_000),
+    names:     ["昼食代", "懇親会費", "接待夕食", "会議弁当"],
+    payees:    ["近隣レストラン", "新橋居酒屋", "ホテル宴会場", "〇〇弁当"],
+    amount:    (800..5_000),
     tax_rates: [8, 10]
   },
   "宿泊費"   => {
@@ -33,13 +33,13 @@ ITEM_DATA = {
   "消耗品費" => {
     names:     ["文房具購入", "コピー用紙", "名刺印刷", "トナー購入"],
     payees:    ["ロフト", "アスクル", "コクヨ", "ヨドバシカメラ"],
-    amount:    (300..5_000),
+    amount:    (300..4_000),
     tax_rates: [10]
   },
   "通信費"   => {
     names:     ["携帯電話料金", "郵便代", "宅配便"],
     payees:    ["NTTドコモ", "日本郵便", "ヤマト運輸"],
-    amount:    (200..2_000),
+    amount:    (300..8_000),
     tax_rates: [10]
   },
   "その他"   => {
@@ -50,8 +50,7 @@ ITEM_DATA = {
   },
 }.freeze
 
-# ===== タイトルと明細カテゴリのセット =====
-# categories: 明細に使うカテゴリ（この中からランダムで2〜3件作る）
+# ===== 申請タイトルと使用カテゴリのセット =====
 REPORT_TYPES = [
   { title: "研修交通費",       categories: ["交通費"] },
   { title: "出張旅費",         categories: ["交通費", "宿泊費"] },
@@ -64,25 +63,22 @@ REPORT_TYPES = [
 ].freeze
 
 # ===== 申請を24件作成 =====
-# approved: 12件 / submitted: 8件 / draft: 4件
-# 新しい順（i=0が最新）なので、新しい方にdraft・古い方にapprovedを置く
+# 新しい順（i=0が最新）: draft 4件 → submitted 8件 → approved 12件
 statuses = ([:draft] * 4) + ([:submitted] * 8) + ([:approved] * 12)
 
 statuses.each_with_index do |status, i|
   months_ago  = (i / 2) + 1
   base_date   = Date.current - months_ago.months
   report_type = REPORT_TYPES[i % REPORT_TYPES.length]
-  created_at  = base_date.beginning_of_month + rand(1..15).days
+  created_at  = base_date.beginning_of_month + rand(1..15)
 
   report = guest_user.expense_reports.create!(
-    # 年を2桁表示（2026年→26年）
     title:        "#{base_date.strftime('%y年%-m月')} #{report_type[:title]}",
     notes:        status == :approved ? "承認済み。内容確認済みです。" : "",
     status:       status,
-    submitted_at: status != :draft ? (base_date.beginning_of_month + rand(16..25).days).to_time : nil
+    submitted_at: status != :draft ? (base_date.beginning_of_month + rand(16..25)).to_time : nil
   )
 
-  # created_at を申請月に合わせて上書き
   report.update_columns(created_at: created_at, updated_at: created_at)
 
   # 明細を2〜3件作成（タイトルに合ったカテゴリから選ぶ）

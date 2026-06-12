@@ -160,8 +160,14 @@ function initReceiptUpload() {
   function fillFormFromOcr(data) {
     document.getElementById("expense_item_item_name").value = data.item_name;
     document.getElementById("expense_item_category").value = data.category;
-    document.getElementById("expense_item_occurred_on").value =
-      data.occurred_on;
+    // Flatpickr が altInput を生成しているため、直接 value を書き換えても表示が変わらない
+    // Flatpickr の API (setDate) 経由で更新する
+    const fpInstance = document.getElementById("expense_item_occurred_on")?._flatpickr;
+    if (fpInstance) {
+      fpInstance.setDate(data.occurred_on, true);
+    } else {
+      document.getElementById("expense_item_occurred_on").value = data.occurred_on;
+    }
     document.getElementById("expense_item_amount").value = Math.round(
       data.amount,
     );

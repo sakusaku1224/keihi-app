@@ -5,7 +5,7 @@
     <% end %>
     <%= f.text_field :title,
         class: "form-control #{'is-invalid' if expense_report.errors[:title].any?}",
-        placeholder: "例：2023年10月 営業交通費" %>
+        placeholder: "例：25年10月 営業交通費" %>
     <%= error_message(expense_report, :title) %>
   </div>
   <div class="mb-5">
