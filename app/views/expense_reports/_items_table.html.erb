@@ -1,7 +1,7 @@
 <%# 明細テーブル %>
 <div class="mb-5">
   <div class="d-flex align-items-center justify-content-between mb-4">
-    <h4 class="h5 mb-0 fw-bold">明細一覧</h4>
+    <h4 class="h6 mb-0 fw-bold">明細一覧</h4>
     <%# 確認・詳細画面でボタン非表示 %>
     <% unless local_assigns[:readonly] || expense_report.submitted? %>
       <button class="btn btn-primary-keihi d-flex align-items-center gap-2 rounded-pill py-2"
@@ -37,7 +37,7 @@
         <tbody>
           <% expense_items.each do |item| %>
             <tr onclick="toggleRow(<%= item.id %>)">
-              <td class="ps-4 py-3 fw-bold"><%= item.item_name %></td>
+              <td class="ps-4 py-3 fw-bold small"><%= item.item_name %></td>
               <td>
                 <span class="badge bg-light text-secondary rounded-pill px-3">
                   <%= item.category %>
