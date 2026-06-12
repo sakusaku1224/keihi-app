@@ -14,6 +14,13 @@
   </head>
 
   <body class="py-4">
+    <%# Deviseページではnoticeのみ表示（ログアウトしました等）%>
+    <%# alert（ログインしてください）は表示しない。ログイン失敗エラーはフォーム内に表示 %>
+    <% if flash[:notice] %>
+      <div class="alert alert-notice toast-flash toast-flash-center">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
     <%= yield %>
   </body>
 </html>

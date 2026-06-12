@@ -258,6 +258,24 @@ h4,
   }
 }
 
+// 画面下部中央に表示（Deviseページ用）
+@keyframes slideInUpCenter {
+  from {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+.toast-flash-center {
+  left: 50%;
+  transform: translateX(-50%);
+  animation: slideInUpCenter 0.5s ease-out;
+}
+
 // ======================================
 // カレンダー
 // ======================================

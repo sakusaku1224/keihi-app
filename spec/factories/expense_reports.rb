@@ -1,10 +1,20 @@
 FactoryBot.define do
   factory :expense_report do
-    user { nil }
-    title { "MyString" }
-    notes { "MyText" }
-    status { 1 }
-    total_amount { "9.99" }
-    submitted_at { "2026-05-29 22:42:36" }
+    association :user           # Userと紐づける
+    title  { "2026年6月 交通費申請" }
+    notes  { "6月分の交通費まとめ" }
+    status { :draft }           # enumのシンボルで指定
+    total_amount { 0 }
+
+    # trait: 特定の状態のデータを簡単に作れる
+    trait :submitted do
+      status { :submitted }
+      submitted_at { Time.current }
+    end
+
+    trait :approved do
+      status { :approved }
+      submitted_at { 1.day.ago }
+    end
   end
 end

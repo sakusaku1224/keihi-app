@@ -30,7 +30,7 @@
             </div>
 
             <%# パスワード %>
-            <div class="mb-4">
+            <div class="mb-2">
               <%= f.label :password, "パスワード", class: "form-label" %>
               <div class="input-group" data-controller="password">
                 <span class="input-group-text"><i class="bi bi-lock"></i></span>
@@ -41,9 +41,13 @@
                 </button>
               </div>
             </div>
-
+            <%# ログイン失敗エラー（invalid/not_found のalertのみ表示）%>
+            <% login_failure_messages = [I18n.t("devise.failure.invalid"), I18n.t("devise.failure.not_found_in_database")] %>
+            <% if login_failure_messages.include?(flash[:alert]) %>
+              <div class="invalid-feedback d-block">ログインできません</div>
+            <% end %>
             <%# ログインボタン %>
-            <%= f.submit "ログイン", class: "btn btn-primary-keihi w-100 rounded-2 mb-2 shadow-sm" %>   
+            <%= f.submit "ログイン", class: "btn btn-primary-keihi w-100 rounded-2 mb-2 mt-3 shadow-sm" %>   
           <% end %>
 
           <div class="divider">または</div>

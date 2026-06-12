@@ -33,6 +33,9 @@ ja:
         less_than_or_equal_to: "上限を超えています"
         not_a_number: "数値を入力してください"
   devise:
+    sessions:
+      signed_in: "ログインしました"
+      signed_out: "ログアウトしました"
     failure:
       invalid: "メールアドレスまたはパスワードが違います"
       not_found_in_database: "メールアドレスまたはパスワードが違います"
