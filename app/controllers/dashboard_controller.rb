@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
     # 提出済み件数
     @submitted_count = current_user.expense_reports.submitted.count
 
-    #承認済み件数
+    # 承認済み件数
     @approved_count = current_user.expense_reports.approved.count
 
     # 最近の申請(5件)

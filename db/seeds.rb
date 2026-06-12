@@ -13,58 +13,58 @@ guest_user.expense_reports.destroy_all
 # ===== カテゴリ別の明細データ =====
 ITEM_DATA = {
   "交通費"   => {
-    names:     ["電車代", "タクシー代", "バス代", "新幹線代"],
-    payees:    ["JR東日本", "東京メトロ", "日本交通", "東急バス"],
+    names:     [ "電車代", "タクシー代", "バス代", "新幹線代" ],
+    payees:    [ "JR東日本", "東京メトロ", "日本交通", "東急バス" ],
     amount:    (200..3_500),
-    tax_rates: [10]
+    tax_rates: [ 10 ]
   },
   "食事代"   => {
-    names:     ["昼食代", "懇親会費", "接待夕食", "会議弁当"],
-    payees:    ["近隣レストラン", "新橋居酒屋", "ホテル宴会場", "〇〇弁当"],
+    names:     [ "昼食代", "懇親会費", "接待夕食", "会議弁当" ],
+    payees:    [ "近隣レストラン", "新橋居酒屋", "ホテル宴会場", "〇〇弁当" ],
     amount:    (800..5_000),
-    tax_rates: [8, 10]
+    tax_rates: [ 8, 10 ]
   },
   "宿泊費"   => {
-    names:     ["ホテル宿泊費"],
-    payees:    ["東横イン", "アパホテル", "ドーミーイン"],
+    names:     [ "ホテル宿泊費" ],
+    payees:    [ "東横イン", "アパホテル", "ドーミーイン" ],
     amount:    (7_000..12_000),
-    tax_rates: [10]
+    tax_rates: [ 10 ]
   },
   "消耗品費" => {
-    names:     ["文房具購入", "コピー用紙", "名刺印刷", "トナー購入"],
-    payees:    ["ロフト", "アスクル", "コクヨ", "ヨドバシカメラ"],
+    names:     [ "文房具購入", "コピー用紙", "名刺印刷", "トナー購入" ],
+    payees:    [ "ロフト", "アスクル", "コクヨ", "ヨドバシカメラ" ],
     amount:    (300..4_000),
-    tax_rates: [10]
+    tax_rates: [ 10 ]
   },
   "通信費"   => {
-    names:     ["携帯電話料金", "郵便代", "宅配便"],
-    payees:    ["NTTドコモ", "日本郵便", "ヤマト運輸"],
+    names:     [ "携帯電話料金", "郵便代", "宅配便" ],
+    payees:    [ "NTTドコモ", "日本郵便", "ヤマト運輸" ],
     amount:    (300..8_000),
-    tax_rates: [10]
+    tax_rates: [ 10 ]
   },
   "その他"   => {
-    names:     ["書籍購入", "セミナー参加費"],
-    payees:    ["アマゾン", "紀伊國屋書店"],
+    names:     [ "書籍購入", "セミナー参加費" ],
+    payees:    [ "アマゾン", "紀伊國屋書店" ],
     amount:    (500..3_000),
-    tax_rates: [10]
-  },
+    tax_rates: [ 10 ]
+  }
 }.freeze
 
 # ===== 申請タイトルと使用カテゴリのセット =====
 REPORT_TYPES = [
-  { title: "研修交通費",       categories: ["交通費"] },
-  { title: "出張旅費",         categories: ["交通費", "宿泊費"] },
-  { title: "営業先訪問交通費", categories: ["交通費"] },
-  { title: "チーム懇親会費",   categories: ["食事代"] },
-  { title: "消耗品購入",       categories: ["消耗品費"] },
-  { title: "接待交際費",       categories: ["食事代"] },
-  { title: "書籍・資料購入",   categories: ["その他"] },
-  { title: "通信費",           categories: ["通信費"] },
+  { title: "研修交通費",       categories: [ "交通費" ] },
+  { title: "出張旅費",         categories: [ "交通費", "宿泊費" ] },
+  { title: "営業先訪問交通費", categories: [ "交通費" ] },
+  { title: "チーム懇親会費",   categories: [ "食事代" ] },
+  { title: "消耗品購入",       categories: [ "消耗品費" ] },
+  { title: "接待交際費",       categories: [ "食事代" ] },
+  { title: "書籍・資料購入",   categories: [ "その他" ] },
+  { title: "通信費",           categories: [ "通信費" ] }
 ].freeze
 
 # ===== 申請を24件作成 =====
 # 新しい順（i=0が最新）: draft 4件 → submitted 8件 → approved 12件
-statuses = ([:draft] * 4) + ([:submitted] * 8) + ([:approved] * 12)
+statuses = ([ :draft ] * 4) + ([ :submitted ] * 8) + ([ :approved ] * 12)
 
 statuses.each_with_index do |status, i|
   months_ago  = (i / 2) + 1
@@ -85,7 +85,7 @@ statuses.each_with_index do |status, i|
   rand(2..3).times do
     category    = report_type[:categories].sample
     data        = ITEM_DATA[category]
-    occurred_on = [base_date.beginning_of_month + rand(0..27), Date.current].min
+    occurred_on = [ base_date.beginning_of_month + rand(0..27), Date.current ].min
 
     report.expense_items.create!(
       item_name:   data[:names].sample,

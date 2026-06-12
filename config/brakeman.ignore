@@ -1,0 +1,10 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "21ab0fe00fdd5899ffc405cff75aadb91b805ee996a614f7e27b08a287e9062d",
+      "note": "Rails 7.2 のサポート終了警告（2026-08-09）。コードの問題ではなくバージョンの通知のため無視。"
+    }
+  ],
+  "updated": "2026-06-12",
+  "brakeman_version": "8.0.4"
+}
