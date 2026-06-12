@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   # 経費申請
   resources :expense_reports do
-    # 提出アクション（PATCHメソッド、/expense_claims/:id/submit）
+    # 提出アクション（PATCHメソッド、/expense_reports/:id/submit）
     member do
       patch :submit
       get   :self_check

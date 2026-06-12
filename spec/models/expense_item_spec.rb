@@ -44,7 +44,7 @@ RSpec.describe ExpenseItem, type: :model do
     end
     it "明細を削除すると合計金額が更新される" do
       report = create(:expense_report)
-      item1(:expense_item, expense_report: report, amount: 1000)
+      item1 = create(:expense_item, expense_report: report, amount: 1000)
       create(:expense_item, expense_report: report, amount: 2000)
       item1.destroy
       expect(report.reload.total_amount).to eq(2000)

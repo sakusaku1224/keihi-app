@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_29_134247) do
+ActiveRecord::Schema[7.2].define(version: 2026_06_12_081736) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,7 +51,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_29_134247) do
     t.integer "tax_rate"
     t.string "payee"
     t.string "invoice_registration_number"
-    t.text "ocr_raw_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["expense_report_id"], name: "index_expense_items_on_expense_report_id"

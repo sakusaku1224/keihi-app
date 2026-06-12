@@ -14,8 +14,6 @@ gem "importmap-rails"
 gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem "jbuilder"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -32,9 +30,6 @@ gem "image_processing", "~> 1.2"
 # 拡張子・サイズ制限用
 gem "active_storage_validations"
 
-# Google Cloud Vision OCR API用
-gem "faraday"
-gem "faraday-multipart"
 
 # ページネーション
 gem "kaminari"
