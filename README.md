@@ -58,7 +58,7 @@ https://keihi-app-niww.onrender.com
 4. 提出前にセルフチェックで内容を確認
 5. 提出完了
 
-## 工夫したところ
+## こだわりポイント
 
 <!-- TODO: 技術的なこだわりポイントを書く -->
 <!-- 例：OCRにClaude APIを使ったこと、セルフチェック機能、Flatpickrの日付入力など -->
@@ -66,20 +66,37 @@ https://keihi-app-niww.onrender.com
 ## 使用技術
 
 | カテゴリ | 技術 |
-|----------|------|
-| バックエンド | Ruby on Rails 7.2.3 |
+|---|---|
+| バックエンド | Ruby on Rails 7.2 |
 | データベース | PostgreSQL |
-| フロントエンド | Bootstrap 5, JavaScript |
+| フロントエンド | HTML / CSS / JavaScript, Bootstrap 5, Hotwire（Turbo / Stimulus）|
 | 認証 | Devise |
 | ファイルアップロード | Active Storage |
-| OCR | Claude API (claude-haiku-4-5) |
+| 領収書読み取り | Claude API |
 | ページネーション | Kaminari |
+| 日付入力 | Flatpickr |
 | テスト | RSpec, FactoryBot |
-| インフラ | <!-- TODO: Render など --> |
+| インフラ | Render |
 
 ## ER図
 
-<!-- TODO: ER図の画像を貼る -->
+```
+┌──────────────────────┐      ┌────────────────────────┐      ┌──────────────────────────────┐
+│        users         │      │    expense_reports     │      │       expense_items          │
+├──────────────────────┤      ├────────────────────────┤      ├──────────────────────────────┤
+│ id: integer          │      │ id: integer            │      │ id: integer                  │
+│ name: string         │      │ title: string          │      │ item_name: string            │
+│ email: string        │╲     │ notes: text            │╲     │ category: string             │
+│ department: string   │─┼────│ status: integer        │─┼────│ occurred_on: date            │
+│ password: string     │╱     │ total_amount: decimal  │╱     │ amount: decimal              │
+│ created_at: datetime │      │ submitted_at: datetime │      │ tax_rate: integer            │
+│ updated_at: datetime │      │ user_id: integer(FK)   │      │ payee: string                │
+└──────────────────────┘      │ created_at: datetime   │      │ invoice_registration_number  │
+                              │ updated_at: datetime   │      │ expense_report_id(FK)        │
+                              └────────────────────────┘      │ created_at: datetime         │
+                                                              │ updated_at: datetime         │
+                                                              └──────────────────────────────┘
+```
 
 ## 今後の展望
 
