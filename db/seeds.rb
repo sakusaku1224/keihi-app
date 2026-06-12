@@ -7,8 +7,11 @@ guest_user = User.find_or_create_by!(email: "guest@example.com") do |user|
   user.password   = SecureRandom.urlsafe_base64
 end
 
-# 冪等性：再実行しても重複しないよう既存データをリセット
-guest_user.expense_reports.destroy_all
+# すでにデータがある場合はスキップ（デプロイのたびにデータが消えないようにする）
+if guest_user.expense_reports.exists?
+  puts "既存データあり。シードをスキップします。"
+  return
+end
 
 # ===== カテゴリ別の明細データ =====
 ITEM_DATA = {

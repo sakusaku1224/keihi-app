@@ -405,11 +405,6 @@ h4,
   &:hover {
     background-color: var(--surface-container-low);
   }
-
-  // 最後の行はボーダーなし
-  &:last-of-type {
-    border-bottom: none !important;
-  }
 }
 
 // ======================================
