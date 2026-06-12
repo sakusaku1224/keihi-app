@@ -354,7 +354,7 @@ h4,
 // ページコンテンツ - 幅制御ラッパー
 // ======================================
 .container-field {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -375,7 +375,7 @@ h4,
 }
 
 // ======================================
-// 申請リスト - カード形式の行
+// 申請リスト - テーブル形式の行
 // ======================================
 .applications-list {
   display: flex;
@@ -393,6 +393,22 @@ h4,
 
   &:hover {
     background-color: #f8faf6;
+  }
+}
+
+// テーブル形式のリスト行
+.list-table-row {
+  color: inherit;
+  transition: background-color 0.15s;
+  border-radius: 0.5rem;
+
+  &:hover {
+    background-color: var(--surface-container-low);
+  }
+
+  // 最後の行はボーダーなし
+  &:last-of-type {
+    border-bottom: none !important;
   }
 }
 
