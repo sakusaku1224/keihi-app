@@ -1,7 +1,9 @@
 <%# locals: reports (required), title (optional), show_all_link (optional) %>
 <div class="card p-3 p-lg-4" style="border-radius: 1.5rem">
-  <div class="d-flex align-items-center mb-3">
-    <h3 class="h6 fw-bold mb-0"><%= local_assigns.fetch(:title, "申請一覧") %></h3>
+  <div class="row px-3 py-2 mb-0 border-bottom">
+    <div class="col">
+      <h3 class="h6 fw-bold mb-0"><%= local_assigns.fetch(:title, "申請一覧") %></h3>
+    </div>
   </div>
 
   <% if reports.empty? %>
@@ -11,7 +13,7 @@
     </div>
   <% else %>
     <%# テーブルヘッダー %>
-    <div class="row px-3 pb-2 mb-1 small fw-bold text-secondary border-bottom d-none d-md-flex">
+    <div class="row px-3 py-1 mb-0 small text-secondary border-bottom d-none d-md-flex">
       <div class="col-md-5">タイトル</div>
       <div class="col-md-2 text-center">申請日</div>
       <div class="col-md-2 text-end">金額</div>
@@ -42,8 +44,8 @@
   <% end %>
 
   <% if local_assigns[:show_all_link] %>
-    <div class="text-center mt-4 fw-bold text-primary-container">
-      <%= link_to expense_reports_path do %>
+    <div class="text-center mt-2">
+      <%= link_to expense_reports_path, class: "text-decoration-none small", style: "color: var(--on-surface-variant);" do %>
         すべての申請履歴を表示<i class="bi bi-chevron-right"></i>
       <% end %>
     </div>
