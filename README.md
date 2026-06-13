@@ -4,7 +4,7 @@
 面倒な入力作業や確認を、シンプルな画面で済ませられる立替経費申請アプリ
 
 ## サービス画像
-<img width="1468" height="827" alt="スクリーンショット 2026-06-13 16 36 21" src="https://github.com/user-attachments/assets/d1e544d8-de10-4ff1-b9c5-8f4f93994b44" />
+<img width="1209" height="834" alt="スクリーンショット 2026-06-14 0 24 29" src="https://github.com/user-attachments/assets/1dda8b7b-3b1e-447b-8d7b-b77322a6b546" />
 <img width="1470" height="834" alt="スクリーンショット 2026-06-12 21 19 40" src="https://github.com/user-attachments/assets/e13e5688-9454-4711-9185-87eca826a2b3" />
 
 ## URL
@@ -23,8 +23,8 @@ https://keihi-app-niww.onrender.com
 ## 機能
 
 **ダッシュボード**
-- 下書き・提出済み・承認済みの件数をひと目で確認
-- 今月の合計申請金額を表示
+- 下書き・提出済み・承認済みの件数・ドーナツグラフ
+- 今月の合計申請金額,月次推移グラフ
 - 最近の申請一覧表示（申請日・金額・ステータス付き）
 
 **申請一覧**
@@ -119,7 +119,6 @@ https://keihi-app-niww.onrender.com
 
 **直近でやりたいこと**
 - モバイル対応（レスポンシブ対応）
-- 月ごとの経費集計グラフの追加
 - 出張日当・自家用車のガソリン代など、実態に即した項目の追加
 - カテゴリー検索機能
 
