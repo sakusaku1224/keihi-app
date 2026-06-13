@@ -231,15 +231,80 @@ function initValidationClear() {
   });
 }
 
+// グラフ
+function initCharts() {
+  const el = document.getElementById("chart-data");
+  // ダッシュボードのみ
+  if (!el) return;
+
+  // JSONを配列に
+  const labels = JSON.parse(el.dataset.labels);
+  const values = JSON.parse(el.dataset.values);
+  // 文字列を数値に
+  const draft = parseInt(el.dataset.draft);
+  const submitted = parseInt(el.dataset.submitted);
+  const approved = parseInt(el.dataset.approved);
+
+  // 棒グラフ
+  new Chart(document.getElementById("monthlyChart"), {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        {
+          data: values,
+          // 今月だけ濃い緑
+          backgroundColor: values.map((_, i) =>
+            i === values.length - 1 ? "#639b8c" : "#e1e3e0",
+          ),
+          borderRadius: 4,
+          barPercentage: 0.5,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { display: false },
+        x: { grid: { display: false } },
+      },
+    },
+  });
+
+  // ステータス分布ドーナツグラフ
+  new Chart(document.getElementById("statusChart"), {
+    type: "doughnut",
+    data: {
+      labels: ["下書き", "提出済み", "承認済み"],
+      datasets: [
+        {
+          data: [draft, submitted, approved],
+          backgroundColor: ["#faecb6", "#c8d9f1", "#bddbce"],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      cutout: "60%",
+      radius: "80%",
+      plugins: {
+        legend: { position: "right", labels: { font: { size: 11 } } },
+      },
+    },
+  });
+}
 // ページが読み込まれるたびに初期化
 document.addEventListener("turbo:load", () => {
   initReceiptUpload();
   initImagePreview();
   initFlatpickr();
   initValidationClear();
+  initCharts();
 });
 
-// バリデーションエラー時（422）はturbo:loadが発火しないためturbo:renderで補完
+// バリデーションエラーはturbo:loadが発火しないためturbo:renderで補完
 document.addEventListener("turbo:render", () => {
   initValidationClear();
 });
