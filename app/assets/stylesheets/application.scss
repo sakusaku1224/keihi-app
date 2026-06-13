@@ -13,8 +13,8 @@
   --on-primary: #ffffff;
 
   // 背景・サーフェス
-  --surface-bg: #f8faf6;
-  --background: #f8faf6;
+  --surface-bg: #f8f7f5;
+  --background: #f8f7f5;
   --surface: #ffffff;
   --surface-container-low: #f2f4f1;
   --surface-container-highest: #e1e3e0;
@@ -287,9 +287,17 @@ h4,
 // ======================================
 // ダッシュボード - サマリーカード
 // ======================================
+.card {
+  border-color: #e8e8e8;
+}
+
+.card-label {
+  color: #939c99;
+}
+
 .summary-card {
   border-radius: 0.8rem;
-  border: 1px solid var(--outline-variant);
+  border: 1px solid #e8e8e8;
   padding: 1.2rem 1.5rem;
   height: 100%;
   position: relative;
@@ -304,35 +312,24 @@ h4,
 
 .summary-card.accent-yellow,
 .summary-card.draft {
-  border-left: 6px solid #ffc107;
+  border-left: 6px solid #ecca7b;
 }
 
 .summary-card.accent-blue,
 .summary-card.submitted {
-  border-left: 6px solid #0d6efd;
+  border-left: 6px solid #3a4f6e;
 }
 
 .summary-card.accent-green,
 .summary-card.approved {
-  border-left: 6px solid #198754;
+  border-left: 6px solid #1a4d3a;
 }
 
 .summary-card.accent-primary,
 .summary-card.total {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-}
-
-.summary-card.accent-primary::before,
-.summary-card.total::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 6px;
-  height: 100%;
-  background-color: var(--primary-light);
+  background-color: #ffffff;
+  color: var(--on-surface);
+  border-left: 6px solid var(--primary-color);
 }
 
 // ======================================
@@ -417,22 +414,53 @@ h4,
   border-radius: 50px;
 }
 
+// フィルターボタン
+.filter-inactive {
+  background-color: transparent;
+  color: var(--on-surface-variant);
+  border: 1px solid var(--outline-variant);
+  &:hover {
+    background-color: var(--surface-container-low);
+    color: var(--on-surface);
+  }
+}
+.filter-active-all {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: none;
+}
+.filter-active-draft {
+  background-color: #555555;
+  color: #ffffff;
+  border: none;
+}
+.filter-active-submitted {
+  background-color: #3a4f6e;
+  color: #ffffff;
+  border: none;
+}
+.filter-active-approved {
+  background-color: #1a4d3a;
+  color: #ffffff;
+  border: none;
+}
+
 // 下書き
 .badge-draft {
-  background-color: #fff3cd;
-  color: #856404;
+  background-color: #fef3c7;
+  color: #92650a;
 }
 
 // 提出済み
 .badge-submitted {
-  background-color: #cfe2ff;
-  color: #084298;
+  background-color: #dce4f0;
+  color: #3a4f6e;
 }
 
 // 承認済み
 .badge-approved {
-  background-color: #d1e7dd;
-  color: #0a3622;
+  background-color: #c8ddd4;
+  color: #1a4d3a;
 }
 
 .date-select-wrapper {
@@ -642,7 +670,7 @@ h4,
   }
 
   &.pending {
-    background-color: #f59e0b;
+    background-color: var(--primary-color);
     color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   }
@@ -663,7 +691,7 @@ h4,
 
   &.pending {
     font-weight: 700;
-    color: #f59e0b;
+    color: var(--primary-color);
   }
 
   &.inactive {
@@ -738,7 +766,7 @@ h4,
 // 明細詳細
 // ======================================
 .detail-cell {
-  background-color: #f5fbf8 !important;
+  background-color: #f2f2f0 !important;
   border-left: 4px solid var(--primary-color) !important;
   padding: 1.5rem 1.2rem !important;
 }
