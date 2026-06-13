@@ -298,7 +298,7 @@ h4,
 .summary-card {
   border-radius: 0.8rem;
   border: 1px solid #e8e8e8;
-  padding: 1.2rem 1.5rem;
+  padding: 0.8rem 1.8rem;
   height: 100%;
   position: relative;
   overflow: hidden;
@@ -309,29 +309,6 @@ h4,
 .summary-card:hover {
   transform: translateY(-2px);
 }
-
-.summary-card.accent-yellow,
-.summary-card.draft {
-  border-left: 6px solid #ecca7b;
-}
-
-.summary-card.accent-blue,
-.summary-card.submitted {
-  border-left: 6px solid #3a4f6e;
-}
-
-.summary-card.accent-green,
-.summary-card.approved {
-  border-left: 6px solid #1a4d3a;
-}
-
-.summary-card.accent-primary,
-.summary-card.total {
-  background-color: #ffffff;
-  color: var(--on-surface);
-  border-left: 6px solid var(--primary-color);
-}
-
 // ======================================
 // ダッシュボード - アイコンボックス
 // ======================================

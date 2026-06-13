@@ -6,18 +6,57 @@
   </div>
 
   <%# サマリーカード %>
-  <div class="row g-2 mb-3">
+  <div class="row g-3 mb-3">
+    <%# 合計推移 %>
+    <div class="col-12 col-md-8">
+      <div class="summary-card d-flex flex-column justify-content-center">
+        <%# 上部：ラベル行 %>
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <div class="small fw-bold card-label">今月の合計</div>
+          <div class="small" style="color: #c0392b;">月次推移</div>
+        </div>
+        <%# 金額 %>
+        <div class="fw-bold" style="color: var(--primary-color); font-size: 2rem;">
+          ¥<%= number_with_delimiter((@monthly_count || 0).to_i) %>
+        </div>
+        <%# データ埋め込み（非表示） %>
+        <div id="chart-data"
+          data-labels="<%= @monthly_labels.to_json %>"
+          data-values="<%= @monthly_values.to_json %>"
+          data-draft="<%= @draft_count %>"
+          data-submitted="<%= @submitted_count %>"
+          data-approved="<%= @approved_count %>"
+          style="display:none"></div>
+        <%# 棒グラフ %>
+        <div style="position: relative; height: 100px;">
+          <canvas id="monthlyChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <%# ステータス分布 %>
+    <div class="col-12 col-md-4">
+      <div class="summary-card d-flex flex-column" >
+        <div class="small card-label fw-bold mb-2 mt-1">ステータス分布</div>
+        <div style="position: relative; height: 140px;">
+          <canvas id="statusChart"></canvas>
+        </div>       
+      </div>
+    </div>
+
     <%# 下書き件数 %>
     <div class="col-12 col-md-4">
       <%= link_to expense_reports_path(status: "draft"), class: "text-decoration-none" do %>
-        <div class="summary-card accent-yellow d-flex align-items-center gap-4">
+        <div class="summary-card d-flex align-items-center gap-4">
           <div class="icon-box" style="background-color: #fef3c7; color: #d97706;">
             <i class="bi bi-pencil-square"></i>
           </div>
-          <div class="d-flex align-items-baseline gap-2">
-            <span class="small fw-bold card-label">下書き</span>
-            <span class="fs-4 text-dark fw-bold"><%= @draft_count || 0 %></span>
-            <span class="text-secondary small">件</span>
+          <div>
+            <div class="small card-label">下書き</div>
+            <div class="d-flex align-items-baseline gap-2">
+              <div class="fs-4 text-dark fw-bold"><%= @draft_count || 0 %></div>
+              <span class="text-secondary small">件</span>
+            </div>
           </div>
         </div>
       <% end %>
@@ -26,14 +65,16 @@
     <%# 提出済み件数 %>
     <div class="col-12 col-md-4">
       <%= link_to expense_reports_path(status: "submitted"), class: "text-decoration-none" do %>
-        <div class="summary-card accent-blue d-flex align-items-center gap-4">
+        <div class="summary-card d-flex align-items-center gap-4">
           <div class="icon-box" style="background-color: #dce4f0; color: #3a4f6e;">
             <i class="bi bi-send"></i>
           </div>
-          <div class="d-flex align-items-baseline gap-2">
-            <span class="small fw-bold card-label">提出済み</span>
-            <span class="fs-4 text-dark fw-bold"><%= @submitted_count || 0 %></span>
-            <span class="text-secondary small">件</span>
+          <div>
+            <div class="small card-label">提出済み</div>
+            <div class="d-flex align-items-baseline gap-2">
+              <div class="fs-4 text-dark fw-bold"><%= @submitted_count || 0 %></div>
+              <span class="text-secondary small">件</span>
+            </div>
           </div>
         </div>
       <% end %>
@@ -42,30 +83,19 @@
     <%# 承認済み件数 %>
     <div class="col-12 col-md-4">
       <%= link_to expense_reports_path(status: "approved"), class: "text-decoration-none" do %>
-        <div class="summary-card accent-green d-flex align-items-center gap-4">
+        <div class="summary-card d-flex align-items-center gap-4">
           <div class="icon-box" style="background-color: #c8ddd4; color: #1a4d3a;">
             <i class="bi bi-patch-check"></i>
           </div>
-          <div class="d-flex align-items-baseline gap-2">
-            <span class="small fw-bold card-label">承認済み</span>
-            <span class="fs-4 text-dark fw-bold"><%= @approved_count || 0 %></span>
-            <span class="text-secondary small">件</span>
+          <div>
+            <div class="small card-label">承認済み</div>
+            <div class="d-flex align-items-baseline gap-2">
+              <div class="fs-4 text-dark fw-bold"><%= @approved_count || 0 %></div>
+              <span class="text-secondary small">件</span>
+            </div>
           </div>
         </div>
       <% end %>
-    </div>
-
-    <%# 今月の合計 %>
-    <div class="col-12 col-md-12 mt-3">
-      <div class="summary-card accent-primary shadow-sm d-flex align-items-center gap-4" >
-        <div class="icon-box" style="background: var(--primary-light); color: var(--primary-color);">
-          <i class="bi bi-cash-stack"></i>
-        </div>
-        <div class="d-flex align-items-baseline gap-2">
-          <span class="small fw-bold card-label">今月の合計</span>
-          <span class="fs-4 fw-bold" style="color: var(--primary-color);">¥<%= number_with_delimiter((@monthly_count || 0).to_i) %></span>
-        </div>
-      </div>
     </div>
   </div>
 

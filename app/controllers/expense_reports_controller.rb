@@ -64,7 +64,7 @@ class ExpenseReportsController < ApplicationController
     if @expense_report.draft?
       # 提出時刻を現在時刻に設定
       @expense_report.update!(status: :submitted, submitted_at: Time.current)
-      redirect_to expense_reports_path, notice: "申請を提出しました"
+      redirect_to root_path, notice: "申請を提出しました"
     else
       redirect_to @expense_report, alert: "下書き以外は提出できません"
     end
