@@ -91,7 +91,7 @@ https://keihi-app-niww.onrender.com
 | 領収書読み取り | Claude API |
 | ページネーション | Kaminari |
 | 日付入力 | Flatpickr |
-| テスト | RSpec, FactoryBot |
+| テスト | RSpec・FactoryBotを用いたモデルテストを実装 |
 | インフラ | Render |
 | デザイン | Google Stitch（UIベース）, Figma（ロゴ作成） |
 
