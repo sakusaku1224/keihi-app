@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # Devise（ログイン・登録・ログアウト）
   devise_for :users, controllers: { sessions: "users/sessions", registrations: "users/registrations" }
 
-  # ゲストログイン（devise_scope で囲む必要がある）
+  # ゲストログイン（devise_scope)
   devise_scope :user do
     post "guest_sign_in", to: "users/sessions#guest_sign_in"
   end
