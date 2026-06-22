@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :expense_reports, dependent: :destroy
+  has_many :receipts, dependent: :destroy
   # バリデーション
   validates :name, presence: true, length: { maximum: 50 }
   validates :department, length: { maximum: 50 }

@@ -1,6 +1,7 @@
 class ExpenseItem < ApplicationRecord
   belongs_to :expense_report
   has_one_attached :receipt_image
+  has_one :receipt, dependent: :nullify
 
   CATEGORIES = %w[ 交通費 食事代 宿泊費 消耗品費 通信費 その他 ].freeze
   TAX_RATES = [ 0, 8, 10 ].freeze

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_06_12_081736) do
+ActiveRecord::Schema[7.2].define(version: 2026_06_22_103546) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -68,6 +68,20 @@ ActiveRecord::Schema[7.2].define(version: 2026_06_12_081736) do
     t.index ["user_id"], name: "index_expense_reports_on_user_id"
   end
 
+  create_table "receipts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "category"
+    t.date "occurred_on"
+    t.decimal "amount"
+    t.string "payee"
+    t.string "invoice_registration_number"
+    t.bigint "expense_item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expense_item_id"], name: "index_receipts_on_expense_item_id"
+    t.index ["user_id"], name: "index_receipts_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -86,4 +100,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_06_12_081736) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "expense_items", "expense_reports"
   add_foreign_key "expense_reports", "users"
+  add_foreign_key "receipts", "expense_items"
+  add_foreign_key "receipts", "users"
 end
