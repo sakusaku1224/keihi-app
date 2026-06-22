@@ -6,7 +6,6 @@ FactoryBot.define do
     status { :draft }           # enumのシンボルで指定
     total_amount { 0 }
 
-    # trait: 特定の状態のデータを簡単に作れる
     trait :submitted do
       status { :submitted }
       submitted_at { Time.current }
