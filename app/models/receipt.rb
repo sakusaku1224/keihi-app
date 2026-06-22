@@ -9,6 +9,6 @@ class Receipt < ApplicationRecord
 
   # バリデーション
   validates :amount, numericality: { greater_than: 0, less_than_or_equal_to: 10_000_000 }, allow_nil: true
-  validates :receipt_image, content_type: %w[image/png image/jpeg application/pdf],
+  validates :receipt_image, presence: true, content_type: %w[image/png image/jpeg application/pdf],
                             size: { less_than: 10.megabytes }
 end

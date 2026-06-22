@@ -80,14 +80,12 @@ class OcrService
       他の文章は不要です。
 
       {
-        "item_name": "領収書の内容から適切な品目名を日本語で推測してください（例：タクシー代、会議費、備品購入など）
-                      カテゴリが交通費で、区間がある場合は区間も明記してください。（例：電車代：渋谷駅ー新宿駅）",
         "category": "交通費, 食事代, 宿泊費, 消耗品費, 通信費, その他 のいずれか",
         "occurred_on": "YYYY-MM-DD形式",
         "amount": 数値のみ（円マーク・カンマ不要）,
         "tax_rate": 数値のみ（0・8・10 のいずれか）,
         "payee": "支払先名",
-        "invoice_registration_number": "Tから始まる13桁。なければ空文字"
+        "invoice_registration_number": "Tで始まり、その後は13桁の数字。なければ空文字"
       }
     PROMPT
   end
