@@ -21,6 +21,9 @@ Rails.application.routes.draw do
     resources :expense_items, only: %i[new create edit update destroy]
   end
 
+  # レシート保存
+  resources :receipts, only: %i[index new create destroy]
+
   # OCR
   resources :ocr, only: %i[create]
 
