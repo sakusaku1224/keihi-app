@@ -1,2 +1,115 @@
-<h1>Receipts#index</h1>
-<p>Find me in app/views/receipts/index.html.erb</p>
+<% content_for :page_title, "未申請BOX" %>
+
+<div class="container-field px-3 px-lg-5">
+  <%# サマリー %>
+  <div class="receipt-summary-card mb-3">
+    <div class="receipt-summary-label mb-1">未回収金額</div>
+    <div class="receipt-summary-amount mb-3">
+      ¥<%= number_with_delimiter(@receipts.sum(:amount) || 0).to_i %>
+    </div>
+    <hr class="my-2" style="border-color: #8ca998;">
+    <div class="d-flex gap-5">
+      <div>
+        <div class="receipt-summary-sub">レシート件数</div>
+        <div class="receipt-summary-value"><%= (@receipts.count || 0).to_i %><span class="receipt-summary-sub ms-1">件</span></div>
+      </div>
+      <div>
+        <div class="receipt-summary-sub">最終追加日</div>
+        <div class="receipt-summary-value"><%= @receipts.maximum(:created_at)&.strftime("%Y/%m/%d") || "-" %></div>
+      </div>
+    </div>
+  </div>
+  <%# 一覧 %>
+  <div class="row px-3 py-2 mb-0">
+    <div class="col">
+      <h3 class="h6 fw-bold mb-0">一覧</h3>
+    </div>
+  </div>
+
+  <% if @receipts.empty? %>
+    <div class="text-center py-5 text-secondary upload-zone card justify-content-center">
+      <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+      <p class="mb-0 small">未申請の領収書はありません</p>
+    </div>
+  <% else %>
+    <div class="card" style="border-radius: 0.875rem; overflow: hidden;">
+      <%# === デスクトップ：テーブル表示 === %>
+      <table class="table table-hover align-middle m-0 d-none d-lg-table">
+        <thead>
+          <tr>
+            <th style="width: 70px; padding: 0.75rem 1.25rem;"></th>
+            <th class="fw-medium text-secondary">支払先</th>
+            <th class="fw-medium text-secondary">カテゴリ</th>
+            <th class="fw-medium text-secondary">日付</th>
+            <th class="fw-medium text-secondary text-end pe-4">金額</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @receipts.each do |receipt| %>
+            <tr class="receipt-row">
+              <td class="ps-4">
+                <div class="receipt-icon"><i class="bi bi-receipt"></i></div>
+              </td>
+              <td class="fw-bold"><%= receipt.payee %></td>
+              <td class="small text-secondary"><%= receipt.category %></td>
+              <td class="small text-secondary"><%= receipt.created_at.to_date.to_fs(:date_jp) %></td>
+              <td class="fw-bold text-end pe-4">¥<%= number_with_delimiter(receipt.amount).to_i %></td>
+            </tr>
+          <% end %>
+          <%# 合計行 %>
+          <tr class="receipt-total-row">
+            <td></td>
+            <td class="small text-secondary"><span class="fw-bold m-2">合計</span><%= (@receipts.count || 0).to_i %>件</td>
+            <td></td>
+            <td></td>
+            <td class="fw-bold text-end pe-4" style="color: var(--primary-color);">¥<%=  number_with_delimiter(@receipts.sum(:amount) || 0).to_i %></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <%# === モバイル：カード表示 === %>
+      <div class="d-lg-none">
+        <div class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+          <span class="small text-secondary fw-bold">支払先 / 日付</span>
+          <span class="small text-secondary fw-bold">金額</span>
+        </div>
+        <% @receipts.each do |receipt| %>
+          <div class="receipt-row d-flex align-items-center gap-3 p-3">
+            <div class="receipt-icon"><i class="bi bi-receipt"></i></div>
+            <div class="flex-fill" style="min-width: 0;">
+              <div class="fw-bold text-truncate"><%= receipt.payee %></div>
+              <div class="d-flex align-items-center gap-2 mt-1">
+                <span class="small text-secondary"><%= receipt.category %></span>
+                <span class="small text-secondary">·</span>
+                <span class="small text-secondary"><%= receipt.created_at.to_date.to_fs(:date_jp) %></span>
+              </div>
+            </div>
+            <div class="fw-bold text-nowrap">¥<%= number_with_delimiter(receipt.amount).to_i %></div>
+          </div>
+        <% end %>
+        <%# 合計行 %>
+        <div class="receipt-total-row d-flex justify-content-between align-items-center p-3">
+          <span class="small fw-bold text-secondary">
+            合計 <span class="fw-normal"><%= (@receipts.count || 0).to_i %>件</span>
+          </span>
+          <span class="fw-bold" style="color: var(--primary-color);">
+            ¥<%=  number_with_delimiter(@receipts.sum(:amount) || 0).to_i %>
+          </span>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <%# 追加ボタン（モバイル：sticky / デスクトップ：通常） %>
+  <div class="d-none d-sm-block mt-3">
+    <%= link_to new_receipt_path, class: "btn btn-primary-keihi w-100 rounded-3 fw-bold" do %>
+      ＋ レシートを追加
+    <% end %>
+  </div>
+</div>
+
+<%# モバイル用stickyボタン %>
+<div class="receipt-sticky-btn d-sm-none p-3">
+  <%= link_to new_receipt_path, class: "btn btn-primary-keihi w-100 rounded-3 fw-bold py-3" do %>
+    ＋ レシートを追加
+  <% end %>
+</div>
