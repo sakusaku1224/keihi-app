@@ -12,6 +12,24 @@ class ReceiptsController < ApplicationController
 
   def create
     @receipt = current_user.receipts.build(receipt_params)
+
+    # 画像ファイルを取り出す
+    image = params[:receipt][:receipt_image]
+
+    # 画像があればOCR実行
+    if image.present?
+      data = ReceiptScanner.new(image).call
+      if data.present?
+        @receipt.assign_attributes(
+          amount: data["amount"],
+          occurred_on: data["occurred_on"],
+          payee: data["payee"],
+          category: data["category"],
+          invoice_registration_number: data["invoice_registration_number"]
+        )
+      end
+    end
+
     if @receipt.save
       redirect_to receipts_path, notice: "領収書を保存しました"
     else
