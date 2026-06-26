@@ -85,7 +85,7 @@ class OcrService
         "amount": 数値のみ（円マーク・カンマ不要）,
         "tax_rate": 数値のみ（0・8・10 のいずれか）,
         "payee": "支払先名",
-        "invoice_registration_number": "Tで始まり、その後は13桁の数字。なければ空文字"
+        "invoice_registration_number": "Tで始まり、その後は13桁の半角数字。なければ空文字"
       }
     PROMPT
   end

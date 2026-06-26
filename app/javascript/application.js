@@ -115,7 +115,7 @@ function initReceiptUpload() {
   });
 
   // OCR 読み取り実行
-  function runOcr() {
+  async function runOcr() {
     // ファイルがなければ何もしない
     if (!currentFile) return;
 
@@ -125,9 +125,17 @@ function initReceiptUpload() {
     ocrBtn.innerHTML =
       '<span class="spinner-border spinner-border-sm"></span> 読み取り中...';
 
+    // 画像を圧縮
+    const options = {
+      maxSizeMB: 1.5,
+      maxWidthOrHeight: 1600,
+      useWebWorker: true,
+    };
+    const compressedFile = await imageCompression(currentFile, options);
+
     // FormData を作ってファイルを追加
     const formData = new FormData();
-    formData.append("receipt_image", currentFile);
+    formData.append("receipt_image", compressedFile);
 
     // サーバーに送る
     fetch("/ocr", {
