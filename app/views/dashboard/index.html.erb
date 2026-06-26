@@ -17,7 +17,7 @@
         </div>
         <%# 金額 %>
         <div class="fw-bold" style="color: var(--primary-color); font-size: 2rem;">
-          ¥<%= number_with_delimiter((@monthly_count || 0).to_i) %>
+          ¥<%= number_with_delimiter((@monthly_total || 0).to_i) %>
         </div>
         <%# データ埋め込み（非表示） %>
         <div id="chart-data"
