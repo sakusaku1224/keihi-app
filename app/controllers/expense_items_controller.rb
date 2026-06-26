@@ -5,12 +5,17 @@ class ExpenseItemsController < ApplicationController
 
   def new
     @expense_item = @expense_report.expense_items.build
+    @unlinked_receipts = current_user.receipts.unlinked
   end
 
   # 明細の作成
   def create
     @expense_item = @expense_report.expense_items.build(expense_item_params)
     if @expense_item.save
+      if params[:receipt_id].present?
+        receipt = current_user.receipts.find(params[:receipt_id])
+        receipt.update(expense_item_id: @expense_item.id)
+      end
       redirect_to @expense_report, notice: "明細を追加しました"
     else
       render turbo_stream: turbo_stream.replace(

@@ -156,35 +156,31 @@ function initReceiptUpload() {
       });
   }
 
-  // フォームに自動入力
-  function fillFormFromOcr(data) {
-    document.getElementById("expense_item_item_name").value = data.item_name;
-    document.getElementById("expense_item_category").value = data.category;
-    // Flatpickr が altInput を生成しているため、直接 value を書き換えても表示が変わらない
-    // Flatpickr の API (setDate) 経由で更新する
-    const fpInstance = document.getElementById(
-      "expense_item_occurred_on",
-    )?._flatpickr;
-    if (fpInstance) {
-      fpInstance.setDate(data.occurred_on, true);
-    } else {
-      document.getElementById("expense_item_occurred_on").value =
-        data.occurred_on;
-    }
-    document.getElementById("expense_item_amount").value = Math.round(
-      data.amount,
-    );
-    document.getElementById("expense_item_payee").value = data.payee;
-    document.getElementById("expense_item_invoice_registration_number").value =
-      data.invoice_registration_number;
-
-    // 税率
-    const taxRadio = document.querySelector(
-      `input[name="expense_item[tax_rate]"][value="${data.tax_rate}"]`,
-    );
-    if (taxRadio) taxRadio.checked = true;
-  }
 }
+
+// フォームに自動入力（OCR・レシートBOX共用）
+function fillFormFromOcr(data) {
+  if (data.item_name) document.getElementById("expense_item_item_name").value = data.item_name;
+  if (data.category) document.getElementById("expense_item_category").value = data.category;
+  const fpInstance = document.getElementById(
+    "expense_item_occurred_on",
+  )?._flatpickr;
+  if (fpInstance && data.occurred_on) {
+    fpInstance.setDate(data.occurred_on, true);
+  } else if (data.occurred_on) {
+    document.getElementById("expense_item_occurred_on").value = data.occurred_on;
+  }
+  if (data.amount) document.getElementById("expense_item_amount").value = Math.round(data.amount);
+  if (data.payee) document.getElementById("expense_item_payee").value = data.payee;
+  if (data.invoice_registration_number) {
+    document.getElementById("expense_item_invoice_registration_number").value = data.invoice_registration_number;
+  }
+  const taxRadio = document.querySelector(
+    `input[name="expense_item[tax_rate]"][value="${data.tax_rate}"]`,
+  );
+  if (taxRadio) taxRadio.checked = true;
+}
+window.fillFormFromOcr = fillFormFromOcr;
 
 // 画像プレビュー（PDFは別タブで開くのでここでは画像のみ対象）
 function initImagePreview() {

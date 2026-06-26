@@ -38,6 +38,7 @@ class ExpenseReportsController < ApplicationController
   def show
   # 明細を追加で取得、発生日順
   @expense_items = @expense_report.expense_items.order(occurred_on: :desc)
+  @unlinked_receipts = current_user.receipts.unlinked
   end
 
   def edit

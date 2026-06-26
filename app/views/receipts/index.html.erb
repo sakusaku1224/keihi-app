@@ -1,10 +1,6 @@
 <% content_for :page_title, "レシートBOX" %>
 
 <div class="container-field px-3 px-lg-5">
-  <%# グリーティング %>
-  <div class="mb-2 px-2">
-    <p class="text-secondary mb-0">毎月22日は〆日</p>
-  </div>
   <%# サマリー %>
   <div class="row g-3 mb-3">
     <%# 未回収金額 %>
@@ -41,7 +37,7 @@
   <% if @receipts.empty? %>
     <div class="text-center py-5 text-secondary upload-zone card justify-content-center">
       <i class="bi bi-inbox fs-2 d-block mb-2"></i>
-      <p class="mb-0 small">未申請の領収書はありません</p>
+      <p class="mb-0">まずはレシートを撮影・保存するだけでOK。金額入力や申請はあとでまとめてできます。</p>
     </div>
   <% else %>
     <div class="card" style="border-radius: 0.875rem; overflow: hidden;">

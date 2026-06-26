@@ -20,11 +20,13 @@
             <% else %>
               <%= image_tag expense_item.receipt_image, class: "img-fluid rounded w-100 h-100", style: "object-fit: contain;" %>
             <% end %>
+          <% elsif expense_item.receipt&.receipt_image&.attached? %>
+            <%= image_tag expense_item.receipt.receipt_image, class: "img-fluid rounded w-100 h-100", style: "object-fit: contain;" %>
           <% else %>
             <div class="text-secondary text-center">
               <i class="bi bi-image fs-3"></i>
               <div class="small mt-2">領収書なし</div>
-            </div>            
+            </div>
           <% end %>
         </div>
       </div>

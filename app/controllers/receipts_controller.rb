@@ -1,5 +1,5 @@
 class ReceiptsController < ApplicationController
-  before_action :set_receipt, only: %i[destroy]
+  before_action :set_receipt, only: %i[show destroy]
   before_action :require_unlinked, only: %i[destroy]
   def index
     @receipts = current_user.receipts.unlinked.order(created_at: :desc)
@@ -35,6 +35,18 @@ class ReceiptsController < ApplicationController
       flash.now[:alert] = "保存に失敗しました"
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def show
+    render json: {
+      id: @receipt.id,
+      amount: @receipt.amount,
+      payee: @receipt.payee,
+      invoice_registration_number: @receipt.invoice_registration_number,
+      category: @receipt.category,
+      occurred_on: @receipt.occurred_on,
+      image_url: url_for(@receipt.receipt_image)
+    }
   end
 
   def destroy

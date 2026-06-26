@@ -15,8 +15,32 @@
             <i class="bi bi-file-earmark-arrow-up fs-3 text-secondary"></i>
             <div class="fw-semibold small">領収書をアップロードして自動入力</div>
             <div class="small text-secondary" style="font-size: 0.75rem">
-              またはドラッグ＆ドロップ
+              または
             </div>
+            <%# レシートBOXボタン %>
+            <input type="hidden" id="selected_receipt_id" name="receipt_id" value="">
+            <div class="dropdown-center">
+              <button onclick="event.stopPropagation()" type="button" data-bs-toggle="dropdown" class="btn btn-outline-keihi rounded-3 fw-bold py-2 dropdown-toggle">レシートBOXから選択</button>
+              <ul class="dropdown-menu">
+                <% @unlinked_receipts.each do |receipt| %>
+                  <li>
+                    <a class="dropdown-item" href="#" 
+                       onclick="event.stopPropagation(); event.preventDefault();
+                          fetch('/receipts/<%= receipt.id%>.json')
+                              .then(r=>r.json())
+                              .then(d=>{
+                                fillFormFromOcr(d)
+                                document.getElementById('selected_receipt_id').value = d.id;
+                                document.getElementById('preview-img').src = d.image_url;
+                                document.getElementById('upload-zone').classList.add('d-none');
+                                document.getElementById('preview-card').classList.remove('d-none');
+                              })">
+                      <%= receipt.payee %> ¥<%= number_with_delimiter(receipt.amount.to_i) %>
+                    </a>
+                  </li>
+                <% end %>
+              </ul>
+            </div>            
           </div>
 
           <%# 画像プレビューカード %>

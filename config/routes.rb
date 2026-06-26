@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   end
 
   # レシート保存
-  resources :receipts, only: %i[index new create destroy]
+  resources :receipts, only: %i[index new create show destroy]
 
   # OCR
   resources :ocr, only: %i[create]
