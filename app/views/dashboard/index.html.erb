@@ -1,7 +1,7 @@
 <% content_for :page_title, "ダッシュボード" %>
 <div class="container-field px-4 px-lg-5">
   <%# グリーティング %>
-  <div class="mb-4">
+  <div class="mb-2">
     <p class="text-secondary small mb-0"><%= Date.today.strftime("%Y年%-m月%-d日") %> — <%= current_user.name %>さん、こんにちは</p>
   </div>
 
@@ -28,7 +28,7 @@
       <div class="col-12 col-md-5 mt-3 mt-md-0">
         <%# モバイル %>
         <div class="d-md-none d-flex gap-2">
-          <%= form_with url: receipts_path, method: :post, id: "dashboard-receipt-form", class: "d-none" do |f| %>
+          <%= form_with url: receipts_path, scope: :receipt, method: :post, id: "dashboard-receipt-form", class: "d-none" do |f| %>
             <%= f.file_field :receipt_image, id: "dashboard-receipt-form-file" %>
           <% end %>
           <%= link_to receipts_path, class: "btn btn-outline-keihi rounded-2 py-2 flex-fill fw-bold" do %>
@@ -47,29 +47,6 @@
             下書き一覧を開く →
           <% end %>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <%# 今月の実績 %>
-  <p class="mb-1 card-label small fw-bold">今月の実績</p>
-  <div class="row g-2 g-md-3 mb-3">
-    <div class="col-12 col-md-4">
-      <div class="summary-card h-100">
-        <div class="small text-secondary mb-1">立替見込み</div>
-        <div class="fw-bold fs-4">¥<%= number_with_delimiter(@monthly_total) %></div>
-      </div>
-    </div>
-    <div class="col-6 col-md-4">
-      <div class="summary-card h-100">
-        <div class="small text-secondary mb-1">申請済み金額</div>
-        <div class="fw-bold fs-4">¥<%= number_with_delimiter(@monthly_applied) %></div>
-      </div>
-    </div>
-    <div class="col-6 col-md-4">
-      <div class="summary-card h-100">
-        <div class="small text-secondary mb-1">未申請金額</div>
-        <div class="fw-bold fs-4" style="color: var(--primary-color);">¥<%= number_with_delimiter(@monthly_unapplied) %></div>
       </div>
     </div>
   </div>

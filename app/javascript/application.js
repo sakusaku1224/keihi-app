@@ -266,7 +266,13 @@ function initCharts() {
     },
     options: {
       maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          titleFont: { size: 18 },
+          bodyFont: { size: 20 },
+        },
+      },
       scales: {
         y: { display: false },
         x: { grid: { display: false } },

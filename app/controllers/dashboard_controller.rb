@@ -26,35 +26,12 @@ class DashboardController < ApplicationController
     # 最近の申請(5件)
     @recent_reports = current_user.expense_reports.order(created_at: :desc).limit(5)
 
-    # 月の開始日・終了日を取得する
+    # 過去6ヶ月集計
     beginning = Date.current.beginning_of_month
     ending = Date.current.end_of_month
-
-    # 今月の申請完了ぶん合計（提出・承認された金額の合計）
-    @monthly_applied = current_user.expense_reports
-                                   .where(status: [ :submitted, :approved ])
-                                   .where(created_at: beginning..ending)
-                                   .sum(:total_amount).to_i
-
-    # 今月の未申請ぶん合計（下書き・未申請BOXの金額の合計）
-    draft_amount = current_user.expense_reports.draft
-                              .where(created_at: beginning..ending)
-                              .sum(:total_amount).to_i
-
-    unlinked_amount = current_user.receipts.unlinked
-                                  .where(occurred_on: beginning..ending)
-                                  .sum(:amount).to_i
-
-    @monthly_unapplied = draft_amount + unlinked_amount
-
-    # 今月の立替申請見込み金額
-    @monthly_total = @monthly_applied + @monthly_unapplied
-
-
-    # 過去6ヶ月集計
     start_date = 5.months.ago.beginning_of_month
     monthly_totals = current_user.expense_reports
-                    .where(status: [:submitted, :approved])
+                    .where(status: [ :submitted, :approved ])
                     .where(created_at: start_date..ending)
                     .group("TO_CHAR(created_at, 'YYYY-MM')")
                     .sum(:total_amount)
