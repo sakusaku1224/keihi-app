@@ -187,9 +187,14 @@ h4,
     padding: 1.5rem 0.5rem;
   }
 
+  .sidebar .nav-text,
   .sidebar .font-body-md,
   .sidebar .logo-text {
     display: none;
+  }
+
+  .sidebar .sidebar-header {
+    justify-content: center;
   }
 
   .top-bar {
@@ -200,9 +205,9 @@ h4,
     margin-left: 80px;
   }
 
-  .nav-link {
+  .sidebar .nav-link {
     justify-content: center;
-    padding: 0.75rem 0;
+    padding: 0.4rem 0;
   }
 }
 
@@ -212,12 +217,12 @@ h4,
 @media (max-width: 768px) {
   .main-content {
     margin-left: 0;
+    padding-top: 70px;
   }
+
   .top-bar {
-    display: none;
-  }
-  .main-content {
-    padding-top: 30px;
+    width: 100%;
+    left: 0;
   }
 }
 
@@ -901,7 +906,7 @@ h4,
   border-radius: 0.875rem;
   border: 1px solid #dde9e2;
   background: #eef5f1;
-  padding: 1.2rem 2rem;
+  padding: 0.875rem 1.25rem;
 }
 
 .receipt-summary-amount {

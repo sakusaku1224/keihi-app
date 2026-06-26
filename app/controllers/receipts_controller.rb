@@ -2,8 +2,7 @@ class ReceiptsController < ApplicationController
   before_action :set_receipt, only: %i[destroy]
   before_action :require_unlinked, only: %i[destroy]
   def index
-    # 未申請のものに絞る
-    @receipts = current_user.receipts.unlinked
+    @receipts = current_user.receipts.unlinked.order(created_at: :desc)
   end
 
   def new
