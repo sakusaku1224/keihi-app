@@ -1,6 +1,6 @@
 <%# 明細テーブル %>
 <div class="mb-5">
-  <div class="d-flex align-items-center justify-content-between mb-4">
+  <div class="d-flex align-items-center justify-content-between mb-2">
     <h4 class="h6 mb-0 fw-bold">明細一覧</h4>
     <%# 確認・詳細画面でボタン非表示 %>
     <% unless local_assigns[:readonly] || expense_report.submitted? %>
@@ -22,8 +22,8 @@
       </div>
     </div>
   <% else %>
-    <%# テーブル %>
-    <div class="table-responsive bg-white rounded-3 shadow-sm">
+    <%# デスクトップ：テーブル表示 %>
+    <div class="table-responsive bg-white rounded-3 shadow-sm d-none d-md-block">
       <table class="table table-hover align-middle">
         <thead>
           <tr>
@@ -45,22 +45,17 @@
               </td>
               <td class="text-secondary"><%= item.occurred_on.to_fs(:date_jp) %></td>
               <td class="fw-bold">¥<%= number_with_delimiter(item.amount.to_i) %></td>
-
-              <%#　下書きの場合は編集・削除アイコン　%>
               <td class="text-center">
                 <% if expense_report.draft? && !local_assigns[:readonly] %>
-                  <%# 編集 %>
                   <button type="button" class="btn btn-link text-secondary p-1"
                           data-bs-toggle="modal" data-bs-target="#editItemModal-<%= item.id %>">
                     <i class="bi bi-pencil-fill"></i>
                   </button>
-                  <%# 削除 %>
                   <button type="button" class="btn btn-link text-danger p-1"
                           data-bs-toggle="modal" data-bs-target="#deleteItemModal-<%= item.id %>">
                     <i class="bi bi-trash3"></i>
                   </button>
                 <% else %>
-                  <%# 詳細トグル %>
                   <i class="bi bi-chevron-down" id="icon-<%= item.id %>"></i>
                 <% end %>
               </td>
@@ -124,6 +119,10 @@
                             <%= image_tag item.receipt_image, class: "receipt-preview-img", alt: "領収書" %>
                           </div>
                         <% end %>
+                      <% elsif item.receipt&.receipt_image&.attached? %>
+                        <div class="receipt-preview-wrapper">
+                          <%= image_tag item.receipt.receipt_image, class: "receipt-preview-img", alt: "領収書" %>
+                        </div>
                       <% else %>
                         <div class="receipt-empty">
                           <i class="bi bi-image text-secondary fs-3"></i>
@@ -137,6 +136,82 @@
           <% end %>
         </tbody>
       </table>
+    </div>
+
+    <%# モバイル：カード表示 %>
+    <div class="d-md-none bg-white rounded-3 shadow-sm">
+      <% expense_items.each do |item| %>
+        <div class="d-flex align-items-center gap-3 p-3 border-bottom"
+             <% if expense_report.submitted? || expense_report.approved? || local_assigns[:readonly] %>onclick="toggleRow('m<%= item.id %>')"<% end %>>
+          <div class="flex-fill" style="min-width: 0;">
+            <div class="fw-bold text-truncate"><%= item.item_name %></div>
+            <div class="d-flex align-items-center gap-2 mt-1">
+              <span class="small text-secondary"><%= item.category %></span>
+              <span class="small text-secondary">·</span>
+              <span class="small text-secondary"><%= item.occurred_on.to_fs(:date_jp) %></span>
+            </div>
+          </div>
+          <div class="fw-bold text-nowrap">¥<%= number_with_delimiter(item.amount.to_i) %></div>
+          <% if expense_report.draft? && !local_assigns[:readonly] %>
+            <div class="d-flex gap-1">
+              <button type="button" class="btn btn-link text-secondary p-1"
+                      data-bs-toggle="modal" data-bs-target="#editItemModal-<%= item.id %>"
+                      onclick="event.stopPropagation()">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+              <button type="button" class="btn btn-link text-danger p-1"
+                      data-bs-toggle="modal" data-bs-target="#deleteItemModal-<%= item.id %>"
+                      onclick="event.stopPropagation()">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </div>
+          <% else %>
+            <i class="bi bi-chevron-down" id="icon-m<%= item.id %>"></i>
+          <% end %>
+        </div>
+
+        <%# モバイル詳細展開 %>
+        <% if expense_report.submitted? || expense_report.approved? || local_assigns[:readonly] %>
+          <div class="<%= 'd-none' unless local_assigns[:readonly] %> border-bottom" id="detail-m<%= item.id %>">
+            <div class="detail-cell p-3">
+              <div class="row g-3">
+                <div class="col-6">
+                  <p class="detail-label">支払先</p>
+                  <p class="detail-value"><%= item.payee.presence || "—" %></p>
+                </div>
+                <div class="col-6">
+                  <p class="detail-label">金額</p>
+                  <p class="detail-amount">¥<%= number_with_delimiter(item.amount.to_i) %></p>
+                </div>
+                <div class="col-6">
+                  <p class="detail-label">登録番号</p>
+                  <p class="detail-value"><%= item.invoice_registration_number.presence || "—" %></p>
+                </div>
+                <div class="col-6">
+                  <p class="detail-label">税率</p>
+                  <p class="detail-value"><%= item.tax_rate %>%</p>
+                </div>
+                <div class="col-12">
+                  <p class="detail-label">領収書</p>
+                  <% if item.receipt_image.attached? %>
+                    <div class="receipt-preview-wrapper">
+                      <%= image_tag item.receipt_image, class: "receipt-preview-img", alt: "領収書" %>
+                    </div>
+                  <% elsif item.receipt&.receipt_image&.attached? %>
+                    <div class="receipt-preview-wrapper">
+                      <%= image_tag item.receipt.receipt_image, class: "receipt-preview-img", alt: "領収書" %>
+                    </div>
+                  <% else %>
+                    <div class="receipt-empty">
+                      <i class="bi bi-image text-secondary fs-3"></i>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
     </div>
   <% end %>
 

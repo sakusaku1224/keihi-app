@@ -23,7 +23,7 @@
 
     <%# 各行 %>
     <% reports.each do |report| %>
-      <%= link_to expense_report_path(report), class: "row px-3 py-3 align-items-center text-decoration-none border-bottom list-table-row" do %>
+      <%= link_to expense_report_path(report), class: "row px-2 py-2 px-md-4 py-md-3 align-items-center text-decoration-none border-bottom list-table-row" do %>
         <div class="col-12 col-md-5 fw-semibold text-on-surface"><%= report.title %></div>
         <div class="col-4 col-md-2 text-center text-secondary small">
           <%= report.created_at.to_date.to_fs(:date_jp) %>

@@ -215,12 +215,14 @@ h4,
 // レスポンシブ（768px以下）
 // ======================================
 @media (max-width: 768px) {
-  .main-content {
+  .main-content,
+  .main-content.sidebar-collapsed {
     margin-left: 0;
     padding-top: 80px;
   }
 
-  .top-bar {
+  .top-bar,
+  .top-bar.sidebar-collapsed {
     width: 100%;
     left: 0;
   }
@@ -510,7 +512,7 @@ h4,
   background: white;
   border: 1px solid var(--outline-variant);
   border-radius: 1rem;
-  padding: 2.5rem;
+  // padding: 2.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
