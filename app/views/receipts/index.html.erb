@@ -8,7 +8,7 @@
       <div class="receipt-summary-card h-100">
         <div class="receipt-summary-label mb-1">未回収金額（合計）</div>
         <div class="receipt-summary-amount">
-          ¥<%= number_with_delimiter(@receipts.sum(:amount) || 0).to_i %>
+          ¥<%= number_with_delimiter((@receipts.sum(:amount) || 0).to_i) %>
         </div>
       </div>
     </div>
@@ -73,7 +73,7 @@
               <td class="fw-bold"><%= receipt.payee %></td>
               <td class="small text-secondary"><%= category_dot(receipt.category) %><%= receipt.category %></td>
               <td class="small text-secondary"><%= receipt.created_at.to_date.to_fs(:date_jp) %></td>
-              <td class="fw-bold pe-4">¥<%= number_with_delimiter(receipt.amount).to_i %></td>
+              <td class="fw-bold pe-4">¥<%= number_with_delimiter(receipt.amount.to_i) %></td>
               <td>
                 <%= link_to receipt_path(receipt), data: { turbo_method: :delete, turbo_confirm: "この領収書を削除しますか？" }, class: "btn btn-sm btn-link text-secondary p-0" do %>
                   <i class="bi bi-trash"></i>
@@ -87,7 +87,7 @@
             <td class="small text-secondary"><span class="fw-bold m-2">合計</span><%= (@receipts.count || 0).to_i %>件</td>
             <td></td>
             <td></td>
-            <td class="fw-bold pe-4" style="color: var(--primary-color);">¥<%= number_with_delimiter(@receipts.sum(:amount) || 0).to_i %></td>
+            <td class="fw-bold pe-4" style="color: var(--primary-color);">¥<%= number_with_delimiter((@receipts.sum(:amount) || 0).to_i) %></td>
             <td></td>
           </tr>
         </tbody>
@@ -120,7 +120,7 @@
                 <span class="small text-secondary"><%= receipt.created_at.to_date.to_fs(:date_jp) %></span>
               </div>
             </div>
-            <div class="fw-bold text-nowrap">¥<%= number_with_delimiter(receipt.amount).to_i %></div>
+            <div class="fw-bold text-nowrap">¥<%= number_with_delimiter(receipt.amount.to_i) %></div>
             <%= link_to receipt_path(receipt), data: { turbo_method: :delete, turbo_confirm: "この領収書を削除しますか？" }, class: "btn btn-sm btn-link text-secondary p-0" do %>
               <i class="bi bi-trash"></i>
             <% end %>
@@ -132,7 +132,7 @@
             合計 <span class="fw-normal"><%= (@receipts.count || 0).to_i %>件</span>
           </span>
           <span class="fw-bold" style="color: var(--primary-color);">
-            ¥<%= number_with_delimiter(@receipts.sum(:amount) || 0).to_i %>
+            ¥<%= number_with_delimiter((@receipts.sum(:amount) || 0).to_i) %>
           </span>
         </div>
       </div>

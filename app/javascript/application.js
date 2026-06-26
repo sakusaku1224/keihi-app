@@ -80,7 +80,6 @@ function initReceiptUpload() {
     pdfPreview.classList.add("d-none");
   }
 
-  // イベントリスナー
   if (!uploadZone) return;
   // クリックされたら、ファイルフィールドを発火
   uploadZone.addEventListener("click", () => {
@@ -155,25 +154,32 @@ function initReceiptUpload() {
         alert("OCR の読み取りに失敗しました");
       });
   }
-
 }
 
 // フォームに自動入力（OCR・レシートBOX共用）
 function fillFormFromOcr(data) {
-  if (data.item_name) document.getElementById("expense_item_item_name").value = data.item_name;
-  if (data.category) document.getElementById("expense_item_category").value = data.category;
+  if (data.item_name)
+    document.getElementById("expense_item_item_name").value = data.item_name;
+  if (data.category)
+    document.getElementById("expense_item_category").value = data.category;
   const fpInstance = document.getElementById(
     "expense_item_occurred_on",
   )?._flatpickr;
   if (fpInstance && data.occurred_on) {
     fpInstance.setDate(data.occurred_on, true);
   } else if (data.occurred_on) {
-    document.getElementById("expense_item_occurred_on").value = data.occurred_on;
+    document.getElementById("expense_item_occurred_on").value =
+      data.occurred_on;
   }
-  if (data.amount) document.getElementById("expense_item_amount").value = Math.round(data.amount);
-  if (data.payee) document.getElementById("expense_item_payee").value = data.payee;
+  if (data.amount)
+    document.getElementById("expense_item_amount").value = Math.round(
+      data.amount,
+    );
+  if (data.payee)
+    document.getElementById("expense_item_payee").value = data.payee;
   if (data.invoice_registration_number) {
-    document.getElementById("expense_item_invoice_registration_number").value = data.invoice_registration_number;
+    document.getElementById("expense_item_invoice_registration_number").value =
+      data.invoice_registration_number;
   }
   const taxRadio = document.querySelector(
     `input[name="expense_item[tax_rate]"][value="${data.tax_rate}"]`,
@@ -264,29 +270,6 @@ function initCharts() {
       scales: {
         y: { display: false },
         x: { grid: { display: false } },
-      },
-    },
-  });
-
-  // ステータス分布ドーナツグラフ
-  new Chart(document.getElementById("statusChart"), {
-    type: "doughnut",
-    data: {
-      labels: ["下書き", "提出済み", "承認済み"],
-      datasets: [
-        {
-          data: [draft, submitted, approved],
-          backgroundColor: ["#faecb6", "#c8d9f1", "#bddbce"],
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      maintainAspectRatio: false,
-      cutout: "60%",
-      radius: "80%",
-      plugins: {
-        legend: { position: "right", labels: { font: { size: 11 } } },
       },
     },
   });
