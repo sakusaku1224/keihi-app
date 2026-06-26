@@ -54,6 +54,7 @@ class DashboardController < ApplicationController
     # 過去6ヶ月集計
     start_date = 5.months.ago.beginning_of_month
     monthly_totals = current_user.expense_reports
+                    .where(status: [:submitted, :approved])
                     .where(created_at: start_date..ending)
                     .group("TO_CHAR(created_at, 'YYYY-MM')")
                     .sum(:total_amount)

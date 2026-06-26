@@ -570,6 +570,31 @@ h4,
   }
 }
 
+.btn-outline-keihi {
+  background-color: #eef5f1;
+  color: var(--primary-color);
+  border: 1px solid #c8ddd4;
+  font-weight: 600;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #dde9e2;
+    color: var(--primary-color);
+  }
+}
+
+.btn-outline-draft {
+  color: #92650a;
+  border: 1px solid #e8d48b;
+  font-weight: 600;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #fef3c7;
+    color: #92650a;
+  }
+}
+
 .btn-secondary-keihi {
   color: var(--text-secondary);
   background: none;
