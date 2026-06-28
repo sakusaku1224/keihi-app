@@ -4,7 +4,8 @@ FactoryBot.define do
     category     { "交通費" }
     occurred_on  { Date.yesterday }
     amount       { 1000 }
-    payee        { "〇〇タクシー" }
-    invoice_registration_number { "T123456789123１" }
+    payee        { "関東鉄道" }
+    invoice_registration_number { "T1234567891231" }
+    receipt_image { Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/files/test_receipt.jpg"), "image/jpeg") }
   end
 end

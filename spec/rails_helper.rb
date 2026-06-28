@@ -37,6 +37,8 @@ end
 RSpec.configure do |config|
   # FactoryBotのメソッドをそのまま使えるようにする（create/build/build_stubbedなど）
   config.include FactoryBot::Syntax::Methods
+  # Deviseのテストヘルパー（sign_in/sign_outを使えるようにする）
+  config.include Devise::Test::IntegrationHelpers, type: :request
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
