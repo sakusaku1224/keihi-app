@@ -4,6 +4,23 @@
   <div class="mb-2">
     <p class="text-secondary small mb-0"><%= Date.today.strftime("%Y年%-m月%-d日") %> — <%= current_user.name %>さん、こんにちは</p>
   </div>
+  <%# バナー %>
+  <% if @reminder_level == :critical %>
+    <div class="alert alert-danger align-items-center small fw-bold py-2 d-flex gap-2 mb-1" role="alert">
+      <i class="bi bi-alarm"></i>
+      <span>本日は締日です。申請をお忘れなく！</span>
+    </div>
+  <% elsif @reminder_level == :urgent %>
+    <div class="alert alert-warning align-items-center small fw-bold py-2 d-flex gap-2 mb-1" role="alert">
+      <i class="bi bi-alarm"></i>
+      <span>締日まであと<%= @deadline_days %>日です。早めに申請をしましょう！</span>
+    </div>
+  <% elsif @reminder_level == :warning %>
+    <div class="alert alert-secondary align-items-center small fw-bold py-2 d-flex gap-2 mb-1" role="alert">
+      <i class="bi bi-alarm"></i>
+      <span>締日まであと<%= @deadline_days %>日です。早めに申請をしましょう！</span>
+    </div>
+  <% end %>
 
   <%# 未回収金額 %>
   <div class="summary-card mb-3">

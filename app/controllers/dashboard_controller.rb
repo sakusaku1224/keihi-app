@@ -44,5 +44,16 @@ class DashboardController < ApplicationController
     end
 
     @monthly_labels = @monthly_labels.map { |m| m.strftime("%-m月") }
+
+    # バナー
+    if @uncollected_amount == 0
+      @reminder_level = nil
+    elsif @deadline_days == 0
+      @reminder_level = :critical
+    elsif @deadline_days <= 3
+      @reminder_level = :urgent
+    elsif @deadline_days <= 7
+      @reminder_level = :warning
+    end
   end
 end
