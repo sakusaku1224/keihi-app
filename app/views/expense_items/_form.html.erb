@@ -24,10 +24,10 @@
             <% if @unlinked_receipts.present? %>
             <div class="dropdown-center">
               <button onclick="event.stopPropagation()" type="button" data-bs-toggle="dropdown" class="btn btn-outline-keihi rounded-3 fw-bold py-2 dropdown-toggle">レシートBOXから選択</button>
-              <ul class="dropdown-menu" onclick="event.stopPropagation()">
+              <ul class="dropdown-menu shadow-sm p-2" style="min-width: 280px; border-radius: 0.75rem;" onclick="event.stopPropagation()">
                 <% @unlinked_receipts.each do |receipt| %>
                   <li>
-                    <a class="dropdown-item" href="#" 
+                    <a class="dropdown-item rounded-2 py-2 px-3" href="#"
                        onclick="event.stopPropagation(); event.preventDefault();
                           fetch('/receipts/<%= receipt.id%>.json')
                               .then(r=>r.json())
@@ -38,7 +38,11 @@
                                 document.getElementById('upload-zone').classList.add('d-none');
                                 document.getElementById('preview-card').classList.remove('d-none');
                               })">
-                      <%= receipt.payee %> ¥<%= number_with_delimiter(receipt.amount.to_i) %>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold small"><%= receipt.payee || "支払先不明" %></span>
+                        <span class="fw-bold small" style="color: var(--primary-color);">¥<%= number_with_delimiter(receipt.amount.to_i) %></span>
+                      </div>
+                      <div class="small text-secondary" style="font-size: 0.75rem;"><%= receipt.occurred_on&.to_fs(:date_jp) || "-" %></div>
                     </a>
                   </li>
                 <% end %>
