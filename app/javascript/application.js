@@ -168,8 +168,18 @@ function initReceiptUpload() {
   }
 }
 
+// バリデーションエラー表示をクリア
+function clearValidationErrors(form) {
+  if (!form) return;
+  form.querySelectorAll(".is-invalid").forEach((el) => el.classList.remove("is-invalid"));
+  form.querySelectorAll(".invalid-feedback").forEach((el) => el.remove());
+}
+
 // フォームに自動入力（OCR・レシートBOX共用）
 function fillFormFromOcr(data) {
+  const form = document.getElementById("new_item_form");
+  clearValidationErrors(form);
+
   if (data.item_name)
     document.getElementById("expense_item_item_name").value = data.item_name;
   if (data.category)
@@ -324,7 +334,13 @@ document.addEventListener("turbo:load", () => {
   if (addModal) {
     addModal.addEventListener("hidden.bs.modal", () => {
       const form = addModal.querySelector("form");
-      if (form) form.reset();
+      if (form) {
+        form.reset();
+        form.querySelectorAll(".is-invalid").forEach((el) => el.classList.remove("is-invalid"));
+        form.querySelectorAll(".invalid-feedback").forEach((el) => el.remove());
+      }
+      const fp = document.getElementById("expense_item_occurred_on")?._flatpickr;
+      if (fp) fp.clear();
       const previewCard = document.getElementById("preview-card");
       const uploadZone = document.getElementById("upload-zone");
       if (previewCard) previewCard.classList.add("d-none");
