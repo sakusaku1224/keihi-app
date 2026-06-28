@@ -258,6 +258,13 @@ h4,
   animation: slideInUp 0.5s ease-out;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
+
+  @media (max-width: 768px) {
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 200px;
+    animation: slideInUpCenter 0.5s ease-out;
+  }
 }
 
 .toast-flash.alert-notice {

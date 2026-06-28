@@ -1,6 +1,16 @@
 <%# フラッシュメッセージ %>
 <% flash.each do |message_type, message| %>
-  <div class="alert alert-<%= message_type %> toast-flash">
+  <div class="alert alert-<%= message_type %> toast-flash" id="flash-message">
     <%= message %>
   </div>
+  <script>
+    setTimeout(() => {
+      const flash = document.getElementById('flash-message');
+      if (flash) {
+        flash.style.transition = 'opacity 0.3s';
+        flash.style.opacity = '0';
+        setTimeout(() => flash.remove(), 500);
+      }
+    }, 2000);
+  </script>
 <% end %>
