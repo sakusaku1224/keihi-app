@@ -295,13 +295,22 @@ function initCharts() {
     },
   });
 }
+// Chart.jsの読み込みを待ってからグラフを初期化
+function initChartsWithRetry(retries = 5) {
+  if (typeof Chart !== "undefined") {
+    initCharts();
+  } else if (retries > 0) {
+    setTimeout(() => initChartsWithRetry(retries - 1), 500);
+  }
+}
+
 // ページが読み込まれるたびに初期化
 document.addEventListener("turbo:load", () => {
   initReceiptUpload();
   initImagePreview();
   initFlatpickr();
   initValidationClear();
-  initCharts();
+  initChartsWithRetry();
 });
 
 // バリデーションエラーはturbo:loadが発火しないためturbo:renderで補完
