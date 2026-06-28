@@ -145,61 +145,36 @@ Rails向け認証の業界標準gem。ゲストログイン機能の実装も容
 
 ## ER図
 
-```mermaid
-erDiagram
-    users ||--o{ expense_reports : "1:N"
-    users ||--o{ receipts : "1:N"
-    expense_reports ||--o{ expense_items : "1:N"
-    expense_items ||--o| receipts : "1:1 optional"
-
-    users {
-        integer id PK
-        string name
-        string email
-        string department
-        string password
-        datetime created_at
-        datetime updated_at
-    }
-
-    expense_reports {
-        integer id PK
-        integer user_id FK
-        string title
-        text notes
-        integer status
-        decimal total_amount
-        datetime submitted_at
-        datetime created_at
-        datetime updated_at
-    }
-
-    expense_items {
-        integer id PK
-        integer expense_report_id FK
-        string item_name
-        string category
-        date occurred_on
-        decimal amount
-        integer tax_rate
-        string payee
-        string invoice_registration_number
-        datetime created_at
-        datetime updated_at
-    }
-
-    receipts {
-        integer id PK
-        integer user_id FK
-        integer expense_item_id FK "NULL許可"
-        string category
-        date occurred_on
-        decimal amount
-        string payee
-        string invoice_registration_number
-        datetime created_at
-        datetime updated_at
-    }
+```
+┌──────────────────────┐ ┌────────────────────────┐ ┌────────────────────────────────┐
+│ users │ │ expense_reports │ │ expense_items │
+├──────────────────────┤ ├────────────────────────┤ ├────────────────────────────────┤
+│ id: integer │ │ id: integer │ │ id: integer │
+│ name: string │ │ title: string │ │ item_name: string │
+│ email: string │＼ │ notes: text │＼ │ category: string │
+│ department: string │─┼──│ status: integer │─┼──│ occurred_on: date │
+│ password: string │／ │ total_amount: decimal │／ │ amount: decimal │
+│ created_at: datetime │ │ submitted_at: datetime │ │ tax_rate: integer │
+│ updated_at: datetime │ │ user_id: integer(FK) │ │ payee: string │
+└──────────────────────┘ │ created_at: datetime │ │ invoice_registration_number │
+│＼ │ updated_at: datetime │ │ expense_report_id: integer(FK) │
+│─┼── └────────────────────────┘ │ created_at: datetime │
+│／ │ updated_at: datetime │
+┌────────┴─────────────┐ └──────────────┬─────────────────┘
+│ receipts │ │
+├──────────────────────┤ 1:1 (optional / NULL許可) │
+│ id: integer │←────────────────────────────────────────────────┘
+│ user_id: integer(FK) │
+│ expense_item_id(FK) │ ※ NULL = レシートBOX（未紐付け）
+│ category: string │
+│ occurred_on: date │
+│ amount: decimal │
+│ payee: string │
+│ invoice_reg_number │
+│ + receipt_image │ ※ Active Storage (Cloudinary)
+│ created_at: datetime │
+│ updated_at: datetime │
+└──────────────────────┘
 ```
 
 ## 今後の展望
