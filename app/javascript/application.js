@@ -309,6 +309,25 @@ document.addEventListener("turbo:render", () => {
   initValidationClear();
 });
 
+// モーダルを閉じたときにフォームをリセット
+document.addEventListener("turbo:load", () => {
+  const addModal = document.getElementById("addItemModal");
+  if (addModal) {
+    addModal.addEventListener("hidden.bs.modal", () => {
+      const form = addModal.querySelector("form");
+      if (form) form.reset();
+      const previewCard = document.getElementById("preview-card");
+      const uploadZone = document.getElementById("upload-zone");
+      if (previewCard) previewCard.classList.add("d-none");
+      if (uploadZone) uploadZone.classList.remove("d-none");
+      const ocrBtn = document.getElementById("ocr-btn");
+      if (ocrBtn) ocrBtn.classList.add("d-none");
+      const receiptId = document.getElementById("selected_receipt_id");
+      if (receiptId) receiptId.value = "";
+    });
+  }
+});
+
 // Turbo Streamで部分更新されたときも、初期化
 document.addEventListener("turbo:before-stream-render", (event) => {
   const original = event.detail.render;

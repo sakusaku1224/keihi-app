@@ -14,11 +14,14 @@
           <div id="upload-zone" class="upload-zone h-100 d-flex flex-column align-items-center justify-content-center">
             <i class="bi bi-file-earmark-arrow-up fs-3 text-secondary"></i>
             <div class="fw-semibold small">領収書をアップロードして自動入力</div>
-            <div class="small text-secondary" style="font-size: 0.75rem">
-              または
-            </div>
+            <% if @unlinked_receipts.present? %>
+              <div class="small text-secondary" style="font-size: 0.75rem">
+                または
+              </div>
+            <% end %>
             <%# レシートBOXボタン %>
             <input type="hidden" id="selected_receipt_id" name="receipt_id" value="">
+            <% if @unlinked_receipts.present? %>
             <div class="dropdown-center">
               <button onclick="event.stopPropagation()" type="button" data-bs-toggle="dropdown" class="btn btn-outline-keihi rounded-3 fw-bold py-2 dropdown-toggle">レシートBOXから選択</button>
               <ul class="dropdown-menu" onclick="event.stopPropagation()">
@@ -40,7 +43,8 @@
                   </li>
                 <% end %>
               </ul>
-            </div>            
+            </div>
+            <% end %>
           </div>
 
           <%# 画像プレビューカード %>
@@ -64,9 +68,9 @@
 
   <%# フッター %>
   <div class="modal-footer px-4 py-3 bg-light border-top">
-    <button type="button" class="btn btn-outline-secondary px-4 fw-semibold" data-bs-dismiss="modal">キャンセル</button>
+    <button type="button" class="btn btn-outline-secondary px-4 py-2 fw-semibold" data-bs-dismiss="modal">キャンセル</button>
     <div class="ms-auto">
-      <%= f.submit "保存する", class: "btn btn-primary-keihi rounded-2 px-5 fw-bold" %>
+      <%= f.submit "保存する", class: "btn btn-primary-keihi rounded-2 px-5 py-2 fw-semibold" %>
     </div>
   </div>
 <% end %>
