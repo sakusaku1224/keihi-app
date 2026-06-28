@@ -5,6 +5,11 @@
     <button class="btn btn-link p-0 text-dark d-md-none" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
       <i class="bi bi-list fs-4"></i>
     </button>
+    <% unless content_for(:page_title) == "ダッシュボード" %>
+      <%= link_to root_path, class: "text-secondary text-decoration-none" do %>
+        <i class="bi bi-arrow-left"></i>
+      <% end %>
+    <% end %>
     <h1 class="fs-5 m-0"><%= yield :page_title %></h1>
   </div>
   <div class="d-flex align-items-center gap-4">
