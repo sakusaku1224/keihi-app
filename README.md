@@ -175,6 +175,7 @@ Rails向け認証の業界標準gem。ゲストログイン機能の実装も容
 │ created_at: datetime │
 │ updated_at: datetime │
 └──────────────────────┘
+
 ```
 
 ## 今後の展望
