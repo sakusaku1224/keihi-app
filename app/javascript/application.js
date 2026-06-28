@@ -171,7 +171,9 @@ function initReceiptUpload() {
 // バリデーションエラー表示をクリア
 function clearValidationErrors(form) {
   if (!form) return;
-  form.querySelectorAll(".is-invalid").forEach((el) => el.classList.remove("is-invalid"));
+  form
+    .querySelectorAll(".is-invalid")
+    .forEach((el) => el.classList.remove("is-invalid"));
   form.querySelectorAll(".invalid-feedback").forEach((el) => el.remove());
 }
 
@@ -336,10 +338,14 @@ document.addEventListener("turbo:load", () => {
       const form = addModal.querySelector("form");
       if (form) {
         form.reset();
-        form.querySelectorAll(".is-invalid").forEach((el) => el.classList.remove("is-invalid"));
+        form
+          .querySelectorAll(".is-invalid")
+          .forEach((el) => el.classList.remove("is-invalid"));
         form.querySelectorAll(".invalid-feedback").forEach((el) => el.remove());
       }
-      const fp = document.getElementById("expense_item_occurred_on")?._flatpickr;
+      const fp = document.getElementById(
+        "expense_item_occurred_on",
+      )?._flatpickr;
       if (fp) fp.clear();
       const previewCard = document.getElementById("preview-card");
       const uploadZone = document.getElementById("upload-zone");
