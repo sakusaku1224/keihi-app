@@ -37,6 +37,10 @@ gem "kaminari"
 # 環境変数管理（APIキー等）
 gem "dotenv-rails"
 
+# クラウド
+gem 'cloudinary'
+gem 'activestorage-cloudinary-service'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -67,7 +71,6 @@ group :development do
   # 開発環境でメールをブラウザ確認
   gem "letter_opener"
 
-  # N+1クエリ検出
   gem "bullet"
 end
 

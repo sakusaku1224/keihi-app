@@ -8,7 +8,7 @@
       <i class="bi bi-arrow-left text-secondary"></i>
       <span class="text-secondary ms-1 fw-bold">レシートBOXに戻る</span>
     <% end %>
-    <%= f.file_field :receipt_image, class: "", id: "receipt-file-input", accept: "image/*", capture: "environment"%>
+    <%= f.file_field :receipt_image, class: "", id: "receipt-file-input", accept: "image/*"%>
     <div class="flex-grow-1 position-relative mb-3">
       <div class="upload-zone h-100 d-flex flex-column align-items-center justify-content-center">
         <i class="bi bi-file-earmark-image fs-1 text-secondary"></i>
@@ -18,6 +18,6 @@
         </div>
       </div>
     </div>
-    <%= f.submit "保存", class: "btn btn-secondary w-100 mt-2" %>
+    <%= f.submit "保存", class: "btn btn-secondary w-100 mt-2 py-3" %>
   </div>
 <% end %>

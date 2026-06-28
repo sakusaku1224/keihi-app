@@ -258,6 +258,13 @@ h4,
   animation: slideInUp 0.5s ease-out;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
+
+  @media (max-width: 768px) {
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 200px;
+    animation: slideInUpCenter 0.5s ease-out;
+  }
 }
 
 .toast-flash.alert-notice {
@@ -304,6 +311,7 @@ h4,
 .flatpickr-calendar {
   padding: 16px;
   width: 340px;
+  max-width: calc(100vw - 2rem);
 }
 
 // ======================================
@@ -730,13 +738,14 @@ h4,
 .empty-bg {
   width: 60px;
   height: 60px;
+  min-width: 60px;
   background-color: var(--surface-container-low);
 }
 
 .empty-state-container {
   border: 2px dashed var(--outline-variant);
   border-radius: 1rem;
-  padding: 2rem 2.5rem;
+  padding: 1.8rem 2rem;
   text-align: center;
   background-color: #fff;
 }
@@ -750,6 +759,7 @@ h4,
   border: none;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
+
 
 .upload-zone {
   border: 2px dashed var(--outline-variant);
@@ -769,7 +779,7 @@ h4,
 .tax-rate-option {
   border: 1px solid var(--outline-variant);
   border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
+  padding: 0.4rem 1rem;
   cursor: pointer;
   transition: background 0.2s;
 

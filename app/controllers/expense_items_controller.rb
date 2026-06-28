@@ -18,6 +18,7 @@ class ExpenseItemsController < ApplicationController
       end
       redirect_to @expense_report, notice: "明細を追加しました"
     else
+      @unlinked_receipts = current_user.receipts.unlinked
       render turbo_stream: turbo_stream.replace(
         "new_item_form",
         partial: "expense_items/form",

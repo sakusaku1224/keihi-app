@@ -32,15 +32,18 @@
   </div>
   <%# 一覧 %>
   <div class="row px-3 py-2 mb-0">
-    <div class="col">
+    <div class="col d-flex gap-3">
       <h3 class="h6 fw-bold mb-0">一覧</h3>
+      <span class="text-secondary small">(アイコンタップで画像プレビュー)</span>
     </div>
   </div>
 
   <% if @receipts.empty? %>
-    <div class="text-center py-5 text-secondary upload-zone card justify-content-center">
-      <i class="bi bi-inbox fs-2 d-block mb-2"></i>
-      <p class="mb-0">まずはレシートを撮影・保存するだけでOK。金額入力や申請はあとでまとめてできます。</p>
+    <div class="text-center py-4 px-3 text-secondary card align-items-center d-flex justify-content-center" style="border: 2px dashed var(--outline-variant); border-radius: 1rem;">
+      <div class="d-inline-flex align-items-center justify-content-center rounded-circle empty-bg"> 
+        <i class="bi bi-inbox fs-3 d-block mb-1"></i>
+      </div>
+      <p class="mb-0 small">まずはレシートを撮影・保存するだけでOK。</p>
     </div>
   <% else %>
     <div class="card" style="border-radius: 0.875rem; overflow: hidden;">
@@ -141,19 +144,28 @@
       </div>
     </div>
   <% end %>
+  <%# フォーム %>
+  <%= form_with url: receipts_path, scope: :receipt, method: :post, id: "receipt-upload-form", class: "d-none" do |f| %>
+    <%= f.file_field :receipt_image, id: "receipt-upload-file" %>
+  <% end %>
+
   <%# 追加ボタン（デスクトップ） %>
   <div class="d-none d-sm-block mt-3">
-    <%= link_to new_receipt_path, class: "btn btn-primary-keihi w-100 rounded-3 fw-bold" do %>
-      ＋ レシートを追加
-    <% end %>
+    <label id="receipt-add-btn" class="btn btn-primary-keihi w-100 rounded-3 fw-bold mb-0" style="cursor: pointer;">
+      <i class="bi bi-plus-circle"></i> レシートを追加
+      <input type="file" accept="image/*" class="d-none"
+             onchange="document.getElementById('receipt-upload-file').files = this.files; document.getElementById('receipt-upload-form').requestSubmit(); this.closest('label').innerHTML = '<span class=\'spinner-border spinner-border-sm me-2\'></span>保存中...'; this.closest('label').style.pointerEvents = 'none';">
+    </label>
   </div>
 </div>
 
 <%# モバイル用stickyボタン %>
 <div class="receipt-sticky-btn d-sm-none p-3">
-  <%= link_to new_receipt_path, class: "btn btn-primary-keihi w-100 rounded-3 fw-bold py-3" do %>
-    ＋ レシートを追加
-  <% end %>
+  <label id="receipt-add-btn-mobile" class="btn btn-primary-keihi w-100 rounded-3 fw-bold py-3 mb-0" style="cursor: pointer;">
+    <i class="bi bi-plus-circle"></i> レシートを追加
+    <input type="file" accept="image/*" class="d-none"
+           onchange="document.getElementById('receipt-upload-file').files = this.files; document.getElementById('receipt-upload-form').requestSubmit(); this.closest('label').innerHTML = '<span class=\'spinner-border spinner-border-sm me-2\'></span>保存中...'; this.closest('label').style.pointerEvents = 'none';">
+  </label>
 </div>
 <%# 画像プレビューモーダル %>
 <div class="modal fade" id="imagePreviewModal" tabindex="-1">

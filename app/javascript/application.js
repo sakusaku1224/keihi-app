@@ -125,17 +125,20 @@ function initReceiptUpload() {
     ocrBtn.innerHTML =
       '<span class="spinner-border spinner-border-sm"></span> 読み取り中...';
 
-    // 画像を圧縮
-    const options = {
-      maxSizeMB: 1.5,
-      maxWidthOrHeight: 1600,
-      useWebWorker: true,
-    };
-    const compressedFile = await imageCompression(currentFile, options);
+    // 画像を圧縮（ライブラリが読み込まれていれば）
+    let fileToSend = currentFile;
+    if (typeof imageCompression !== "undefined") {
+      const options = {
+        maxSizeMB: 1.5,
+        maxWidthOrHeight: 1600,
+        useWebWorker: true,
+      };
+      fileToSend = await imageCompression(currentFile, options);
+    }
 
     // FormData を作ってファイルを追加
     const formData = new FormData();
-    formData.append("receipt_image", compressedFile);
+    formData.append("receipt_image", fileToSend);
 
     // サーバーに送る
     fetch("/ocr", {
@@ -156,7 +159,8 @@ function initReceiptUpload() {
         }
         fillFormFromOcr(data);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("OCR Error:", err);
         ocrBtn.disabled = false;
         ocrBtn.innerHTML = '<i class="bi bi-magic"></i> OCR 読み取り';
         alert("OCR の読み取りに失敗しました");
@@ -244,19 +248,22 @@ function initValidationClear() {
 // グラフ
 function initCharts() {
   const el = document.getElementById("chart-data");
-  // ダッシュボードのみ
   if (!el) return;
+  if (typeof Chart === "undefined") return;
 
-  // JSONを配列に
+  const canvas = document.getElementById("monthlyChart");
+  if (!canvas) return;
+
+  const existing = Chart.getChart(canvas);
+  if (existing) existing.destroy();
+
   const labels = JSON.parse(el.dataset.labels);
   const values = JSON.parse(el.dataset.values);
-  // 文字列を数値に
   const draft = parseInt(el.dataset.draft);
   const submitted = parseInt(el.dataset.submitted);
   const approved = parseInt(el.dataset.approved);
 
-  // 棒グラフ
-  new Chart(document.getElementById("monthlyChart"), {
+  new Chart(canvas, {
     type: "bar",
     data: {
       labels,
@@ -300,6 +307,25 @@ document.addEventListener("turbo:load", () => {
 // バリデーションエラーはturbo:loadが発火しないためturbo:renderで補完
 document.addEventListener("turbo:render", () => {
   initValidationClear();
+});
+
+// モーダルを閉じたときにフォームをリセット
+document.addEventListener("turbo:load", () => {
+  const addModal = document.getElementById("addItemModal");
+  if (addModal) {
+    addModal.addEventListener("hidden.bs.modal", () => {
+      const form = addModal.querySelector("form");
+      if (form) form.reset();
+      const previewCard = document.getElementById("preview-card");
+      const uploadZone = document.getElementById("upload-zone");
+      if (previewCard) previewCard.classList.add("d-none");
+      if (uploadZone) uploadZone.classList.remove("d-none");
+      const ocrBtn = document.getElementById("ocr-btn");
+      if (ocrBtn) ocrBtn.classList.add("d-none");
+      const receiptId = document.getElementById("selected_receipt_id");
+      if (receiptId) receiptId.value = "";
+    });
+  }
 });
 
 // Turbo Streamで部分更新されたときも、初期化
