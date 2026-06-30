@@ -15,5 +15,15 @@ RSpec.describe "ExpenseItems", type: :request do
       receipt.reload
       expect(receipt.expense_item_id).to be_present
     end
+    it "receipt_idを送らなければ紐付かない" do
+      expense_report = create(:expense_report, user: user)
+      receipt = create(:receipt, user: user)
+      # 実行の際にreceipt_idを送らない
+      post expense_report_expense_items_path(expense_report), params: {
+        expense_item: attributes_for(:expense_item)
+      }
+      receipt.reload
+      expect(receipt.expense_item_id).not_to be_present
+    end
   end
 end
