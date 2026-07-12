@@ -1,7 +1,29 @@
 require 'rails_helper'
 
 RSpec.describe "ExpenseItems", type: :request do
-  describe "GET /index" do
-    pending "add some examples (or delete) #{__FILE__}"
+  let(:user) { create(:user) }
+  before { sign_in user }
+  describe "POST /expense_reports/:id/expense_items" do
+    it "receipt_idを渡すと、レシートが紐づく" do
+      expense_report = create(:expense_report, user: user)
+      receipt = create(:receipt, user: user)
+      # 実行リクエストの際に、receipt_idも送る
+      post expense_report_expense_items_path(expense_report), params: {
+        expense_item: attributes_for(:expense_item),
+        receipt_id: receipt.id
+      }
+      receipt.reload
+      expect(receipt.expense_item_id).to be_present
+    end
+    it "receipt_idを送らなければ紐付かない" do
+      expense_report = create(:expense_report, user: user)
+      receipt = create(:receipt, user: user)
+      # 実行の際にreceipt_idを送らない
+      post expense_report_expense_items_path(expense_report), params: {
+        expense_item: attributes_for(:expense_item)
+      }
+      receipt.reload
+      expect(receipt.expense_item_id).not_to be_present
+    end
   end
 end

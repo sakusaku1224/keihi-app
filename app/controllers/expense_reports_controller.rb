@@ -75,7 +75,8 @@ class ExpenseReportsController < ApplicationController
   def self_check
     # 領収書未添付
     @missing_items = @expense_report.expense_items.reject do |item|
-      item.receipt_image.attached?
+      item.receipt_image.attached? ||
+      item.receipt&.receipt_image&.attached?
     end
     # 過去の申請と重複
     @cross_report_duplicates = @expense_report.expense_items.select do |item|
