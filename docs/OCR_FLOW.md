@@ -31,7 +31,7 @@ AI活用しながら実装したため、再度処理の流れを自分で理解
 
 ## 明細モーダルでOCRボタンを押し、表示されるまでの流れ
 
-### 1:画像をアップロードし、OCRボタンを押す
+### 1: 画像をアップロードし、OCRボタンを押す
 
 　app/javascript/application.js L95〜105
 
@@ -50,7 +50,7 @@ AI活用しながら実装したため、再度処理の流れを自分で理解
       通信量を減らすため。APIの無料プランの非力なインスタンスに対応。
       サイズ上限の担保はサーバー側のバリデーション（10MB未満）で行っている）
 
-### 2:サーバーへ送信（Fetch API）
+### 2: サーバーへ送信（Fetch API）
 
     app/javascript/application.js L140〜151
 
@@ -68,14 +68,14 @@ AI活用しながら実装したため、再度処理の流れを自分で理解
         resources :ocr, only: %i[create]
         # POST /ocr → OcrController#create
 
-### ３：コントローラがサービスを呼ぶ
+### 3: コントローラがサービスを呼ぶ
 
 app/controllers/ocr_controller.rb L4〜12
 
     image_file = params[:receipt_image]   # フォームから受け取り
     data = ReceiptScanner.new(image_file).call  # サービス層へ委譲
 
-### 4:ReceiptScanner がOcrService を呼び出す
+### 4: ReceiptScanner がOcrService を呼び出す
 
     app/services/receipt_scanner.rb L1~
 
@@ -144,7 +144,7 @@ app/services/ocr_service.rb L13〜68
 
 ## 明細モーダルでOCRボタンを押し、表示されるまでの流れ
 
-### 1:レシートBOXにアップロードし、保存ボタンを押す
+### 1 :レシートBOXにアップロードし、保存ボタンを押す
 
 app/views/receipts/new.html.erb L5〜22
 
