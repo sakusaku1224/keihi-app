@@ -2,9 +2,28 @@
 
 AI活用しながら実装したため、再度処理の流れを自分で理解するために復習する。
 
+## 使用した技術
+
+### gem・API
+
+| gem / API | 用途 |
+|---|---|
+| **Claude API（claude-haiku-4-5）** | 領収書の読み取り・項目の分類 |
+| **dotenv-rails** | APIキーを環境変数で管理 |
+
+### JSライブラリ
+
+| ライブラリ | 用途 |
+|---|---|
+| **browser-image-compression** | API送信前に画像を圧縮（1.5MB・1600px以下） |
+
 ## 概要：
 
 入口は「明細モーダルでOCRボタンを押す」「レシートBOXに追加」の２パターン、成型担当のReceiptScanner・通信担当OcrServiceの２つの共通ロジックを使用している。レシートBOXを後から実装したため、既存のコードを再利用するためにサービス部分を切り出した。
+
+## 全体像：
+<img width="629" height="665" alt="スクリーンショット 2026-07-13 20 40 05" src="https://github.com/user-attachments/assets/6ed023ea-fded-4a63-a6de-1f5853ee65ac" />
+
 
 ## 明細モーダルでOCRボタンを押し、表示されるまでの流れ
 
