@@ -142,7 +142,7 @@ app/services/ocr_service.rb L13〜68
     app/javascript/application.js
     └→ fillFormFromOcr(data) でフォームに流す
 
-## 明細モーダルでOCRボタンを押し、表示されるまでの流れ
+## レシートBOXでOCRボタンを押し、表示されるまでの流れ
 
 ### 1 :レシートBOXにアップロードし、保存ボタンを押す
 
