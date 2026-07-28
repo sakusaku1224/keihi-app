@@ -6,15 +6,15 @@ AI活用しながら実装したため、再度処理の流れを自分で理解
 
 ### gem・API
 
-| gem / API | 用途 |
-|---|---|
+| gem / API                          | 用途                         |
+| ---------------------------------- | ---------------------------- |
 | **Claude API（claude-haiku-4-5）** | 領収書の読み取り・項目の分類 |
-| **dotenv-rails** | APIキーを環境変数で管理 |
+| **dotenv-rails**                   | APIキーを環境変数で管理      |
 
 ### JSライブラリ
 
-| ライブラリ | 用途 |
-|---|---|
+| ライブラリ                    | 用途                                       |
+| ----------------------------- | ------------------------------------------ |
 | **browser-image-compression** | API送信前に画像を圧縮（1.5MB・1600px以下） |
 
 ## 概要：
@@ -26,8 +26,8 @@ AI活用しながら実装したため、再度処理の流れを自分で理解
 当初は画像だけもたせ、既存のサービスに統合することも検討したが、"未回収金額を可視化して行動を促す"というアプリの中核価値を実現するには、金額を集計可能な形で持つ必要があったから。
 
 ## 全体像：
-<img width="629" height="665" alt="スクリーンショット 2026-07-13 20 40 05" src="https://github.com/user-attachments/assets/6ed023ea-fded-4a63-a6de-1f5853ee65ac" />
 
+<img width="629" height="665" alt="スクリーンショット 2026-07-13 20 40 05" src="https://github.com/user-attachments/assets/6ed023ea-fded-4a63-a6de-1f5853ee65ac" />
 
 ## 明細モーダルでOCRボタンを押し、表示されるまでの流れ
 
@@ -142,7 +142,7 @@ app/services/ocr_service.rb L13〜68
     app/javascript/application.js
     └→ fillFormFromOcr(data) でフォームに流す
 
-## レシートBOXでOCRボタンを押し、表示されるまでの流れ
+## レシートBOXの流れ
 
 ### 1 :レシートBOXにアップロードし、保存ボタンを押す
 

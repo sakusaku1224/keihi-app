@@ -15,7 +15,7 @@
     <%= render "report_header", expense_report: @expense_report %>
 
     <%# 明細一覧 %>
-    <%= render "items_table", expense_report: @expense_report, expense_items: @expense_report.expense_items %>
+    <%= render "items_table", expense_report: @expense_report, expense_items: @expense_items %>
 
     <%# ボタン %>
     <div class="pt-4 border-top d-flex flex-column align-items-center gap-3">
@@ -52,7 +52,7 @@
   </div>
 
   <%# 明細編集モーダル %>
-  <% @expense_report.expense_items.each do |item| %>
+  <% @expense_items.each do |item| %>
     <div class="modal fade" id="editItemModal-<%= item.id %>" tabindex="-1" 
          aria-labelledby="addItemModalLabel-<%= item.id %>" aria-hidden="true">
       <div class="modal-dialog modal-lg">
