@@ -2,13 +2,36 @@
 
 AI活用しながら実装したため、再度処理の流れを自分で理解するために復習する。
 
+## 使用した技術
+
+### gem・API
+
+| gem / API                          | 用途                         |
+| ---------------------------------- | ---------------------------- |
+| **Claude API（claude-haiku-4-5）** | 領収書の読み取り・項目の分類 |
+| **dotenv-rails**                   | APIキーを環境変数で管理      |
+
+### JSライブラリ
+
+| ライブラリ                    | 用途                                       |
+| ----------------------------- | ------------------------------------------ |
+| **browser-image-compression** | API送信前に画像を圧縮（1.5MB・1600px以下） |
+
 ## 概要：
 
 入口は「明細モーダルでOCRボタンを押す」「レシートBOXに追加」の２パターン、成型担当のReceiptScanner・通信担当OcrServiceの２つの共通ロジックを使用している。レシートBOXを後から実装したため、既存のコードを再利用するためにサービス部分を切り出した。
 
+## レシートBOX側でもでOCRを実装した理由
+
+当初は画像だけもたせ、既存のサービスに統合することも検討したが、"未回収金額を可視化して行動を促す"というアプリの中核価値を実現するには、金額を集計可能な形で持つ必要があったから。
+
+## 全体像：
+
+<img width="629" height="665" alt="スクリーンショット 2026-07-13 20 40 05" src="https://github.com/user-attachments/assets/6ed023ea-fded-4a63-a6de-1f5853ee65ac" />
+
 ## 明細モーダルでOCRボタンを押し、表示されるまでの流れ
 
-### 1:画像をアップロードし、OCRボタンを押す
+### 1: 画像をアップロードし、OCRボタンを押す
 
 　app/javascript/application.js L95〜105
 
@@ -27,7 +50,7 @@ AI活用しながら実装したため、再度処理の流れを自分で理解
       通信量を減らすため。APIの無料プランの非力なインスタンスに対応。
       サイズ上限の担保はサーバー側のバリデーション（10MB未満）で行っている）
 
-### 2:サーバーへ送信（Fetch API）
+### 2: サーバーへ送信（Fetch API）
 
     app/javascript/application.js L140〜151
 
@@ -45,14 +68,14 @@ AI活用しながら実装したため、再度処理の流れを自分で理解
         resources :ocr, only: %i[create]
         # POST /ocr → OcrController#create
 
-### ３：コントローラがサービスを呼ぶ
+### 3: コントローラがサービスを呼ぶ
 
 app/controllers/ocr_controller.rb L4〜12
 
     image_file = params[:receipt_image]   # フォームから受け取り
     data = ReceiptScanner.new(image_file).call  # サービス層へ委譲
 
-### 4:ReceiptScanner がOcrService を呼び出す
+### 4: ReceiptScanner がOcrService を呼び出す
 
     app/services/receipt_scanner.rb L1~
 
@@ -121,7 +144,7 @@ app/services/ocr_service.rb L13〜68
 
 ## レシートBOXの流れ
 
-### 1:レシートBOXにアップロードし、保存ボタンを押す
+### 1 :レシートBOXにアップロードし、保存ボタンを押す
 
 app/views/receipts/new.html.erb L5〜22
 
