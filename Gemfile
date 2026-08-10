@@ -26,7 +26,7 @@ gem "bootstrap", "~> 5.3"
 gem "dartsass-rails"
 
 # 画像アップロード・処理（Active Storage用）
-gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 2.0"
 # 拡張子・サイズ制限用
 gem "active_storage_validations"
 
